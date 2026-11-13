@@ -46,8 +46,8 @@ export default function Scene() {
     const move = (e: PointerEvent) => {
       if (!fine) return;
       const r = el.getBoundingClientRect();
-      pointer.x = ((e.clientX - r.left) / r.width - 0.5) * 0.055;
-      pointer.y = ((e.clientY - r.top) / r.height - 0.5) * 0.025;
+      pointer.x = ((e.clientX - r.left) / r.width - 0.5) * 0.16;
+      pointer.y = ((e.clientY - r.top) / r.height - 0.5) * 0.07;
     };
     const leave = () => {
       pointer.x = 0;
@@ -58,10 +58,17 @@ export default function Scene() {
     const render = (now: number) => {
       frame = 0;
       if (disposed || !visible || document.hidden) return;
-      time += last ? Math.min(now - last, 50) / 1000 : 0;
+      const delta = last ? Math.min(now - last, 250) / 1000 : 0;
+      time += delta;
       last = now;
-      world.root.rotation.y += (pointer.x - world.root.rotation.y) * 0.04;
-      world.root.rotation.x += (pointer.y - world.root.rotation.x) * 0.04;
+      // Idle movement also works on touchscreens, without intercepting scrolling.
+      // Time-based easing keeps the motion consistent across refresh rates.
+      const ease = 1 - Math.exp(-3 * delta);
+      const turn = Math.sin(time * 0.42) * 0.14;
+      const tilt = Math.sin(time * 0.55) * 0.025;
+      world.root.rotation.y += (turn + pointer.x - world.root.rotation.y) * ease;
+      world.root.rotation.x += (tilt + pointer.y - world.root.rotation.x) * ease;
+      world.root.position.y = Math.sin(time * 0.8) * 0.045;
       world.update(time);
       renderer.render(world.scene, world.camera);
       if (time > 0.7) el.classList.add("scene-ready");

@@ -336,6 +336,18 @@ p {
 .footer-bottom a {
   overflow-wrap: anywhere;
 }
+.footer-credit {
+  padding-bottom: 22px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.footer-credit a:hover,
+.footer-credit a:focus-visible {
+  color: var(--blue);
+  text-decoration: underline;
+}
 .floating-chat {
   width: 48px;
   height: 48px;

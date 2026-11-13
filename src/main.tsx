@@ -194,6 +194,11 @@ function Footer() {
         <span>Registration: {company.registration}</span>
         <a href={company.url}>www.gigicloudsolutions.co.za</a>
       </div>
+      <div className="container footer-credit">
+        Website by <a href="https://stopher-malik.co.za">Stopher Malik</a>
+        {" · "}
+        <a href="https://smk.stopher-malik.co.za">SMK Web Design</a>
+      </div>
     </footer>
   );
 }
