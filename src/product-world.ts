@@ -8,6 +8,7 @@ export function createProductWorld(
   renderer: THREE.WebGLRenderer,
   index: number,
   mode = "default",
+  live = false,
 ) {
   const scene = new THREE.Scene();
   const night = mode === "night";
@@ -25,6 +26,7 @@ export function createProductWorld(
   const geometries = new Set<THREE.BufferGeometry>();
   const materials = new Set<THREE.Material>();
   const textures: THREE.Texture[] = [];
+  const instances: THREE.InstancedMesh[] = [];
   const mat = (color: string, metalness = 0.1, roughness = 0.4) => {
     const m = new THREE.MeshStandardMaterial({ color, metalness, roughness });
     materials.add(m);
@@ -59,7 +61,7 @@ export function createProductWorld(
     m.window.emissive.set("#ffc979");
     m.window.emissiveIntensity = 0.9;
   }
-  const cube = new RoundedBoxGeometry(1, 1, 1, 3, 0.06);
+  const cube = new RoundedBoxGeometry(1, 1, 1, live ? 1 : 3, 0.06);
   geometries.add(cube);
   const mesh = (
     g: THREE.BufferGeometry,
@@ -118,7 +120,8 @@ export function createProductWorld(
   );
   key.position.set(-4, 9, 6);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  const shadowSize = live ? (innerWidth < 768 ? 512 : 1024) : 2048;
+  key.shadow.mapSize.set(shadowSize, shadowSize);
   key.shadow.camera.left = -8;
   key.shadow.camera.right = 8;
   key.shadow.camera.top = 8;
@@ -519,10 +522,11 @@ export function createProductWorld(
       ]),
     );
   }
+  let heroCamera: THREE.Group | undefined;
   if (index === 5) {
     const house = property(-0.35, -0.65);
     panels(house, 0, 2.24, 0);
-    cameraUnit(house, -1.3, 2.03, 1.3);
+    heroCamera = cameraUnit(house, -1.3, 2.03, 1.3);
     groups.push(server(2.6, -0.55, 0.8));
     groups.push(house);
     groups.push(battery(2.6, 1.35));
@@ -544,9 +548,63 @@ export function createProductWorld(
     picture(house, 0.2, 1.2, 1.2, 0.56, 0.66, texture);
     box(house, 0.2, 1.2, 1.17, 0.7, 0.8, 0.04, m.white);
   }
+  // Repeated server vents, panel cells and keyboard keys share geometry/material.
+  // Batch them inside their existing groups so equipment can still move separately.
+  if (live) {
+    const batch = (parent: THREE.Object3D) => {
+      const buckets = new Map<string, THREE.Mesh[]>();
+      for (const child of [...parent.children]) {
+        if (child instanceof THREE.Group) batch(child);
+        if (!(child instanceof THREE.Mesh) || Array.isArray(child.material)) continue;
+        const id = `${child.geometry.uuid}/${child.material.uuid}`;
+        const bucket = buckets.get(id) || [];
+        bucket.push(child);
+        buckets.set(id, bucket);
+      }
+      for (const meshes of buckets.values()) {
+        if (meshes.length < 2) continue;
+        const first = meshes[0];
+        const combined = new THREE.InstancedMesh(first.geometry, first.material, meshes.length);
+        combined.castShadow = first.castShadow;
+        combined.receiveShadow = first.receiveShadow;
+        meshes.forEach((part, i) => {
+          part.updateMatrix();
+          combined.setMatrixAt(i, part.matrix);
+          parent.remove(part);
+        });
+        combined.instanceMatrix.needsUpdate = true;
+        parent.add(combined);
+        instances.push(combined);
+      }
+    };
+    batch(root);
+  }
   const pulseGeo = new THREE.SphereGeometry(0.06, 16, 16);
   geometries.add(pulseGeo);
   const pulse = mesh(pulseGeo, lightMat, root);
+  const heroPulses = live && index === 5
+    ? Array.from({ length: 3 }, () => mesh(pulseGeo, lightMat, root))
+    : [];
+  const restPositions = groups.map(group => group.position.clone());
+  let spread = 0;
+  const animateHero = (time: number, delta: number, expanded: boolean) => {
+    if (!live || index !== 5) return;
+    spread = THREE.MathUtils.damp(spread, expanded ? 1 : 0, 7, delta);
+    groups.forEach((group, i) => {
+      const rest = restPositions[i];
+      group.position.x = rest.x * (1 + spread * 0.18);
+      group.position.z = rest.z * (1 + spread * 0.18);
+      group.position.y = rest.y + (0.5 + Math.sin(time * 1.8 + i * 1.4) * 0.5) * 0.2
+        + spread * (i === 1 ? 0.35 : 0.8);
+    });
+    if (heroCamera) heroCamera.rotation.y = Math.sin(time * 1.4) * 0.5;
+    lightMat.emissiveIntensity = 1.8 + Math.sin(time * 2.5) * 0.5;
+    pulse.scale.setScalar(2);
+    heroPulses.forEach((light, i) => {
+      light.position.copy(paths[0].getPoint((time * 0.4 + (i + 1) / 4) % 1));
+      light.scale.setScalar(1.8 + Math.sin(time * 3 + i) * 0.3);
+    });
+  };
   const project = (v: THREE.Vector3) => {
     const p = v.clone().project(camera);
     return [((p.x + 1) * 640) / 2, ((-p.y + 1) * 480) / 2];
@@ -578,11 +636,14 @@ export function createProductWorld(
     groups,
     overlayPaths,
     update,
+    animateHero,
     dispose: () => {
+      instances.forEach(instance => instance.dispose());
       geometries.forEach((g) => g.dispose());
       materials.forEach((v) => v.dispose());
       textures.forEach((t) => t.dispose());
       environment.dispose();
+      key.shadow.dispose();
     },
   };
 }

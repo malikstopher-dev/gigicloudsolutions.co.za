@@ -21,8 +21,8 @@ export default function HeroEnvironment() {
   }, []);
   return (
     <div className="hero-environment">
-      <div className="hero-visual" aria-hidden="true">
-        <div className="static-sculpture">
+      <div className="hero-visual">
+        <div className="static-sculpture" aria-hidden="true">
           <img
             src="/artwork/hero.webp"
             width="1600"

@@ -140,14 +140,64 @@ p {
   inset: 0;
   opacity: 0;
   transition: opacity 0.35s;
+  visibility: hidden;
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
 }
 .scene-ready {
   opacity: 1;
+  visibility: visible;
+}
+.scene-dragging {
+  cursor: grabbing;
 }
 .scene-canvas canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+}
+.scene-interaction-hint {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--navy);
+  pointer-events: none;
+}
+.scene-controls {
+  position: absolute;
+  z-index: 1;
+  bottom: 10px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.scene-controls button {
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid #c8d5e2;
+  border-radius: 5px;
+  background: #fffffff2;
+  color: var(--navy);
+  font-size: 10px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.scene-controls button:hover,
+.scene-controls button[aria-pressed="true"] {
+  background: var(--navy);
+  color: #fff;
+}
+.scene-canvas:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
 }
 .hero-visual:has(.scene-ready) .static-sculpture {
   visibility: hidden;
