@@ -15,10 +15,6 @@ import {
   ChevronDown,
   Menu,
   X,
-  Network,
-  ShieldCheck,
-  Zap,
-  PenTool,
   Check,
   Phone,
   Mail,
@@ -27,13 +23,12 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-const logo = '/visuals/gigi-wordmark.webp';
 import { company, services, quoteLink, whatsapp } from "./data";
-import "./styles.css";
 import VisualBoard, { BoardThumbnail } from "./VisualBoard";
 import HeroEnvironment from "./HeroEnvironment";
-
-const icons = [Network, ShieldCheck, Zap, PenTool];
+import "./styles.css";
+import "./redesign.css";
+const logo = "/visuals/gigi-wordmark.webp";
 function Button({
   to,
   children,
@@ -50,19 +45,12 @@ function Button({
     </Link>
   );
 }
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="eyebrow">
-      <span />
-      {children}
-    </div>
-  );
-}
 function Header() {
-  const [open, setOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
+  const [open, setOpen] = useState(false),
+    [dropdown, setDropdown] = useState(false);
   const location = useLocation();
   const header = useRef<HTMLElement>(null);
+  const serviceToggle = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     setOpen(false);
     setDropdown(false);
@@ -70,8 +58,8 @@ function Header() {
   useEffect(() => {
     const close = (e: PointerEvent) => {
       if (!header.current?.contains(e.target as Node)) {
-        setDropdown(false);
         setOpen(false);
+        setDropdown(false);
       }
     };
     document.addEventListener("pointerdown", close);
@@ -83,11 +71,13 @@ function Header() {
       ref={header}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
-          setOpen(false);
           setDropdown(false);
-          (
-            header.current?.querySelector(".menu-toggle") as HTMLElement
-          )?.focus();
+          setOpen(false);
+          if (matchMedia("(max-width:800px)").matches)
+            (
+              header.current?.querySelector(".menu-toggle") as HTMLElement
+            )?.focus();
+          else serviceToggle.current?.focus();
         }
       }}
     >
@@ -121,6 +111,7 @@ function Header() {
             <div className="service-nav-row">
               <NavLink to="/services">Services</NavLink>
               <button
+                ref={serviceToggle}
                 aria-label="Show service pages"
                 aria-expanded={dropdown}
                 aria-controls="service-menu"
@@ -161,9 +152,9 @@ function Footer() {
             />
           </Link>
           <p>
-            Technology. Infrastructure. Design.
+            IT, cloud, security, electrical, solar and design services.
             <br />
-            Thoughtfully connected.
+            Based in Johannesburg.
           </p>
           <a
             className="text-link"
@@ -171,7 +162,7 @@ function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            Let’s talk on WhatsApp <ArrowUpRight size={17} />
+            WhatsApp us <ArrowUpRight size={17} />
           </a>
         </div>
         <div>
@@ -182,7 +173,7 @@ function Footer() {
           <Link to="/contact">Request a quote</Link>
         </div>
         <div>
-          <h3>Our expertise</h3>
+          <h3>Services</h3>
           {services.map((s) => (
             <Link key={s.slug} to={`/services/${s.slug}`}>
               {s.name}
@@ -190,11 +181,10 @@ function Footer() {
           ))}
         </div>
         <div>
-          <h3>Get in touch</h3>
+          <h3>Contact</h3>
           <a href={`tel:${company.tel}`}>{company.phone}</a>
           <a href={`mailto:${company.email}`}>{company.email}</a>
           <p>{company.address}</p>
-          <a href={company.url}>www.gigicloudsolutions.co.za</a>
         </div>
       </div>
       <div className="container footer-bottom">
@@ -202,30 +192,26 @@ function Footer() {
           © {new Date().getFullYear()} {company.name}
         </span>
         <span>Registration: {company.registration}</span>
-        <span>Built around your world.</span>
+        <a href={company.url}>www.gigicloudsolutions.co.za</a>
       </div>
     </footer>
   );
 }
 function Closing() {
   return (
-    <section className="closing container reveal">
+    <section className="closing container">
       <div>
-        <Eyebrow>LET’S MAKE IT HAPPEN</Eyebrow>
-        <h2>
-          Your next step.
-          <br />
-          Our next conversation.
-        </h2>
+        <h2>Tell us what you need.</h2>
         <p>
-          Tell us what you have in mind. We’ll help you explore the
-          possibilities.
+          Send your requirements and project location. We will discuss the scope
+          before preparing a quotation.
         </p>
       </div>
       <div className="closing-actions">
-        <Button to="/contact">Let’s discuss your project</Button>
+        <Button to="/contact">Request a Quote</Button>
         <a href={`tel:${company.tel}`}>
-          <Phone size={17} /> {company.phone}
+          <Phone size={17} />
+          {company.phone}
         </a>
       </div>
     </section>
@@ -233,44 +219,33 @@ function Closing() {
 }
 function Process() {
   return (
-    <section className="process section container reveal">
+    <section className="process section container">
       <div className="section-heading">
-        <div>
-          <Eyebrow>A SIMPLE WAY FORWARD</Eyebrow>
-          <h2>
-            From an idea
-            <br />
-            to a clear next step.
-          </h2>
-        </div>
+        <h2>How to request a quote</h2>
         <p>
-          Every project starts with a conversation.
-          <br />
-          Here’s how to get yours moving.
+          Start with the details you have. We will discuss anything else needed
+          to define the work.
         </p>
       </div>
       <div className="steps">
         {[
           [
-            "Share your requirements",
-            "Tell us about your space, your priorities and what you’d like to achieve.",
+            "Tell us what you need",
+            "Share your location, current setup and the work you have in mind.",
           ],
           [
-            "Discuss the scope",
-            "We’ll talk through your needs and the details that shape your project.",
+            "Discuss the work",
+            "We will discuss the requirements and any further information needed.",
           ],
           [
-            "Receive a quotation",
-            "Get a quotation based on the agreed scope, so you can decide on the next step.",
+            "Review your quotation",
+            "Check the proposed scope and quotation before deciding to proceed.",
           ],
-        ].map(([title, text], i) => (
+        ].map(([title, copy], i) => (
           <article key={title}>
-            <div className="step-number">
-              0{i + 1}
-              <ArrowRight size={20} />
-            </div>
+            <span className="step-number">0{i + 1}</span>
             <h3>{title}</h3>
-            <p>{text}</p>
+            <p>{copy}</p>
           </article>
         ))}
       </div>
@@ -280,32 +255,22 @@ function Process() {
 function ServiceCards() {
   return (
     <div className="service-cards">
-      {services.map((s, i) => {
-        return (
-          <Link
-            to={`/services/${s.slug}`}
-            className={`service-card card-${i}`}
-            key={s.slug}
-          >
-            <BoardThumbnail index={i} />
+      {services.map((s, i) => (
+        <Link
+          className={`service-card card-${i}`}
+          to={`/services/${s.slug}`}
+          key={s.slug}
+        >
+          <BoardThumbnail index={i} />
+          <div className="service-card-copy">
             <h3>{s.name}</h3>
-            <p>
-              {
-                [
-                  "Bring your devices and important data together.",
-                  "See your space and manage who comes in.",
-                  "Explore energy options for your everyday needs.",
-                  "Give your business a clear, consistent presence.",
-                ][i]
-              }
-            </p>
-            <div className="card-bottom">
-              <span>Explore {s.label.toLowerCase()} solutions</span>
-              <ArrowUpRight size={21} />
-            </div>
-          </Link>
-        );
-      })}
+            <p>{s.short}</p>
+            <span className="card-bottom">
+              View services <ArrowUpRight size={19} />
+            </span>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }
@@ -314,155 +279,80 @@ function Home() {
     <>
       <section className="hero container">
         <div className="hero-copy">
-          <Eyebrow>YOUR WORLD. WORKING TOGETHER.</Eyebrow>
-          <h1>
-            Connected.
-            <br />
-            Protected.
-            <br />
-            <span>Powered.</span>
-          </h1>
+          <p className="location-line">GIGI Cloud Solutions · Johannesburg</p>
+          <h1>Technology for your home and business.</h1>
           <p>
-            IT, security, electrical, solar and design services for your home
-            and business.
+            IT and cloud solutions, security, electrical work, solar systems and
+            design. Tell us what you need to connect, protect or improve.
           </p>
           <div className="button-row">
             <Button to="/contact">Request a Quote</Button>
             <Link className="text-link" to="/services">
-              Explore our services <ArrowUpRight size={18} />
+              View our services <ArrowRight size={18} />
             </Link>
-          </div>
-          <div className="hero-footnote">
-            <span className="status-dot" /> Based in Johannesburg. Built around
-            you.
           </div>
         </div>
         <HeroEnvironment />
       </section>
-      <div className="expertise-strip">
-        <div className="container">
-          {services.map((s, i) => {
-            const Icon = icons[i];
-            return (
-              <Link key={s.slug} to={`/services/${s.slug}`}>
-                <Icon size={21} />
-                {s.name}
-                <ArrowUpRight size={15} />
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-      <section className="section container reveal">
+      <section className="container section home-services">
         <div className="section-heading">
-          <div>
-            <Eyebrow>ONE PARTNER. MORE POSSIBILITIES.</Eyebrow>
-            <h2>
-              Different expertise.
-              <br />
-              One connected approach.
-            </h2>
-          </div>
+          <h2>What can we help you with?</h2>
           <p>
-            From the network behind your business to the energy powering your
-            home, find the right place to start.
+            Choose a service to see what you can request and which details will
+            help us prepare a quote.
           </p>
         </div>
         <ServiceCards />
       </section>
       <section className="feature-dark">
-        <div className="container feature-layout reveal">
-          <VisualBoard index={1} />
+        <div className="container feature-layout">
           <div className="feature-copy">
-            <Eyebrow>SECURITY & ACCESS</Eyebrow>
-            <h2>
-              A little more control.
-              <br />A lot more
-              <br />
-              <span>peace of mind.</span>
-            </h2>
+            <p className="section-label">Security & Access</p>
+            <h2>Start with the areas you want to protect.</h2>
             <p>
-              See your space. Manage who comes in. Bring your security needs
-              into focus with CCTV, alarms, electric fencing and access control.
+              See how a camera’s viewing area relates to an entrance. Talk to us
+              about CCTV, alarms, electric fencing and access control for your
+              property.
             </p>
             <Link className="text-link" to="/services/security-access">
-              Explore security solutions <ArrowUpRight size={19} />
+              View security services <ArrowUpRight size={18} />
             </Link>
           </div>
+          <VisualBoard index={1} />
         </div>
       </section>
-      <section className="section container feature-layout energy-feature reveal">
+      <section className="container section feature-layout energy-feature">
+        <VisualBoard index={2} />
         <div className="feature-copy">
-          <Eyebrow>ELECTRICAL & SOLAR</Eyebrow>
-          <h2>
-            Good energy.
-            <br />
-            Great possibilities.
-          </h2>
+          <p className="section-label">Electrical & Solar</p>
+          <h2>Plan around what you need to power.</h2>
           <p>
-            From everyday electrical needs to a considered solar setup, let’s
-            explore the right energy solution for your home or business.
+            Switch the illustration between day and night to see the role of
+            panels and battery storage. Then tell us about your electricity use
+            and existing equipment.
           </p>
           <Link className="text-link" to="/services/electrical-solar">
-            Discover electrical & solar <ArrowUpRight size={19} />
+            View electrical and solar services <ArrowUpRight size={18} />
           </Link>
         </div>
-        <VisualBoard index={2} />
       </section>
-      <section className="connectivity-section">
-        <div className="container feature-layout reveal">
-          <VisualBoard index={0} />
-          <div className="feature-copy">
-            <Eyebrow>IT & CONNECTIVITY</Eyebrow>
-            <h2>
-              Behind every good day,
-              <br />a better connection.
-            </h2>
-            <p>
-              Keep your people, devices and information connected. Talk to us
-              about IT, fibre, networking and data backup for the way you live
-              and work.
-            </p>
-            <Link className="text-link" to="/services/it-connectivity">
-              Find your connection <ArrowUpRight size={19} />
-            </Link>
-          </div>
-        </div>
-      </section>
-      <section className="container section feature-layout design-feature reveal">
-        <div className="feature-copy">
-          <Eyebrow>WEB & GRAPHIC DESIGN</Eyebrow>
+      <section className="container about-preview">
+        <div>
+          <p className="section-label">About GIGI</p>
           <h2>
-            A clear identity.
+            Based in Johannesburg.
             <br />
-            Across every screen.
+            Working with homes and businesses.
           </h2>
-          <p>
-            Bring your business to life with considered websites and visual
-            communication. Explore our original website and branding concepts.
-          </p>
-          <Link className="text-link" to="/services/web-graphic-design">
-            Explore design services <ArrowUpRight size={19} />
-          </Link>
         </div>
-        <VisualBoard index={3} />
-      </section>
-      <section className="about-preview container section reveal">
-        <Eyebrow>HELLO, WE’RE GIGI</Eyebrow>
-        <h2>
-          Big-picture thinking.
-          <br />
-          <span>Down-to-earth solutions.</span>
-        </h2>
         <div>
           <p>
-            We bring technology, security, energy and design into one
-            conversation. Based in Johannesburg, GIGI Cloud Solutions helps
-            homes and businesses explore practical solutions for their spaces
-            and ambitions.
+            GIGI Cloud Solutions brings IT, cloud, security, energy and design
+            services into one conversation. We start by understanding the work
+            you need and the setup you already have.
           </p>
           <Link className="text-link" to="/about">
-            Get to know us <ArrowUpRight size={18} />
+            About the company <ArrowUpRight size={18} />
           </Link>
         </div>
       </section>
@@ -474,93 +364,70 @@ function Home() {
 function About() {
   return (
     <>
-      <section className="page-hero container">
-        <Eyebrow>ABOUT GIGI</Eyebrow>
-        <h1>
-          Different capabilities.
-          <br />
-          <span>A shared purpose.</span>
-        </h1>
-        <p>
-          To bring your technology, your spaces and your ambitions closer
-          together.
-        </p>
-      </section>
-      <section className="container about-story feature-layout">
-        <div className="brand-panel">
-          <img src={logo} alt="GIGI Cloud Solutions" />
-          <span>CONNECTED. PROTECTED. POWERED.</span>
-        </div>
+      <section className="container about-intro">
         <div>
-          <Eyebrow>BUILT AROUND YOUR WORLD</Eyebrow>
-          <h2>
-            Practical thinking.
-            <br />
-            Personal conversations.
-          </h2>
+          <p className="section-label">About GIGI Cloud Solutions</p>
+          <h1>Practical services for your property and business.</h1>
           <p>
-            GIGI Cloud Solutions is a Johannesburg-based company offering IT,
-            connectivity, security, electrical, solar and design services for
-            homes and businesses.
+            We are a Johannesburg-based company providing IT, cloud solutions,
+            security, electrical, solar and design services to homes and
+            businesses.
           </p>
-          <p>
-            Your project may start with one need: a better network, more control
-            over access, a solar system or a new website. We help you consider
-            that need in the context of your wider goals.
-          </p>
-          <p>
-            Our approach starts with understanding your requirements and
-            defining a clear scope before preparing a quotation.
-          </p>
+          <Button to="/contact">Discuss your requirements</Button>
+        </div>
+        <div className="about-visual">
+          <img
+            src="/artwork/hero.webp"
+            alt="Original 3D concept showing a property with solar, security and IT equipment"
+            width="1600"
+            height="1200"
+          />
+          <small>Illustrative equipment concept</small>
         </div>
       </section>
-      <section className="values-section section">
+      <section className="container section about-facts">
+        <div>
+          <h2>What we do</h2>
+          <p>
+            Your request may be for one service or several. We discuss the
+            requirements, your current setup and the information needed to
+            prepare a quotation.
+          </p>
+        </div>
+        <div className="about-service-links">
+          {services.map((s) => (
+            <Link key={s.slug} to={`/services/${s.slug}`}>
+              {s.name}
+              <ArrowUpRight size={20} />
+            </Link>
+          ))}
+        </div>
+      </section>
+      <section className="company-band">
         <div className="container">
-          <Eyebrow>HOW WE APPROACH YOUR PROJECT</Eyebrow>
-          <h2>Clear thinking, from the start.</h2>
-          <div className="steps">
-            {[
-              [
-                "Your needs first",
-                "We start with your space, your priorities and the outcome you have in mind.",
-              ],
-              [
-                "A connected perspective",
-                "We consider how the different parts of your project can work together.",
-              ],
-              [
-                "Clarity in the details",
-                "A defined scope makes it easier to discuss the work and understand your quotation.",
-              ],
-            ].map(([a, b]) => (
-              <article key={a}>
-                <Check size={24} />
-                <h3>{a}</h3>
-                <p>{b}</p>
-              </article>
-            ))}
+          <div>
+            <h2>Company details</h2>
+            <p>{company.name}</p>
           </div>
+          <dl>
+            <div>
+              <dt>Registration</dt>
+              <dd>{company.registration}</dd>
+            </div>
+            <div>
+              <dt>Contact address</dt>
+              <dd>{company.address}</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>
+                <a href={`mailto:${company.email}`}>{company.email}</a>
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
-      <section className="container section company-info">
-        <div>
-          <Eyebrow>LOCAL ROOTS. BROAD POSSIBILITIES.</Eyebrow>
-          <h2>
-            Let’s start
-            <br />
-            in Johannesburg.
-          </h2>
-        </div>
-        <div>
-          <h3>{company.name}</h3>
-          <p>{company.address}</p>
-          <p>Company registration: {company.registration}</p>
-          <a className="text-link" href={`mailto:${company.email}`}>
-            {company.email}
-            <ArrowUpRight size={17} />
-          </a>
-        </div>
-      </section>
+      <Process />
       <Closing />
     </>
   );
@@ -569,43 +436,15 @@ function Services() {
   return (
     <>
       <section className="page-hero container">
-        <Eyebrow>OUR SERVICES</Eyebrow>
-        <h1>
-          All the right pieces.
-          <br />
-          <span>Working together.</span>
-        </h1>
+        <p className="section-label">Services</p>
+        <h1>Services for your home and business.</h1>
         <p>
-          Explore four connected areas of expertise, with practical services for
-          your home, business and next idea.
+          Explore IT, cloud solutions, security, electrical, solar and design.
+          Each page explains what you can request and how to start an enquiry.
         </p>
       </section>
-      <section className="container services-list">
-        {services.map((s, i) => {
-          return (
-            <article key={s.slug} className="service-editorial reveal">
-              <BoardThumbnail index={i} />
-              <div>
-                <Eyebrow>{s.name}</Eyebrow>
-                <h2>{s.short}</h2>
-                <p>{s.description}</p>
-                <div className="service-tags">
-                  {s.items.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
-                </div>
-                <div className="button-row">
-                  <Button to={`/services/${s.slug}`}>
-                    Explore this service
-                  </Button>
-                  <Link className="text-link" to={quoteLink(s.name)}>
-                    Request a quote <ArrowUpRight size={17} />
-                  </Link>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+      <section className="container services-overview">
+        <ServiceCards />
       </section>
       <Process />
       <Closing />
@@ -616,68 +455,70 @@ function ServicePage({ index }: { index: number }) {
   const s = services[index];
   return (
     <>
-      <section className="container service-page-hero">
-        <div>
+      <section
+        className={`container service-page-hero service-layout-${index}`}
+      >
+        <div className="service-intro">
           <Link className="breadcrumb" to="/services">
             Services <ArrowRight size={14} /> {s.name}
           </Link>
-          <Eyebrow>{s.label.toUpperCase()} WITH GIGI</Eyebrow>
           <h1>{s.intro}</h1>
           <p>{s.description}</p>
           <Button to={quoteLink(s.name)}>Discuss your project</Button>
         </div>
         <VisualBoard key={index} index={index} />
       </section>
-      <section className="section service-details">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <Eyebrow>WHAT WE CAN HELP WITH</Eyebrow>
-              <h2>
-                The details that
-                <br />
-                make a difference.
-              </h2>
-            </div>
-            <p>{s.scenario}</p>
-          </div>
-          <div className="detail-grid">
-            {s.items.map((item, i) => (
-              <article key={item}>
-                <span className="detail-number">0{i + 1}</span>
+      <section className="container section request-section">
+        <div>
+          <p className="section-label">{s.name}</p>
+          <h2>What you can request</h2>
+        </div>
+        <div className="request-list">
+          {s.items.map((item, i) => (
+            <article key={item}>
+              <span>0{i + 1}</span>
+              <div>
                 <h3>{item}</h3>
                 <p>{s.details[i]}</p>
-                <Link className="text-link" to={quoteLink(s.name)}>
-                  Enquire about {item.toLowerCase()} <ArrowUpRight size={17} />
-                </Link>
-              </article>
-            ))}
+              </div>
+              <Link to={quoteLink(s.name)} aria-label={`Enquire about ${item}`}>
+                <ArrowUpRight size={21} />
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className={`practical-example example-${index}`}>
+        <div className="container">
+          <div>
+            <p className="section-label">A practical example</p>
+            <h2>{s.exampleTitle}</h2>
           </div>
+          <p>{s.example}</p>
         </div>
       </section>
       <section className="container section scope-section">
         <div>
-          <Eyebrow>LET’S SHAPE YOUR PROJECT</Eyebrow>
-          <h2>A useful starting point.</h2>
-          <p>Share a few details so we can have a more focused conversation.</p>
+          <h2>What to send for a quote</h2>
+          <p>
+            These details help us understand the work. Share what you have and
+            we will discuss the rest.
+          </p>
+          <Button to={quoteLink(s.name)}>
+            Request a {index === 4 ? "cloud " : ""}quote
+          </Button>
         </div>
         <ul>
-          {[
-            "Your project location and type of property",
-            "Your current setup and what you’d like to change",
-            "The services you’re interested in",
-            "Your priorities, preferred timing and available budget",
-          ].map((t) => (
+          {s.quoteInfo.map((t) => (
             <li key={t}>
-              <Check size={19} />
+              <Check size={18} />
               {t}
             </li>
           ))}
         </ul>
       </section>
-      <Process />
       <section className="container related">
-        <h3>Explore more possibilities</h3>
+        <h2>Other services</h2>
         <div>
           {services
             .filter((_, i) => i !== index)
@@ -700,7 +541,8 @@ function ServicePage({ index }: { index: number }) {
 function Contact() {
   const [params] = useSearchParams();
   const preset = params.get("service") || "";
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState(""),
+    [enquiry, setEnquiry] = useState("");
   const [faq, setFaq] = useState<number | null>(null);
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -710,40 +552,30 @@ function Contact() {
       setFeedback("Please complete all fields with your project details.");
       return;
     }
-    const text = `Hi GIGI, I’d like to request a quotation.\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone")}\nService: ${data.get("service")}\nProject location: ${data.get("location")}\n\nProject details:\n${data.get("message")}`;
-    const win = window.open(whatsapp(text), "_blank", "noopener,noreferrer");
-    void win;
+    const text = `Hi GIGI, I would like to request a quotation.\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone")}\nService: ${data.get("service")}\nProject location: ${data.get("location")}\n\nProject details:\n${data.get("message")}`;
+    window.open(whatsapp(text), "_blank", "noopener,noreferrer");
     setFeedback(
       "Your enquiry is ready to send in WhatsApp. Please review it and press Send there. If WhatsApp did not open, use the link below.",
     );
     setEnquiry(whatsapp(text));
   }
-  const [enquiry, setEnquiry] = useState("");
   return (
     <>
       <section className="page-hero container contact-heading">
-        <Eyebrow>LET’S TALK</Eyebrow>
-        <h1>
-          Something in mind?
-          <br />
-          <span>Let’s connect.</span>
-        </h1>
+        <p className="section-label">Contact GIGI</p>
+        <h1>Request a quote.</h1>
         <p>
-          A question, an idea or a project ready to go. We’d love to hear about
-          it.
+          Tell us what you need and where the work is required. Use the form to
+          prepare a WhatsApp enquiry, or contact us directly.
         </p>
       </section>
       <section className="container contact-layout">
         <aside>
-          <h2>Start a conversation.</h2>
-          <p>
-            Choose the way that works for you, or share your requirements using
-            the enquiry form.
-          </p>
+          <h2>Contact us directly</h2>
           <a className="contact-method" href={`tel:${company.tel}`}>
             <Phone />
             <span>
-              <small>GIVE US A CALL</small>
+              <small>Phone</small>
               {company.phone}
             </span>
             <ArrowUpRight size={17} />
@@ -751,7 +583,7 @@ function Contact() {
           <a className="contact-method" href={`mailto:${company.email}`}>
             <Mail />
             <span>
-              <small>DROP US AN EMAIL</small>
+              <small>Email</small>
               {company.email}
             </span>
             <ArrowUpRight size={17} />
@@ -764,31 +596,28 @@ function Contact() {
           >
             <MessageCircle />
             <span>
-              <small>LET’S CHAT</small>Message us on WhatsApp
+              <small>WhatsApp</small>Message GIGI
             </span>
             <ArrowUpRight size={17} />
           </a>
           <div className="contact-method">
             <MapPin />
             <span>
-              <small>FIND US</small>
+              <small>Address</small>
               {company.address}
             </span>
           </div>
-          <div className="contact-note">
-            <ShieldCheck size={25} />
-            <p>
-              Your details are used to discuss your enquiry. Please don’t
-              include passwords or sensitive account information.
-            </p>
-          </div>
+          <p className="contact-note">
+            Include your current setup and the work you need. Please do not send
+            passwords or sensitive account details.
+          </p>
         </aside>
         <form className="quote-form" onSubmit={submit}>
           <div className="form-heading">
-            <h2>Tell us about your project.</h2>
+            <h2>Your project details</h2>
             <p>
-              All fields are required. Your details will open in WhatsApp for
-              you to review and send.
+              All fields are required. You can review the message before sending
+              it in WhatsApp.
             </p>
           </div>
           <div className="form-grid">
@@ -821,7 +650,7 @@ function Contact() {
                 autoComplete="tel"
                 placeholder="e.g. 073 168 0832"
                 pattern="[+0-9 ()\-]{7,25}"
-                title="Enter a phone number with 7–25 digits, spaces, brackets or a plus sign."
+                title="Enter a phone number with 7 to 25 digits, spaces, brackets or a plus sign."
                 required
               />
             </label>
@@ -857,7 +686,7 @@ function Contact() {
               What do you have in mind?
               <textarea
                 name="message"
-                placeholder="Tell us a little about your project, current setup and what you’d like to achieve…"
+                placeholder="Describe the work, your current setup and any timing requirements."
                 rows={5}
                 required
                 maxLength={3000}
@@ -865,7 +694,8 @@ function Contact() {
             </label>
           </div>
           <button type="submit" className="button whatsapp-submit">
-            <MessageCircle size={19} /> Send enquiry via WhatsApp{" "}
+            <MessageCircle size={19} />
+            Send enquiry via WhatsApp
             <ArrowUpRight size={18} />
           </button>
           <p className="form-note">
@@ -883,23 +713,20 @@ function Contact() {
         </form>
       </section>
       <section className="container section faq">
-        <div>
-          <Eyebrow>A FEW HELPFUL DETAILS</Eyebrow>
-          <h2>Before we talk.</h2>
-        </div>
+        <h2>Before you enquire</h2>
         <div>
           {[
             [
-              "Can I enquire about more than one service?",
-              "Absolutely. Select “Multiple services / Not sure yet” and tell us which parts of your project you’d like to discuss.",
+              "Can I ask about more than one service?",
+              "Yes. Select “Multiple services / Not sure yet” and describe the work you need.",
             ],
             [
-              "What should I include in my enquiry?",
-              "Your location, current setup, what you would like to achieve and any timing or budget considerations are a useful starting point.",
+              "What should I include?",
+              "Your location, current setup and the work you want done. Include photos or a layout in WhatsApp if these would help explain your request.",
             ],
             [
-              "How do I receive a quotation?",
-              "Start by sharing your requirements. We’ll discuss the scope and any further details needed to prepare a quotation.",
+              "How will I get a quotation?",
+              "We will discuss your requirements and any further information needed to define the scope before preparing a quotation.",
             ],
           ].map(([q, a], i) => (
             <div className="faq-item" key={q}>
@@ -922,13 +749,8 @@ function Contact() {
 function NotFound() {
   return (
     <section className="container page-hero">
-      <Eyebrow>404 · PAGE NOT FOUND</Eyebrow>
-      <h1>
-        Let’s get you
-        <br />
-        <span>connected again.</span>
-      </h1>
-      <p>The page you’re looking for isn’t here.</p>
+      <h1>Page not found.</h1>
+      <p>Use the navigation to find a service or return to the homepage.</p>
       <Button to="/">Back to home</Button>
     </section>
   );
@@ -938,41 +760,26 @@ function RouteEffects() {
   const previous = useRef(location.pathname);
   useEffect(() => {
     window.scrollTo(0, 0);
-    const service = services.find(
-      (s) => location.pathname === `/services/${s.slug}`,
-    );
-    const title = service
-      ? `${service.name} | GIGI Cloud Solutions`
+    const s = services.find((s) => location.pathname === `/services/${s.slug}`);
+    const title = s
+      ? `${s.name} | GIGI Cloud Solutions`
       : {
-          "/": "GIGI Cloud Solutions | Connected. Protected. Powered.",
+          "/": "GIGI Cloud Solutions | IT, Cloud, Security, Solar & Design",
           "/about": "About Us | GIGI Cloud Solutions",
           "/services": "Our Services | GIGI Cloud Solutions",
           "/contact": "Contact & Request a Quote | GIGI Cloud Solutions",
         }[location.pathname] || "Page Not Found | GIGI Cloud Solutions";
     const description =
-      service?.description ||
-      {
-        "/about":
-          "Meet GIGI Cloud Solutions: technology, security, energy and design services in Johannesburg.",
-        "/services":
-          "Explore IT, connectivity, security, electrical, solar, web and graphic design services.",
-        "/contact":
-          "Discuss your project with GIGI Cloud Solutions. Call, email or request a quotation via WhatsApp.",
-      }[location.pathname] ||
-      "IT, connectivity, security, electrical, solar and design services for your home and business in Johannesburg.";
+      s?.description ||
+      "IT, cloud, security, electrical, solar and design services for homes and businesses. Based in Johannesburg. Contact GIGI Cloud Solutions for a quote.";
     document.title = title;
-    document
-      .querySelector('meta[name="description"]')
-      ?.setAttribute("content", description);
-    document
-      .querySelector('meta[property="og:title"]')
-      ?.setAttribute("content", title);
-    document
-      .querySelector('meta[property="og:description"]')
-      ?.setAttribute("content", description);
-    document
-      .querySelector('meta[property="og:url"]')
-      ?.setAttribute("content", company.url + location.pathname);
+    for (const [selector, value] of [
+      ['meta[name="description"]', description],
+      ['meta[property="og:title"]', title],
+      ['meta[property="og:description"]', description],
+      ['meta[property="og:url"]', company.url + location.pathname],
+    ])
+      document.querySelector(selector)?.setAttribute("content", value);
     document
       .querySelector('link[rel="canonical"]')
       ?.setAttribute("href", company.url + location.pathname);

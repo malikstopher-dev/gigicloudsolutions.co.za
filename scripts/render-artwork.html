@@ -1,0 +1,6 @@
+<!doctype html><html><body style="margin:0"><script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import {createProductWorld} from '/src/product-world.ts';
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(1600,1200);renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;document.body.appendChild(renderer.domElement);
+window.renderArtwork=async(index,mode)=>{const world=createProductWorld(renderer,index,mode);await new Promise(r=>setTimeout(r,500));world.update(1);renderer.render(world.scene,world.camera);const result={data:renderer.domElement.toDataURL('image/png'),paths:world.overlayPaths};world.dispose();return result;};
+</script></body></html>

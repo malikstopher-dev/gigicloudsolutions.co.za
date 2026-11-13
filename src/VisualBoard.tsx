@@ -1,39 +1,33 @@
-import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { boardSvg, boardNames } from "../assets/boards.mjs";
-import "./visuals.css";
-
+import { useEffect, useId, useRef, useState } from "react";
+import { services } from "./data";
+import paths from "./artwork-paths.json";
 const options = [
-  ["IT services", "Fibre", "Networking", "Data backup"],
-  ["CCTV", "Alarms", "Perimeter", "Access control"],
+  ["Network", "Data backup"],
+  ["CCTV coverage", "Access control"],
   ["Day", "Night"],
   ["Websites", "Branding"],
-];
-const parts = [
-  ["it", "fibre", "network", "backup"],
-  ["cctv", "alarm", "perimeter", "access"],
-  ["day", "night"],
-  ["websites", "branding"],
+  ["Devices", "Cloud access"],
 ];
 const descriptions = [
   [
-    "A compact server and everyday devices: a foundation for your IT needs.",
-    "Fibre paths connect the network to the devices you use.",
-    "The switch brings your connected devices into one network.",
-    "Concept sequence: a copy travels from a device, through the network, to separate backup storage.",
+    "Trace the connection between devices and the network equipment.",
+    "A backup copy travels from the device to separate storage.",
   ],
   [
-    "The camera’s viewing arc illustrates coverage around an entrance.",
-    "An alarm panel is one part of a considered security setup.",
-    "The boundary illustrates how perimeter protection relates to the entrance.",
-    "Try the reader to see a brief access confirmation. This is an illustration, not a live security feed.",
+    "The shaded area illustrates a camera’s coverage near an entrance.",
+    "Try the access reader to see a short confirmation. This is a demonstration.",
   ],
   [
-    "Day concept: sunlight reaches the panels and energy travels towards the inverter and battery.",
-    "Night concept: stored energy travels from the battery towards the property. Not a performance simulation.",
+    "Daytime concept: panels supply energy through an inverter towards storage.",
+    "Night-time concept: stored energy supplies the property. This is not a performance simulation.",
   ],
   [
-    "An original responsive website concept, shown on desktop and mobile.",
-    "An original identity concept with typography, colour swatches and a brand mark. Not completed client work.",
+    "An original website concept shown on desktop and mobile.",
+    "An original branding concept with matching screen layouts and colour samples.",
+  ],
+  [
+    "Identify the devices and people who need to use your cloud tools.",
+    "The path illustrates access to cloud tools. Your platform and service scope will be discussed before quoting.",
   ],
 ];
 export function useSceneActivity() {
@@ -44,8 +38,8 @@ export function useSceneActivity() {
     const mq = matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setActive(visible && !document.hidden && !mq.matches);
     const io = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
+      ([e]) => {
+        visible = e.isIntersecting;
         update();
       },
       { threshold: 0.12 },
@@ -65,85 +59,105 @@ export function BoardThumbnail({ index }: { index: number }) {
   return (
     <div className={`board-thumbnail thumbnail-${index}`}>
       <img
-        src={`/visuals/${boardNames[index]}.svg`}
+        src={`/artwork/${services[index].art}.webp`}
         alt=""
+        width="1600"
+        height="1200"
         loading="lazy"
-        width="640"
-        height="440"
       />
-      <span>GIGI / {["CONNECT", "PROTECT", "POWER", "CREATE"][index]}</span>
     </div>
   );
 }
 export default function VisualBoard({ index }: { index: number }) {
-  const [selection, setSelection] = useState(0);
-  const [confirmed, setConfirmed] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [selected, setSelected] = useState(0),
+    [confirmed, setConfirmed] = useState(false);
   const { ref, active } = useSceneActivity();
   const id = useId();
-  const svg = useMemo(() => boardSvg(index, id), [index, id]);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(timer.current), []);
-  const choose = (i: number) => {
-    setSelection(i);
-    setConfirmed(false);
-    clearTimeout(timer.current);
-  };
-  const confirm = () => {
-    setConfirmed(true);
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setConfirmed(false), 2200);
-  };
+  const image =
+    index === 1 && confirmed
+      ? "security-confirmed"
+      : index === 2 && selected === 1
+        ? "solar-night"
+        : index === 3 && selected === 1
+          ? "branding"
+          : services[index].art;
+  const routes = (paths as Record<string, string[]>)[image] || [];
+  const path =
+    routes[
+      (index === 0 && selected === 1) || (index === 2 && selected === 1) ? 1 : 0
+    ];
   return (
     <div
+      className={`visual-board board-${index} ${selected ? "alternate-state" : ""} ${image === "solar-night" ? "night-state" : ""} ${active ? "motion-active" : ""} ${confirmed ? "access-confirmed" : ""}`}
+      data-board={services[index].slug}
       ref={ref}
-      className={`visual-board board-${index} selected-${parts[index][selection]} ${active ? "motion-active" : ""} ${confirmed ? "access-confirmed" : ""}`}
-      data-board={boardNames[index]}
     >
-      <div className="board-heading">
-        <span>
-          0{index + 1} /{" "}
-          {
-            [
-              "CONNECTED SYSTEMS",
-              "CONSIDERED PROTECTION",
-              "EVERYDAY ENERGY",
-              "DESIGNED TO CONNECT",
-            ][index]
-          }
-        </span>
-        <span className="concept-label">Concept illustration</span>
+      <div className="board-art" aria-hidden="true">
+        <img
+          key={image}
+          src={`/artwork/${image}.webp`}
+          alt=""
+          width="1600"
+          height="1200"
+        />
+        {path && (
+          <svg viewBox="0 0 640 480" className="motion-overlay">
+            <path d={path} className="connection-pulse" />
+          </svg>
+        )}
+        {index === 1 && selected === 0 && (
+          <svg viewBox="0 0 640 480" className="motion-overlay">
+            <path
+              className="coverage-scan"
+              d="M250 222L162 325Q238 385 334 341Z"
+            />
+          </svg>
+        )}
+        {confirmed && (
+          <span className="reader-confirmation">Access confirmed</span>
+        )}
       </div>
-      <div
-        className="board-art"
-        aria-hidden="true"
-        dangerouslySetInnerHTML={{ __html: svg }}
-      />
       <div
         className="board-controls"
         role="group"
-        aria-label={`${["IT & Connectivity", "Security & Access", "Electrical & Solar", "Web & Graphic Design"][index]} illustration controls`}
+        aria-label={`${services[index].name} illustration controls`}
       >
         {options[index].map((label, i) => (
           <button
             key={label}
             type="button"
-            aria-pressed={selection === i}
+            aria-pressed={selected === i}
             aria-controls={`${id}-description`}
-            onClick={() => choose(i)}
+            onClick={() => {
+              setSelected(i);
+              setConfirmed(false);
+              clearTimeout(timer.current);
+            }}
           >
             {label}
           </button>
         ))}
+        <span className="concept-label">3D concept</span>
       </div>
       <div
         className="board-description"
         id={`${id}-description`}
         aria-live="polite"
       >
-        <p>{descriptions[index][selection]}</p>
-        {index === 1 && selection === 3 && (
+        <p>{descriptions[index][selected]}</p>
+        {index === 1 && selected === 1 && (
           <>
-            <button type="button" className="access-demo" onClick={confirm}>
+            <button
+              className="access-demo"
+              type="button"
+              onClick={() => {
+                setConfirmed(true);
+                clearTimeout(timer.current);
+                timer.current = setTimeout(() => setConfirmed(false), 2200);
+              }}
+            >
               Try access reader <span aria-hidden="true">↗</span>
             </button>
             <span role="status">
