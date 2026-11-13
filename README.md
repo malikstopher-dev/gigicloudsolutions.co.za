@@ -47,7 +47,13 @@ This is a static Pages deployment. It does not require a Cloudflare Worker, `wra
 - `src/data.ts`: company details, contact links and services.
 - `src/main.tsx`: shared components and page content.
 - `src/styles.css`: responsive visual system.
-- `src/scene.tsx`: procedural Three.js sculpture, with off-screen pause and static CSS fallback.
+- `src/scene.tsx`: procedural Three.js environment, with off-screen pause and static SVG fallback.
+- `assets/boards.mjs`: editable custom SVG scene masters.
+- `src/VisualBoard.tsx` and `src/visuals.css`: interactive service boards, responsive compositions and motion rules.
+- `src/HeroEnvironment.tsx`: accessible service selection for the GIGI-centred hero.
+- `scripts/assets.mjs`: generates five standalone SVG illustrations, the accurate shield texture and an optimised lossless WebP wordmark before dev/build.
+- `public/visuals/`: lightweight production art and static fallbacks.
+- `docs/VISUAL-SYSTEM.md`: asset audit, checklist and visual-system documentation.
 - `scripts/pages.mjs`: production metadata and public asset generation. Update its domain/metadata if business details change.
 - `01_Logos/`: original supplied brand assets, imported without recolouring or distortion.
 
@@ -66,6 +72,6 @@ npx playwright install chromium
 npm test
 ```
 
-Browser checks cover all routes at 360, 390, 768, 1024 and 1440 pixels, overflow, navigation, quote prefilling, WhatsApp transfer, validation, mobile menu and reduced-motion fallback. The test runner starts its own production preview; run `npm run build` first. Screenshots are written to `test-results/`.
+Browser checks cover all routes at 360, 390, 768, 1024 and 1440 pixels, overflow, navigation, quote prefilling, WhatsApp transfer, validation, mobile menu and reduced-motion fallback. Visual-system checks cover keyboard/touch scene selection, backup mode, access confirmation, day/night lighting, design mode, valid SVG fallbacks and offscreen animation pausing. The test runner starts its own production preview; run `npm run build` first. Screenshots are written to `test-results/`.
 
 Before launch point the domain to your static host and enable HTTPS. The public domain and contact destinations are already configured from the brief.
