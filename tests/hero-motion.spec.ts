@@ -1,8 +1,21 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test as base, expect, type Page } from '@playwright/test';
 import sharp from 'sharp';
 
+// Isolate GPU-heavy readbacks from WebGL contexts used by earlier route tests.
+const test = base.extend({
+  page: async ({ browser, viewport, hasTouch }, use) => {
+    const isolated = await browser.browserType().launch();
+    try {
+      const context = await isolated.newContext({ viewport: viewport ?? undefined, hasTouch, baseURL: 'http://localhost:4173' });
+      await use(await context.newPage());
+    } finally {
+      await isolated.close();
+    }
+  },
+});
+
 async function snapshot(page: Page) {
-  const box = await page.locator('.scene-ready canvas').boundingBox();
+  const box = await page.locator('.hero-visual .scene-ready canvas').boundingBox();
   expect(box).not.toBeNull();
   return sharp(await page.screenshot({clip: box!})).resize(160,120).removeAlpha().raw().toBuffer();
 }
@@ -23,7 +36,7 @@ for (const width of [390,1440]) test.describe(`Active hero at ${width}px`, () =>
     page.on('pageerror', e=>errors.push(e.message));
     await page.goto('/',{waitUntil:'domcontentloaded'});
     const scene=page.getByRole('group',{name:'Interactive 3D equipment model',exact:true});
-    await expect(page.locator('.scene-ready canvas')).toBeVisible({timeout:120000});
+    await expect(page.locator('.hero-visual .scene-ready canvas')).toBeVisible({timeout:120000});
     await page.evaluate(()=>document.fonts.ready);
     await scene.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
     const first=await snapshot(page);

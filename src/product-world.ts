@@ -350,6 +350,8 @@ export function createProductWorld(
   };
   const paths: THREE.CatmullRomCurve3[] = [];
   let scanner: THREE.Mesh | undefined;
+  let readerMaterial: THREE.MeshStandardMaterial | undefined;
+  let confirmationDoor: THREE.Mesh | undefined;
   if (index === 0) {
     groups.push(
       server(-2.4, -0.5),
@@ -381,6 +383,7 @@ export function createProductWorld(
     const cam = cameraUnit(house, -1.3, 2.05, 1.35);
     groups.push(cam);
     box(house, 1.35, 1.15, 1.18, 0.18, 0.35, 0.08, m.navy);
+    if (live) readerMaterial = mat("#0755ed", 0.35, 0.28);
     box(
       house,
       1.35,
@@ -389,7 +392,7 @@ export function createProductWorld(
       0.08,
       0.07,
       0.015,
-      mode === "confirmed" ? lightMat : m.blue,
+      readerMaterial || (mode === "confirmed" ? lightMat : m.blue),
     );
     box(house, 0.23, 1.3, 1.18, 0.26, 0.38, 0.08, m.white);
     box(house, 0.23, 1.35, 1.23, 0.17, 0.1, 0.015, m.blue);
@@ -413,8 +416,10 @@ export function createProductWorld(
     scanner = mesh(new THREE.ShapeGeometry(coverage), coverageMat, root);
     scanner.rotation.x = -Math.PI / 2;
     scanner.position.set(-0.4, 0.025, -0.8);
-    if (mode === "confirmed")
-      box(house, 0.78, 0.83, 1.195, 0.65, 1.5, 0.03, mat("#168b79", 0.2, 0.3));
+    if (live || mode === "confirmed") {
+      confirmationDoor = box(house, 0.78, 0.83, 1.195, 0.65, 1.5, 0.03, mat("#168b79", 0.2, 0.3));
+      confirmationDoor.visible = mode === "confirmed";
+    }
   }
   if (index === 2) {
     const house = property(-0.6, -0.55);
@@ -585,12 +590,21 @@ export function createProductWorld(
   const heroPulses = live && index === 5
     ? Array.from({ length: 3 }, () => mesh(pulseGeo, lightMat, root))
     : [];
+  // Boards share the hero's travelling-light treatment on their own routes.
+  const boardPulses = live && index !== 5 && paths.length
+    ? Array.from({ length: 2 }, () => mesh(pulseGeo, lightMat, root))
+    : [];
   const restPositions = groups.map(group => group.position.clone());
   let spread = 0;
   const animateHero = (time: number, delta: number, expanded: boolean) => {
-    if (!live || index !== 5) return;
+    if (!live) return;
     spread = THREE.MathUtils.damp(spread, expanded ? 1 : 0, 7, delta);
     groups.forEach((group, i) => {
+      // Wall-mounted cameras swivel instead of floating away from their mount.
+      if (index === 1) {
+        group.rotation.y = Math.sin(time * 1.4) * 0.5;
+        return;
+      }
       const rest = restPositions[i];
       group.position.x = rest.x * (1 + spread * 0.18);
       group.position.z = rest.z * (1 + spread * 0.18);
@@ -598,11 +612,23 @@ export function createProductWorld(
         + spread * (i === 1 ? 0.35 : 0.8);
     });
     if (heroCamera) heroCamera.rotation.y = Math.sin(time * 1.4) * 0.5;
-    lightMat.emissiveIntensity = 1.8 + Math.sin(time * 2.5) * 0.5;
+    lightMat.emissiveIntensity = night
+      ? 2.6 + Math.sin(time * 2.5) * 0.6
+      : 1.8 + Math.sin(time * 2.5) * 0.5;
     pulse.scale.setScalar(2);
     heroPulses.forEach((light, i) => {
       light.position.copy(paths[0].getPoint((time * 0.4 + (i + 1) / 4) % 1));
       light.scale.setScalar(1.8 + Math.sin(time * 3 + i) * 0.3);
+    });
+    boardPulses.forEach((light, i) => {
+      const path = paths[activePath];
+      if (!path) {
+        light.visible = false;
+        return;
+      }
+      light.visible = true;
+      light.position.copy(path.getPoint((time * 0.32 + (i + 1) / 3) % 1));
+      light.scale.setScalar(1.7 + Math.sin(time * 3 + i) * 0.3);
     });
   };
   const project = (v: THREE.Vector3) => {
@@ -621,12 +647,23 @@ export function createProductWorld(
       return `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`;
     }).join(" "),
   );
-  const update = (time: number, selection = 0) => {
-    const path =
-      paths[(index === 0 && selection === 3) || (index === 2 && night) ? 1 : 0];
+  let activePath = 0;
+  const update = (time: number, selection = 0, confirmed = mode === "confirmed") => {
+    if (readerMaterial) {
+      readerMaterial.color.copy(confirmed ? lightMat.color : m.blue.color);
+      readerMaterial.emissive.set(confirmed ? "#16c6a5" : "#000000");
+      readerMaterial.emissiveIntensity = confirmed ? 2 : 0;
+    }
+    if (confirmationDoor) confirmationDoor.visible = confirmed;
+    activePath =
+      (index === 0 && selection === 1) || (index === 2 && night) ? 1 : 0;
+    const path = paths[activePath];
     pulse.visible = !!path;
     if (path) pulse.position.copy(path.getPoint((time * 0.17) % 1));
-    if (scanner) scanner.rotation.z = Math.sin(time * 0.45) * 0.06;
+    if (scanner) {
+      scanner.visible = !live || selection === 0;
+      scanner.rotation.z = Math.sin(time * 0.8) * 0.18;
+    }
   };
   update(0);
   return {

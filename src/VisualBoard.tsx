@@ -1,6 +1,7 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useId, useRef, useState } from "react";
 import { services } from "./data";
 import paths from "./artwork-paths.json";
+const SceneCanvas = lazy(() => import("./SceneCanvas"));
 const options = [
   ["Network", "Data backup"],
   ["CCTV coverage", "Access control"],
@@ -30,7 +31,7 @@ const descriptions = [
     "The path illustrates access to cloud tools. Your platform and service scope will be discussed before quoting.",
   ],
 ];
-export function useSceneActivity() {
+export function useSceneActivity(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
   useEffect(() => {
@@ -39,10 +40,10 @@ export function useSceneActivity() {
     const update = () => setActive(visible && !document.hidden && !mq.matches);
     const io = new IntersectionObserver(
       ([e]) => {
-        visible = e.isIntersecting;
+        visible = e.isIntersecting && e.intersectionRatio >= threshold;
         update();
       },
-      { threshold: 0.12 },
+      { threshold },
     );
     if (ref.current) io.observe(ref.current);
     document.addEventListener("visibilitychange", update);
@@ -52,12 +53,35 @@ export function useSceneActivity() {
       document.removeEventListener("visibilitychange", update);
       mq.removeEventListener("change", update);
     };
-  }, []);
+  }, [threshold]);
   return { ref, active };
 }
+export function useMotionEnabled() {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const mq = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () =>
+      setEnabled(
+        !mq.matches &&
+          !(
+            "connection" in navigator &&
+            (navigator.connection as { saveData?: boolean }).saveData
+          ),
+      );
+    const timer = setTimeout(update, 500);
+    mq.addEventListener("change", update);
+    return () => {
+      clearTimeout(timer);
+      mq.removeEventListener("change", update);
+    };
+  }, []);
+  return enabled;
+}
 export function BoardThumbnail({ index }: { index: number }) {
+  const motion = useMotionEnabled();
+  const { ref, active } = useSceneActivity(0.5);
   return (
-    <div className={`board-thumbnail thumbnail-${index}`}>
+    <div className={`board-thumbnail thumbnail-${index}`} ref={ref}>
       <img
         src={`/artwork/${services[index].art}.webp`}
         alt=""
@@ -65,6 +89,14 @@ export function BoardThumbnail({ index }: { index: number }) {
         height="1200"
         loading="lazy"
       />
+      {motion && active && (
+        <Suspense fallback={null}>
+          <SceneCanvas
+            index={index}
+            label={`${services[index].name} interactive 3D concept`}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }
@@ -88,13 +120,22 @@ export default function VisualBoard({ index }: { index: number }) {
     routes[
       (index === 0 && selected === 1) || (index === 2 && selected === 1) ? 1 : 0
     ];
+  const motion = useMotionEnabled();
+  const mode =
+    image === "security-confirmed"
+      ? "confirmed"
+      : image === "solar-night"
+        ? "night"
+        : image === "branding"
+          ? "branding"
+          : "default";
   return (
     <div
       className={`visual-board board-${index} ${selected ? "alternate-state" : ""} ${image === "solar-night" ? "night-state" : ""} ${active ? "motion-active" : ""} ${confirmed ? "access-confirmed" : ""}`}
       data-board={services[index].slug}
       ref={ref}
     >
-      <div className="board-art" aria-hidden="true">
+      <div className="board-art">
         <img
           key={image}
           src={`/artwork/${image}.webp`}
@@ -114,6 +155,17 @@ export default function VisualBoard({ index }: { index: number }) {
               d="M250 222L162 325Q238 385 334 341Z"
             />
           </svg>
+        )}
+        {motion && active && (
+          <Suspense fallback={null}>
+            <SceneCanvas
+              key={`${index}-${index === 1 ? "security" : mode}`}
+              index={index}
+              mode={mode}
+              selection={selected}
+              label={`${services[index].name} interactive 3D concept`}
+            />
+          </Suspense>
         )}
         {confirmed && (
           <span className="reader-confirmation">Access confirmed</span>

@@ -261,20 +261,19 @@ function ServiceCards() {
   return (
     <div className="service-cards">
       {services.map((s, i) => (
-        <Link
+        <article
           className={`service-card card-${i}`}
-          to={`/services/${s.slug}`}
           key={s.slug}
         >
           <BoardThumbnail index={i} />
-          <div className="service-card-copy">
+          <Link className="service-card-copy" to={`/services/${s.slug}`}>
             <h3>{s.name}</h3>
             <p>{s.short}</p>
             <span className="card-bottom">
               View services <ArrowUpRight size={19} />
             </span>
-          </div>
-        </Link>
+          </Link>
+        </article>
       ))}
     </div>
   );

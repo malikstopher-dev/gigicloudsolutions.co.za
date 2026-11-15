@@ -42,7 +42,7 @@ test('Reduced motion keeps static visual and links accessible',async({page})=>{
 });
 test('WebGL hero loads when supported and metadata is route-specific',async({browser})=>{
  const b=await browser.browserType().launch();const page=await (await b.newContext({viewport:{width:1280,height:720}})).newPage();
- await page.goto('/',{waitUntil:'domcontentloaded'});await page.waitForTimeout(1800);const supported=await page.evaluate(()=>{try{return !!document.createElement('canvas').getContext('webgl2');}catch{return false;}});if(supported)await expect(page.locator('.scene-ready canvas')).toBeVisible({timeout:120000});else await expect(page.locator('.static-sculpture')).toBeVisible();
+  await page.goto('/',{waitUntil:'domcontentloaded'});await page.waitForTimeout(1800);const supported=await page.evaluate(()=>{try{return !!document.createElement('canvas').getContext('webgl2');}catch{return false;}});if(supported)await expect(page.locator('.hero-visual .scene-ready canvas')).toBeVisible({timeout:120000});else await expect(page.locator('.static-sculpture')).toBeVisible();
  await page.screenshot({path:'test-results/hero-webgl.png'});
  expect(await page.evaluate(async()=>(await fetch('/services/security-access/')).text())).toContain('<title>Security &amp; Access | GIGI Cloud Solutions</title>'); expect(await page.evaluate(async()=>(await fetch('/sitemap.xml')).ok)).toBe(true);expect(await page.evaluate(async()=>(await fetch('/favicon.png')).ok)).toBe(true);
  await b.close();

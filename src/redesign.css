@@ -249,6 +249,7 @@ p {
   height: 255px;
 }
 .service-card-copy {
+  display: block;
   padding: 21px 23px;
 }
 .service-card h3 {
@@ -779,6 +780,7 @@ p {
 }
 .reader-confirmation {
   position: absolute;
+  z-index: 2;
   right: 15px;
   bottom: 15px;
   padding: 9px 12px;
@@ -786,6 +788,16 @@ p {
   background: #08745f;
   color: #fff;
   font-size: 11px;
+}
+/* When the live 3D scene is ready it takes over from the static artwork. */
+.board-art:has(.scene-canvas.scene-ready) > img,
+.board-art:has(.scene-canvas.scene-ready) .motion-overlay,
+.board-thumbnail:has(.scene-canvas.scene-ready) > img {
+  visibility: hidden;
+}
+.board-art .scene-canvas:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
 }
 .night-state .board-art {
   background: #101e35;
