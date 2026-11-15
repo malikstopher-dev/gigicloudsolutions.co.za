@@ -8,7 +8,7 @@ for(const width of [360,390,768,1024,1440]){
    await page.goto(route,{waitUntil:'domcontentloaded'});await expect(page.locator('h1')).toBeVisible();await expect(page).toHaveTitle(/GIGI/);
    await expect(page.locator('header img')).toBeVisible();
    expect(await page.locator('body').innerText()).not.toMatch(/[\u2013\u2014]|---/);
-   const headingColours=await page.locator('h1,h2,h3').evaluateAll(els=>els.map(el=>getComputedStyle(el).color));expect(headingColours.every(c=>c==='rgb(6, 27, 67)'||c==='rgb(255, 255, 255)')).toBe(true);
+   const headingColours=await page.locator('h1,h2,h3').evaluateAll(els=>els.map(el=>getComputedStyle(el).color));expect(headingColours.every(c=>c==='rgb(11, 31, 68)')).toBe(true);
    const overflow=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).map(e=>({tag:e.tagName,cls:e.className,right:e.getBoundingClientRect().right})));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow at ${route}: ${JSON.stringify(overflow)}`).toBe(true);
    expect(await page.locator('h1').evaluate(el=>el.getBoundingClientRect().right<=innerWidth)).toBe(true);
    await page.locator('footer').scrollIntoViewIfNeeded();

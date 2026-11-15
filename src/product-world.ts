@@ -12,7 +12,8 @@ export function createProductWorld(
 ) {
   const scene = new THREE.Scene();
   const night = mode === "night";
-  scene.background = new THREE.Color(night ? "#101e35" : "#edf1f5");
+  // Daylight artwork composites onto any CSS surface without a baked-in box.
+  scene.background = night ? new THREE.Color("#101e35") : null;
   const camera = new THREE.PerspectiveCamera(34, 4 / 3, 0.1, 100);
   camera.position.set(8.8, 7.1, 11.8);
   camera.lookAt(0, 0.8, 0);
@@ -107,9 +108,13 @@ export function createProductWorld(
   scene.add(root);
   const base = box(root, 0, -0.12, 0, 8.4, 0.3, 5.9, m.floor);
   base.receiveShadow = true;
+  const floorMaterial = night
+    ? mat("#101e35", 0, 0.85)
+    : new THREE.ShadowMaterial({ opacity: 0.12 });
+  materials.add(floorMaterial);
   const floor = mesh(
     new THREE.PlaneGeometry(200, 200),
-    mat(night ? "#101e35" : "#edf1f5", 0, 0.85),
+    floorMaterial,
     scene,
   );
   floor.rotation.x = -Math.PI / 2;

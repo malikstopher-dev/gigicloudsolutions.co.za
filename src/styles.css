@@ -1,14 +1,19 @@
 :root {
+  --bg: #F3F6FA;
+  --bg-alt: #EAF0F8;
+  --card: #FAFBFD;
+  --text: #334155;
+  --heading: #0B1F44;
   font-family: "DM Sans", Arial, sans-serif;
-  color: #061b43;
-  background: #fff;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
   --navy: #061b43;
   --blue: #0755ed;
   --teal: #16c6a5;
-  --muted: #626f83;
+  --muted: #52627a;
   --line: #e3e8ef;
-  --pale: #f2f5fa;
+  --pale: var(--bg-alt);
 }
 * {
   box-sizing: border-box;
@@ -95,9 +100,10 @@ main:focus {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #ffffffed;
+  background: var(--card);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid #e9edf2;
+  border-bottom: 0;
+  box-shadow: 0 2px 16px #0b1f4408;
 }
 .nav-inner {
   height: 100%;
@@ -147,7 +153,7 @@ nav a:hover {
   position: absolute;
   top: 48px;
   left: -25px;
-  background: white;
+  background: var(--card);
   width: 270px;
   padding: 12px;
   border: 1px solid var(--line);
@@ -194,7 +200,7 @@ nav .button {
   margin-left: 6px;
 }
 .secondary {
-  background: white;
+  background: var(--card);
   color: var(--navy);
   border-color: var(--line);
 }
@@ -310,8 +316,8 @@ nav .button {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #ffffffed;
-  border: 1px solid white;
+  background: var(--card);
+  border: 1px solid var(--card);
   padding: 12px 15px;
   border-radius: 9px;
   box-shadow: 0 10px 35px #1438620d;
@@ -466,7 +472,7 @@ nav .button {
   transition:
     transform 0.25s,
     box-shadow 0.25s;
-  background: #fff;
+  background: var(--card);
 }
 .service-card:hover {
   transform: translateY(-6px);
@@ -866,7 +872,7 @@ nav .button {
   display: grid;
   place-items: center;
   box-shadow: 0 5px 20px #061b4330;
-  border: 3px solid white;
+  border: 3px solid var(--card);
   transition: transform 0.2s;
 }
 .floating-chat:hover {
@@ -1063,7 +1069,7 @@ nav .button {
 }
 .detail-grid article {
   padding: 35px;
-  background: white;
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: 12px;
 }
@@ -1156,7 +1162,7 @@ nav .button {
 }
 .contact-method small {
   display: block;
-  color: #7b8798;
+  color: var(--muted);
   font-size: 9px;
   letter-spacing: 1.3px;
   margin-bottom: 5px;
@@ -1216,15 +1222,16 @@ textarea {
   min-width: 0;
   border: 1px solid #d8e0e9;
   border-radius: 6px;
-  background: white;
+  background: var(--card);
   padding: 13px;
   font-size: 13px;
   line-height: 1.4;
-  color: var(--navy);
+  color: var(--text);
 }
 input::placeholder,
 textarea::placeholder {
-  color: #7c899a;
+  color: var(--muted);
+  opacity: 1;
 }
 textarea {
   resize: vertical;
@@ -1456,7 +1463,7 @@ textarea:focus {
     top: 81px;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--card);
     padding: 24px;
     box-shadow: 0 18px 25px #061b4310;
     border-bottom: 1px solid var(--line);
@@ -1488,7 +1495,7 @@ textarea:focus {
     width: auto;
     box-shadow: none;
     margin: 4px 0 10px;
-    background: #f6f8fb;
+    background: var(--card);
   }
   nav .button {
     margin: 10px 0 0;
