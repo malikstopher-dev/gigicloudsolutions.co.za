@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
@@ -29,6 +29,50 @@ import HeroEnvironment from "./HeroEnvironment";
 import "./styles.css";
 import "./redesign.css";
 import "./background.css";
+
+const AboutScene = lazy(() => import("./scene"));
+
+function AboutVisual() {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const mq = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () =>
+      setEnabled(
+        !mq.matches &&
+          !(
+            "connection" in navigator &&
+            (navigator.connection as { saveData?: boolean }).saveData
+          ),
+      );
+    const timer = setTimeout(update, 500);
+    mq.addEventListener("change", update);
+    return () => {
+      clearTimeout(timer);
+      mq.removeEventListener("change", update);
+    };
+  }, []);
+  return (
+    <div className="about-visual">
+      <div className="about-stage">
+        <div className="static-sculpture">
+          <img
+            src="/artwork/hero.webp"
+            width="1600"
+            height="1200"
+            alt="3D concept showing a property with solar, security and IT equipment"
+            loading="lazy"
+          />
+        </div>
+        {enabled && (
+          <Suspense fallback={null}>
+            <AboutScene />
+          </Suspense>
+        )}
+      </div>
+      <small>Illustrative equipment concept</small>
+    </div>
+  );
+}
 const logo = "/visuals/gigi-wordmark.webp";
 function PageBackground() {
   useEffect(() => {
@@ -399,15 +443,7 @@ function About() {
           </p>
           <Button to="/contact">Discuss your requirements</Button>
         </div>
-        <div className="about-visual">
-          <img
-            src="/artwork/hero.webp"
-            alt="Original 3D concept showing a property with solar, security and IT equipment"
-            width="1600"
-            height="1200"
-          />
-          <small>Illustrative equipment concept</small>
-        </div>
+        <AboutVisual />
       </section>
       <section className="container section about-facts">
         <div>

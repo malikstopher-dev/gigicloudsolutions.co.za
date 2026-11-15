@@ -442,10 +442,20 @@ p {
 .about-visual {
   min-width: 0;
 }
+.about-stage {
+  position: relative;
+  aspect-ratio: 4/3;
+  max-height: 420px;
+  overflow: hidden;
+  border-radius: 12px;
+}
 .about-visual img {
   display: block;
   width: 100%;
   border-radius: 12px;
+}
+.about-visual:has(.scene-ready) .static-sculpture {
+  visibility: hidden;
 }
 .about-visual small {
   display: block;
@@ -1060,9 +1070,8 @@ footer {
   .about-visual {
     max-width: 640px;
   }
-  .about-visual img {
+  .about-stage {
     max-height: 380px;
-    object-fit: cover;
   }
   .about-facts {
     gap: 40px;
