@@ -249,7 +249,7 @@
   }
 }
 .board-thumbnail {
-  background: #edf4fa;
+  background: transparent;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -271,7 +271,7 @@
 }
 .thumbnail-1,
 .thumbnail-3 {
-  background: #edf7f5;
+  background: transparent;
 }
 .service-cards {
   grid-template-columns: 1.12fr 1fr;

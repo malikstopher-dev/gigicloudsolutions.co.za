@@ -3,12 +3,12 @@
   --navy: #061b43;
   --blue: #0755ed;
   --teal: #16c6a5;
-  --muted: #52627a;
+  --muted: #3d4c63;
   --line: #dfe5eb;
   --pale: var(--bg-alt);
 }
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
 }
 h1,
@@ -236,7 +236,7 @@ p {
 }
 .board-thumbnail {
   position: relative;
-  background: var(--card);
+  background: transparent;
   overflow: hidden;
   height: 205px;
   border-radius: 0;
@@ -280,7 +280,7 @@ p {
 }
 .feature-dark {
   padding-block: 64px;
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
 }
 .feature-dark h1,
@@ -346,7 +346,7 @@ p {
   padding: 0;
   margin-bottom: 18px;
   display: block;
-  color: #536e8b;
+  color: var(--muted);
 }
 .steps h3 {
   font-size: 18px;
@@ -473,7 +473,7 @@ p {
   font-size: 16px;
 }
 .company-band {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   padding-block: 44px;
 }
@@ -570,7 +570,7 @@ p {
   color: #0755ed;
 }
 .practical-example {
-  background: var(--bg);
+  background: transparent;
   padding-block: 42px;
 }
 .practical-example > .container {
@@ -837,18 +837,10 @@ p {
     opacity: 1;
   }
 }
-/* Full-width tonal section bands preserve the existing content alignment. */
+/* Sections stay transparent so the fixed page background shows through. */
 main > section:not(.closing) {
-  --section-bg: var(--bg);
-  background: var(--section-bg);
+  background: transparent;
   border-block: 0;
-}
-main > section:nth-of-type(even):not(.closing) {
-  --section-bg: var(--bg-alt);
-}
-main > section.container:not(.closing) {
-  box-shadow: 0 0 0 100vmax var(--section-bg);
-  clip-path: inset(0 -100vmax);
 }
 footer {
   background: var(--card);

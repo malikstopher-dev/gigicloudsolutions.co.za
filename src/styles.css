@@ -6,12 +6,12 @@
   --heading: #0B1F44;
   font-family: "DM Sans", Arial, sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background: #d3efe6;
   font-synthesis: none;
   --navy: #061b43;
   --blue: #0755ed;
   --teal: #16c6a5;
-  --muted: #52627a;
+  --muted: #3d4c63;
   --line: #e3e8ef;
   --pale: var(--bg-alt);
 }

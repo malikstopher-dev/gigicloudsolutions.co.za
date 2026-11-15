@@ -22,9 +22,10 @@ async function checkContrast(page: Page) {
       const text = [...el.childNodes].filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join('').trim();
       const placeholder = el.matches('input[placeholder],textarea[placeholder]');
       if (!text && !placeholder) continue;
-      const layers: number[][] = [];
-      for (let node: Element | null = el; node; node = node.parentElement) layers.push(rgba(getComputedStyle(node).backgroundColor));
-      const bg = layers.reverse().reduce((bg, layer) => over(layer, bg), [255, 255, 255, 1]);
+    const layers: number[][] = [];
+    for (let node: Element | null = el; node && node !== document.body; node = node.parentElement) layers.push(rgba(getComputedStyle(node).backgroundColor));
+    // Worst-case painted page background: glow blobs and tile squares over the gradient.
+    const bg = layers.reverse().reduce((bg, layer) => over(layer, bg), [89, 211, 183, 1]);
       for (const color of [style.color, ...(placeholder ? [getComputedStyle(el, '::placeholder').color] : [])]) {
         const fgLum = luminance(over(rgba(color), bg)), bgLum = luminance(bg);
         const ratio = (Math.max(fgLum, bgLum) + 0.05) / (Math.min(fgLum, bgLum) + 0.05);
@@ -41,11 +42,22 @@ for (const width of [390, 1440]) test(`Low-glare surfaces and 4.5:1 text contras
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (const route of routes) {
     await page.goto(route, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(243, 246, 250)');
+    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(211, 239, 230)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(page.locator('.page-bg')).toHaveCSS('position', 'fixed');
+    await expect(page.locator('.page-bg')).toHaveCSS('background-image', /linear-gradient/);
+    await expect(page.locator('.bg-blob')).toHaveCount(3);
+    if (width >= 768) {
+      await expect(page.locator('.tile-floor')).toBeVisible();
+      await expect(page.locator('.blob-blue')).toBeVisible();
+    } else {
+      await expect(page.locator('.tile-floor')).toBeHidden();
+      await expect(page.locator('.blob-blue')).toBeHidden();
+    }
     await expect(page.locator('.header')).toHaveCSS('background-color', 'rgb(250, 251, 253)');
     const sections = page.locator('main > section:not(.closing)');
     for (let i = 0; i < await sections.count(); i++) {
-      await expect(sections.nth(i)).toHaveCSS('background-color', i % 2 ? 'rgb(234, 240, 248)' : 'rgb(243, 246, 250)');
+      await expect(sections.nth(i)).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
       await expect(sections.nth(i)).toHaveCSS('border-top-width', '0px');
     }
     await checkContrast(page);

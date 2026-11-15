@@ -28,7 +28,27 @@ import VisualBoard, { BoardThumbnail } from "./VisualBoard";
 import HeroEnvironment from "./HeroEnvironment";
 import "./styles.css";
 import "./redesign.css";
+import "./background.css";
 const logo = "/visuals/gigi-wordmark.webp";
+function PageBackground() {
+  useEffect(() => {
+    const update = () =>
+      document.documentElement.classList.toggle("bg-paused", document.hidden);
+    update();
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
+  return (
+    <div className="page-bg" aria-hidden="true">
+      <span className="bg-blob blob-teal" />
+      <span className="bg-blob blob-mint" />
+      <span className="bg-blob blob-blue" />
+      <div className="tile-floor">
+        <div className="tile-plane" />
+      </div>
+    </div>
+  );
+}
 function Button({
   to,
   children,
@@ -799,6 +819,7 @@ function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <PageBackground />
       <Header />
       <main id="main" tabIndex={-1}>
         <Routes>
