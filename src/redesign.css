@@ -59,13 +59,6 @@ p {
   letter-spacing: 0 !important;
   color: var(--muted) !important;
 }
-.header {
-  height: 88px;
-  background: var(--card);
-}
-.logo {
-  width: 175px;
-}
 .button {
   padding: 15px 20px;
   border-radius: 5px;
@@ -945,16 +938,6 @@ footer {
   .container {
     width: calc(100% - 48px);
   }
-  .header {
-    height: 78px;
-  }
-  .logo {
-    width: 155px;
-  }
-  .header nav {
-    top: 77px;
-    max-height: calc(100dvh - 78px);
-  }
   .header nav.open {
     gap: 6px;
   }
@@ -1130,13 +1113,6 @@ footer {
 @media (max-width: 600px) {
   .container {
     width: calc(100% - 40px);
-  }
-  .header {
-    height: 74px;
-  }
-  .header nav {
-    top: 73px;
-    max-height: calc(100dvh - 74px);
   }
   .hero {
     grid-template-columns: 1fr;

@@ -41,6 +41,8 @@ import {
 import "./styles.css";
 import "./redesign.css";
 import "./photo.css";
+import './route-design.css';
+import { fieldNotes, FieldGuide, Questions } from './field-guide';
 
 const AboutScene = lazy(() => import("./scene"));
 
@@ -257,12 +259,11 @@ function Hero() {
   return (
     <section className="photo-hero">
       <HeroMedia />
-      <div className="container photo-hero-inner">
-        <p className="hero-kicker">GIGI Cloud Solutions · Johannesburg</p>
-        <h1>Technology for your home and business.</h1>
+      <div className="photo-hero-inner">
+        <p className="hero-kicker"><span className="desktop-copy">GIGI Cloud Solutions · Johannesburg</span><span className="phone-copy">GIGI • JOHANNESBURG</span></p>
+        <h1><span className="desktop-copy">Technology for your home and business.</span><span className="phone-copy">Technology for home and business.</span></h1>
         <p className="hero-lead">
-          IT and cloud solutions, security, electrical work, solar systems and
-          design. Tell us what you need to connect, protect or improve.
+          <span className="desktop-copy">IT and cloud solutions, security, electrical work, solar systems and design. Tell us what you need to connect, protect or improve.</span><span className="phone-copy">IT, security, solar and design for homes and businesses.</span>
         </p>
         <div className="button-row">
           <Button to="/contact">Request a Quote</Button>
@@ -376,6 +377,8 @@ function Button({
   );
 }
 function Header() {
+  const [scrolled,setScrolled]=useState(()=>window.scrollY>16);
+  useEffect(()=>{const sync=()=>setScrolled(window.scrollY>16);window.addEventListener('scroll',sync,{passive:true});sync();return ()=>window.removeEventListener('scroll',sync)},[]);
   const [open, setOpen] = useState(false),
     [dropdown, setDropdown] = useState(false);
   const location = useLocation();
@@ -397,7 +400,7 @@ function Header() {
   }, []);
   return (
     <header
-      className="header"
+      className={scrolled ? 'header is-scrolled' : 'header'}
       ref={header}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
@@ -415,7 +418,7 @@ function Header() {
         <Link to="/" aria-label="GIGI Cloud Solutions home">
           <img
             className="logo"
-            src={logo}
+            src="/visuals/gigi-wordmark-dark.png"
             alt="GIGI Cloud Solutions"
             width="1983"
             height="793"
@@ -722,13 +725,20 @@ function Home() {
     </>
   );
 }
+function RouteHero({variant, label, title, lead, photo, action, to}: {variant:string;label:string;title:string;lead:string;photo:ServicePhoto|'property';action:string;to:string}) {
+  return <section className={`photo-hero route-hero route-${variant}`}>
+    <figure className="photo-hero-media">{photo === 'property' ? <picture><source media="(max-width:767px)" srcSet="/images/gigi/hero-mobile-640.webp"/><img src="/images/gigi/hero-desktop-1600.webp" alt="Illustrative Johannesburg property with solar panels and a gated entrance"/></picture> : <ServicePhoto id={photo} eager/>}</figure>
+    <div className="photo-hero-inner"><p className="hero-kicker">{label}</p><h1>{title}</h1><p className="hero-lead">{lead}</p>{to.startsWith('#') ? <a className="button" href={to}>{action}<ArrowRight size={18}/></a> : <Button to={to}>{action}</Button>}</div>
+  </section>;
+}
 function About() {
   return (
     <>
-      <section className="container about-intro">
+      <RouteHero variant="about" label="About GIGI • Johannesburg" title="One brief for your property." lead="Plan IT, energy, security and design together with a team based in Kensington." photo="property" action="Discuss your requirements" to="/contact"/>
+      <section className="container about-intro reveal">
         <div>
           <p className="section-label">About GIGI Cloud Solutions</p>
-          <h1>Practical services for your property and business.</h1>
+          <h2>See how the systems fit together.</h2>
           <p>
             We are a Johannesburg-based company providing IT, cloud solutions,
             security, electrical, solar and design services to homes and
@@ -781,6 +791,7 @@ function About() {
         </div>
       </section>
       <Process />
+      <Questions entries={[["Can I combine work from different services?","Yes. Describe your end goal, such as opening an office. We can discuss connectivity, entry control and backup power in the same brief."],["Do I need a complete specification?","No. Start with your location, what is already in place and the change you want to make."]]}/>
       <Closing />
     </>
   );
@@ -788,20 +799,12 @@ function About() {
 function Services() {
   return (
     <>
-      <section className="page-hero page-hero-navy">
-        <div className="container">
-          <p className="section-label">Services</p>
-          <h1>Services for your home and business.</h1>
-          <p>
-            Explore IT, cloud solutions, security, electrical, solar and design.
-            Each page explains what you can request and how to start an enquiry.
-          </p>
-        </div>
-      </section>
-      <section className="container services-overview">
+      <RouteHero variant="directory" label="Service directory" title="Find your service." lead="Explore five ways to connect, protect or improve your home or business." photo="solar-energy" action="Browse services" to="#directory"/>
+      <section className="container services-overview" id="directory">
         <ServiceCards />
       </section>
       <Process />
+      <Questions entries={[["Where should I start?","Choose the service closest to your goal. Each guide lists the equipment, site or design details that help us scope the work."],["What if my project spans several services?","Choose Multiple services / Not sure yet on the enquiry form and describe the outcome you need."]]}/>
       <Closing />
     </>
   );
@@ -810,32 +813,9 @@ function ServicePage({ index }: { index: number }) {
   const s = services[index];
   return (
     <>
-      <section className="container service-page-photo">
-        <div className="service-intro">
-          <Link className="breadcrumb" to="/services">
-            Services <ArrowRight size={14} /> {s.name}
-          </Link>
-          <h1>{s.intro}</h1>
-          <p>{s.description}</p>
-          <Button to={quoteLink(s.name)}>Discuss your project</Button>
-        </div>
-        <figure className="service-visual">
-          {s.photo ? (
-            <ServicePhoto
-              id={s.photo}
-              sizes="(min-width: 900px) 46vw, 92vw"
-              eager
-            />
-          ) : (
-            <div className="service-visual-fallback">
-              <Cloud size={80} strokeWidth={1.2} aria-hidden="true" />
-              <span>Cloud access for your files, tools and team</span>
-            </div>
-          )}
-          <figcaption>Illustrative service concept</figcaption>
-        </figure>
-      </section>
-      <section className="container section request-section">
+      <RouteHero variant={s.art} label={s.name} title={fieldNotes[index].title} lead={fieldNotes[index].lead} photo={s.photo || 'it-networking'} action="Discuss your project" to={quoteLink(s.name)}/>
+      <FieldGuide index={index}/>
+      <section className="container section request-section reveal">
         <div>
           <p className="section-label">{s.name}</p>
           <h2>What you can request</h2>
@@ -864,7 +844,8 @@ function ServicePage({ index }: { index: number }) {
           <p>{s.example}</p>
         </div>
       </section>
-      <section className="container section scope-section">
+      <Questions entries={fieldNotes[index].faq}/>
+      <section className="container section scope-section reveal">
         <div>
           <h2>What to send for a quote</h2>
           <p>
@@ -928,14 +909,7 @@ function Contact() {
   }
   return (
     <>
-      <section className="page-hero container contact-heading">
-        <p className="section-label">Contact GIGI</p>
-        <h1>Request a quote.</h1>
-        <p>
-          Tell us what you need and where the work is required. Use the form to
-          prepare a WhatsApp enquiry, or contact us directly.
-        </p>
-      </section>
+      <RouteHero variant="contact" label="Contact • Project enquiries" title="Request a quote." lead="Tell us where the work is needed and what you want to change." photo="web-design" action="Start your enquiry" to="#enquiry"/>
       <section className="container contact-layout">
         <aside>
           <h2>Contact us directly</h2>
@@ -979,7 +953,7 @@ function Contact() {
             passwords or sensitive account details.
           </p>
         </aside>
-        <form className="quote-form" onSubmit={submit}>
+        <form id="enquiry" className="quote-form" onSubmit={submit}>
           <div className="form-heading">
             <h2>Your project details</h2>
             <p>
@@ -1079,6 +1053,7 @@ function Contact() {
           </div>
         </form>
       </section>
+      <Process />
       <section className="container section faq">
         <h2>Before you enquire</h2>
         <div>

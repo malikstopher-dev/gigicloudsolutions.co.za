@@ -96,14 +96,20 @@ main:focus {
   padding-block: 108px;
 }
 .header {
-  height: 100px;
-  position: sticky;
+  --bar-size: 90px;
+  height: var(--bar-size);
+  position: absolute;
+  inset-inline: 0;
   top: 0;
   z-index: 50;
-  background: var(--card);
-  backdrop-filter: blur(16px);
-  border-bottom: 0;
-  box-shadow: 0 2px 16px #0b1f4408;
+  color: white;
+  background: linear-gradient(to bottom, rgb(7 27 66 / 88%), transparent);
+}
+.header.is-scrolled {
+  --bar-size: 70px;
+  position: fixed;
+  background: rgb(7 27 66 / 94%);
+  backdrop-filter: blur(14px);
 }
 .nav-inner {
   height: 100%;
@@ -112,7 +118,8 @@ main:focus {
   justify-content: space-between;
 }
 .logo {
-  width: 194px;
+  width: 210px;
+  height:auto;
   display: block;
 }
 nav {
@@ -127,10 +134,10 @@ nav > a:not(.button),
   position: relative;
 }
 nav a.active:not(.button) {
-  color: var(--blue);
+  color: #86eadb;
 }
 nav a:hover {
-  color: var(--blue);
+  color: #86eadb;
 }
 .nav-services {
   position: relative;
@@ -153,7 +160,7 @@ nav a:hover {
   position: absolute;
   top: 48px;
   left: -25px;
-  background: var(--card);
+  background: var(--navy);
   width: 270px;
   padding: 12px;
   border: 1px solid var(--line);
@@ -169,7 +176,7 @@ nav a:hover {
   border-radius: 7px;
 }
 .dropdown a:hover {
-  background: var(--pale);
+  background: var(--blue);
 }
 .button {
   display: inline-flex;
@@ -1442,10 +1449,10 @@ textarea:focus {
     width: calc(100% - 48px);
   }
   .header {
-    height: 82px;
+    --bar-size: 76px;
   }
   .logo {
-    width: 165px;
+    width: 160px;
   }
   .menu-toggle {
     display: grid;
@@ -1454,20 +1461,20 @@ textarea:focus {
     border: 1px solid var(--line);
     width: 44px;
     height: 44px;
-    color: var(--navy);
+    color: white;
     border-radius: 6px;
   }
   nav {
     display: none;
     position: absolute;
-    top: 81px;
+    top: 100%;
     left: 0;
     right: 0;
-    background: var(--card);
+    background: var(--navy);
     padding: 24px;
     box-shadow: 0 18px 25px #061b4310;
     border-bottom: 1px solid var(--line);
-    max-height: calc(100dvh - 82px);
+    max-height: calc(100dvh - var(--bar-size));
     overflow: auto;
   }
   nav.open {
@@ -1495,7 +1502,7 @@ textarea:focus {
     width: auto;
     box-shadow: none;
     margin: 4px 0 10px;
-    background: var(--card);
+    background: var(--navy);
   }
   nav .button {
     margin: 10px 0 0;
@@ -1763,16 +1770,6 @@ textarea:focus {
 @media (max-width: 600px) {
   .container {
     width: calc(100% - 40px);
-  }
-  .header {
-    height: 76px;
-  }
-  .logo {
-    width: 154px;
-  }
-  nav {
-    top: 75px;
-    max-height: calc(100dvh - 76px);
   }
   .hero {
     grid-template-columns: 1fr;

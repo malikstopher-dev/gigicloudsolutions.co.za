@@ -41,7 +41,7 @@ export function createProductWorld(
     silver: mat("#a9b7c6", 0.8, 0.23),
     black: mat("#111d2a", 0.35, 0.3),
     floor: mat(night ? "#142a42" : "#e1e8ef", 0.18, 0.55),
-    window: mat(night ? "#ffc979" : "#698aa7", 0.4, 0.12),
+    window: mat(night ? "#9be2da" : "#698aa7", 0.4, 0.12),
   };
   const glass = new THREE.MeshPhysicalMaterial({
     color: "#a9cedc",
@@ -59,7 +59,7 @@ export function createProductWorld(
   });
   materials.add(lightMat);
   if (night) {
-    m.window.emissive.set("#ffc979");
+    m.window.emissive.set("#9be2da");
     m.window.emissiveIntensity = 0.9;
   }
   const cube = new RoundedBoxGeometry(1, 1, 1, live ? 1 : 3, 0.06);
@@ -120,7 +120,7 @@ export function createProductWorld(
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = -0.29;
   const key = new THREE.DirectionalLight(
-    night ? "#96bcff" : "#fff7ec",
+    night ? "#96bcff" : "#ffffff",
     night ? 2 : 4.6,
   );
   key.position.set(-4, 9, 6);
@@ -451,7 +451,7 @@ export function createProductWorld(
       ]),
     );
     if (night) {
-      const bulb = new THREE.PointLight("#ffdb93", 12, 6);
+      const bulb = new THREE.PointLight("#aff0e6", 12, 6);
       bulb.position.set(-1.2, 1.2, 1);
       scene.add(bulb);
     } else {
@@ -462,7 +462,7 @@ export function createProductWorld(
         -1.6,
         0.35,
         0.08,
-        mat("#ecbd6c", 0.2, 0.25),
+        mat("#14bfa5", 0.2, 0.25),
       );
       sun.rotation.x = Math.PI / 2;
     }
