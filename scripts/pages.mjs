@@ -1,4 +1,5 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import localeConfig from '../src/locales.json' with { type: 'json' };
 const domain = 'https://www.gigicloudsolutions.co.za';
 const routes = [
   ['/', 'GIGI Cloud Solutions | Enterprise Security, IT and Energy', 'Integrated access control, CCTV, networking, data backup, electrical and solar solutions for businesses and residential estates in Johannesburg.', 'home'],
@@ -13,7 +14,7 @@ const routes = [
 ];
 const template = await readFile('dist/index.html', 'utf8');
 const copy = JSON.parse(await readFile('src/locale-copy.json', 'utf8'));
-const locales = [['en','en-ZA'], ['fr','fr'], ['sw','sw'], ['ln','ln'], ['pt','pt-AO']];
+const locales = Object.entries(localeConfig).map(([code, { tag }]) => [code, tag]);
 const localized = (code, path) => code === 'en' ? path : `/${code}${path}`;
 const alternates = path => [...locales, ['en','x-default']].map(([code, tag]) => `<link rel="alternate" hreflang="${tag}" href="${domain}${localized(code,path)}">`).join('');
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
@@ -64,4 +65,4 @@ await writeFile(
   'dist/404.html',
   template.replace(/<title>.*?<\/title>/, '<title>Page Not Found | GIGI Cloud Solutions</title>'),
 );
-console.log(`Generated metadata for ${routes.length} routes, sitemap and robots.txt.`);
+console.log(`Generated metadata for ${routes.length} routes in ${locales.length} languages, sitemap and robots.txt.`);

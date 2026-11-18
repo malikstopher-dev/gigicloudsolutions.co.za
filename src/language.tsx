@@ -1,11 +1,12 @@
 /// <reference types="vite/client" />
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import drafts from './locale-copy.json';
+import locales from './locales.json';
 
-const languages = { en: 'English', fr: 'Français', sw: 'Kiswahili', ln: 'Lingála', pt: 'Português (Angola)' };
-export type Code = keyof typeof languages;
-export const codes = Object.keys(languages) as Code[];
-export const localeTag = (code: Code) => ({en:'en-ZA',pt:'pt-AO',fr:'fr',ln:'ln',sw:'sw'})[code];
+export type Code = keyof typeof locales;
+export const codes = Object.keys(locales) as Code[];
+export const localeTag = (code: Code) => locales[code].tag;
+const reviewedLocales: readonly Code[] = ['fr', 'sw', 'ln', 'pt'];
 export function localeFromPath(path: string) { const code=path.split('/')[1] as Code; return codes.includes(code) ? code : undefined; }
 export function stripLocale(path: string) { return localeFromPath(path) ? path.replace(/^\/[a-z]{2}(?=\/|$)/,'') || '/' : path; }
 export function localPath(code: Code, path: string) { return code === 'en' ? stripLocale(path) : `/${code}${stripLocale(path)}`; }
@@ -57,7 +58,7 @@ export function LanguageProvider({children}: {children: ReactNode}) {
   }
   function t(s: string) {
     if (code === 'en') return s;
-    const translation = messages[s]?.[codes.indexOf(code)-1] ?? catalog[s]?.[code];
+    const translation = messages[s]?.[reviewedLocales.indexOf(code)] ?? catalog[s]?.[code];
     if (translation) return translation;
     if (import.meta.env.DEV) throw new Error(`Missing ${code} copy: ${s}`);
     return s;
@@ -67,5 +68,5 @@ export function LanguageProvider({children}: {children: ReactNode}) {
 }
 export function LanguageSelect() {
   const {code,change} = useLanguage();
-  return <label className="gc-language"><span aria-hidden="true">{code.toUpperCase()}</span><select aria-label="Language / Langue / Língua" value={code} onChange={e=>change(e.target.value as Code)}>{codes.map(c=><option lang={c} key={c} value={c}>{languages[c]}</option>)}</select></label>;
+  return <label className="gc-language"><span aria-hidden="true">{code.toUpperCase()}</span><select aria-label={code === 'zu' ? 'Ulimi' : code === 'af' ? 'Taal' : 'Language / Langue / Língua'} value={code} onChange={e=>change(e.target.value as Code)}>{codes.map(c=><option lang={localeTag(c)} key={c} value={c}>{locales[c].label}</option>)}</select></label>;
 }

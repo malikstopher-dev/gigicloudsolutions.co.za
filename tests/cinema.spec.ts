@@ -20,7 +20,7 @@ test('Language changes fit short phones through wide desktops and persist after 
   for(const [i,width] of [320,360,375,390,414,430,768,1024,1280,1440,1920].entries()) {
     const height=width<768? (width===320?568:800):900;
     await page.setViewportSize({width,height});
-    const code=['fr','sw','ln','pt','en'][i%5];
+    const code=['zu','af','sw','ln','pt','en','zu','af','en','pt','fr'][i];
     if(width<=900) await expect(page.locator('.gc-menu-btn')).toHaveAttribute('aria-expanded','false');
     await page.locator(width<=900?'.gc-header__language select':'.gc-nav select').selectOption(code);
     await expect(page.locator('html')).toHaveAttribute('lang',new RegExp('^'+code));

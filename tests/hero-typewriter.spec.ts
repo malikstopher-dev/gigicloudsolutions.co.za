@@ -68,7 +68,7 @@ test('Language changes replay the translated introduction without remounting the
   const video = page.locator('.gc-hero video');
   await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.currentTime), { timeout: 15000 }).toBeGreaterThan(0);
   const initialVideo = await video.elementHandle();
-  for (const code of ['fr', 'sw', 'ln', 'pt', 'en']) {
+  for (const code of ['fr', 'sw', 'ln', 'pt', 'zu', 'af', 'en']) {
     await page.locator('.gc-nav select').selectOption(code);
     await expect(page.locator(intro)).toHaveAttribute('data-intro', /^(eyebrow|headline)$/);
     const text = await page.locator('.gc-hero__title-wide').textContent();

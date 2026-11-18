@@ -1,0 +1,9 @@
+{
+  "en": { "label": "English", "tag": "en-ZA" },
+  "fr": { "label": "Français", "tag": "fr" },
+  "sw": { "label": "Kiswahili", "tag": "sw" },
+  "ln": { "label": "Lingála", "tag": "ln" },
+  "pt": { "label": "Português (Angola)", "tag": "pt-AO" },
+  "zu": { "label": "isiZulu", "tag": "zu-ZA" },
+  "af": { "label": "Afrikaans", "tag": "af-ZA" }
+}
