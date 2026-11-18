@@ -21,9 +21,8 @@ test('Language changes fit short phones through wide desktops and persist after 
     const height=width<768? (width===320?568:800):900;
     await page.setViewportSize({width,height});
     const code=['fr','sw','ln','pt','en'][i%5];
-    if(width<=900) await page.locator('.gc-menu-btn[aria-expanded=false]').click();
-    await page.locator(width<=900?'#mobile-navigation select':'.gc-nav select').selectOption(code);
-    if(width<=900) await page.locator('.gc-menu-btn[aria-expanded=true]').click();
+    if(width<=900) await expect(page.locator('.gc-menu-btn')).toHaveAttribute('aria-expanded','false');
+    await page.locator(width<=900?'.gc-header__language select':'.gc-nav select').selectOption(code);
     await expect(page.locator('html')).toHaveAttribute('lang',new RegExp('^'+code));
     const button=await page.locator('.gc-hero__actions a').first().boundingBox();
     expect(button!.y+button!.height).toBeLessThanOrEqual(height);

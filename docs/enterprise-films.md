@@ -14,7 +14,9 @@
 
 Each route uses `/enterprise/videos/hero-{key}-{desktop|mobile}.mp4`. Portrait playback is selected below 768 CSS pixels. The measured source resolutions are 1280×720 and 720×1280. With the supplied `assets/` folder and FFmpeg installed, run `node scripts/prepare-hero-videos.mjs` to reproduce the delivery files. They are checked in; production builds do not need FFmpeg. The six other pairs (projects, access control, CCTV, alarms/perimeter, fibre, and electrical installations) do not have dedicated pages.
 
-`src/HeroMedia.tsx` owns playback and poster fallback; `src/main.tsx` defines route composition; `src/cinema.css` styles the navy surfaces, navigation and hero safe zones. On mobile, the portrait shot fills the first viewport, with separate short headline copy, a single action and a compact pause control. The capability strip starts after the hero.
+`src/HeroMedia.tsx` owns playback and poster fallback; `src/main.tsx` defines route composition; `src/cinema.css` styles the navy surfaces, navigation and hero safe zones. On mobile, the portrait shot fills the first viewport, with the hero copy and single primary action anchored near the bottom. The language selector sits beside the visible menu button. The capability strip starts after the hero.
+
+`src/useHeroTypewriter.ts` stages the eyebrow, headline, supporting copy and actions after playback starts or a short poster grace period elapses. It uses grapheme boundaries and a painted text range, keeping the complete semantic text in the layout. The sequence runs once on arrival and replays on locale change without restarting the film. Reduced motion, forced colors, and browsers without range highlights get the full copy immediately.
 
 ## Localized routes and verification
 

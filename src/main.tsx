@@ -79,6 +79,7 @@ import {
 import HeroMedia, { heroDescriptions } from "./HeroMedia";
 import "./enterprise.css";
 import './cinema.css';
+import { useHeroTypewriter } from './useHeroTypewriter';
 import { codes, localeTag, localPath, stripLocale, LanguageProvider, LanguageSelect, useLanguage } from './language';
 
 function Link({to,...props}:LinkProps) {
@@ -228,7 +229,7 @@ function Action({
 }
 
 const mobileHeadlines: Partial<Record<HeroKey, string>> = {
-  home: 'Secure. Connected.', about: 'Meet GIGI Cloud.', services: 'Explore our services.', contact: 'Let’s talk projects.',
+  about: 'Meet GIGI Cloud.', services: 'Explore our services.', contact: 'Let’s talk projects.',
   'enterprise-security': 'Secure your premises.', 'it-connectivity': 'Connect your workplace.', 'solar-energy': 'Power your business.',
   'web-graphic-design': 'Design with clarity.', 'data-backup': 'Keep your data close.',
 };
@@ -250,16 +251,19 @@ function Hero({
   secondary?: { to: string; label: string };
   chips?: string[];
 }) {
+  const { code } = useLanguage();
+  const { copyRef, wideRef, compactRef, leadRef, cursorRef } = useHeroTypewriter(code);
   return (
     <section className={`gc-hero gc-film-${hero}`}>
       <HeroMedia hero={hero} />
       <div className="gc-hero__shade" aria-hidden="true" />
       <div className="gc-hero__grid" aria-hidden="true" />
       <div className="gc-container gc-hero__inner">
-        <div className="gc-hero__copy">
+        <div className="gc-hero__copy" ref={copyRef}>
           <p className="gc-hero__kicker"><Words text={kicker}/></p>
-          <h1><span className="gc-hero__title-wide"><Words text={title}/></span><span className="gc-hero__title-compact"><Words text={mobileHeadlines[hero] || title}/></span></h1>
-          <p className="gc-hero__lead"><Words text={lead}/></p>
+          <h1><span className="gc-hero__title-wide" ref={wideRef}><Words text={title}/></span><span className="gc-hero__title-compact" ref={compactRef}><Words text={mobileHeadlines[hero] || title}/></span></h1>
+          <p className="gc-hero__lead" ref={leadRef}><Words text={lead}/></p>
+          <span className="gc-typing-cursor" ref={cursorRef} aria-hidden="true" />
           <div className="gc-hero__actions">
             <Action to={primary.to}>{primary.label}</Action>
             {secondary && (
@@ -426,6 +430,7 @@ function SiteHeader() {
           <Words text="Request a quote"/>
           <ArrowUpRight size={16} />
         </Link>
+        <div className="gc-header__language"><LanguageSelect /></div>
         <button
           type="button"
           className="gc-menu-btn"
@@ -453,7 +458,6 @@ function SiteHeader() {
           <NavLink to="/services">
             <Words text="All services"/> <ArrowUpRight size={18} />
           </NavLink>
-          <LanguageSelect />
           <div className="gc-mobile__group">
             <p><Words text="Service groups"/></p>
             {services.map((group) => (
