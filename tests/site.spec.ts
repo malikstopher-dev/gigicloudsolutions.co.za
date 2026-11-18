@@ -13,19 +13,16 @@ for(const width of [360,390,768,1024,1440]){
    expect(await page.locator('h1').evaluate(el=>el.getBoundingClientRect().right<=innerWidth)).toBe(true);
    await page.locator('footer').scrollIntoViewIfNeeded();
    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
-   if((width===390||width===1440)&&['/','/contact','/services/security-access','/about'].includes(route)){
-    await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:`test-results/${width}-${route.replaceAll('/','-')||'home'}.png`,fullPage:true,animations:'disabled'});
-   }
   }
   expect(errors).toEqual([]);
  });
 }
 test('Mobile menu, dropdown and service quote prefill',async({page})=>{
   await page.setViewportSize({width:390,height:844});await page.goto('/',{waitUntil:'domcontentloaded'});
- await page.getByRole('button',{name:'Open menu'}).click();await expect(page.getByRole('navigation')).toBeVisible();
- await page.getByRole('button',{name:'Show service pages'}).click();await page.locator('#service-menu').getByRole('link',{name:'Security & Access'}).click();
+  await page.getByRole('button',{name:'Open menu'}).click();await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
+  await page.locator('#mobile-navigation').getByRole('link',{name:'Security & Access'}).click();
  await expect(page).toHaveURL(/security-access/);await expect(page.getByRole('button',{name:'Open menu'})).toBeVisible();
- await page.getByRole('link',{name:'Discuss your project',exact:true}).click();await expect(page.getByLabel('Service of interest')).toHaveValue('Security & Access');
+ await page.locator('.gc-hero').getByRole('link',{name:'Discuss your project',exact:true}).click();await expect(page.getByLabel('Service of interest')).toHaveValue('Security & Access');
  await page.getByRole('button',{name:'Open menu'}).click();await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Open menu'})).toBeFocused();
 });
 test('Form validates and transfers the complete enquiry to WhatsApp',async({page,context})=>{
@@ -36,11 +33,12 @@ test('Form validates and transfers the complete enquiry to WhatsApp',async({page
  await expect(page.getByRole('status')).toContainText('press Send');await expect(page.getByRole('status')).not.toContainText('successfully sent');await popup.close();
 });
 test('Reduced motion keeps static visual and links accessible',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('.photo-hero picture')).toBeVisible();await expect(page.locator('canvas')).toHaveCount(0);
+ const movies:string[]=[];page.on('request',r=>{if(r.url().includes('/videos/')) movies.push(r.url())});
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('.gc-hero picture')).toBeVisible();await expect(page.locator('video')).toHaveCount(0);expect(movies).toEqual([]);
  await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
  const links=await page.locator('a[href^="tel:"]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));expect(links.every(x=>x==='tel:+27731680832')).toBe(true);
 });
-test('About retains its static fallback and metadata is route-specific',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/about');await expect(page.locator('.about-stage .static-sculpture')).toBeVisible();
+test('About presents Mission and Vision and metadata is route-specific',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/about');await expect(page.locator('.gc-mv__panel--mission')).toBeVisible();await expect(page.locator('.gc-mv__panel--vision')).toBeVisible();
  expect(await page.evaluate(async()=>(await fetch('/services/security-access/')).text())).toContain('<title>Security &amp; Access | GIGI Cloud Solutions</title>'); expect(await page.evaluate(async()=>(await fetch('/sitemap.xml')).ok)).toBe(true);expect(await page.evaluate(async()=>(await fetch('/favicon.png')).ok)).toBe(true);
 });
