@@ -12,20 +12,28 @@ const routes = [
   ['/contact', 'Contact and Request a Quote | GIGI Cloud Solutions', 'Send your project requirements and location to GIGI Cloud Solutions by WhatsApp, phone or email.', 'contact'],
 ];
 const template = await readFile('dist/index.html', 'utf8');
+const copy = JSON.parse(await readFile('src/locale-copy.json', 'utf8'));
+const locales = [['en','en-ZA'], ['fr','fr'], ['sw','sw'], ['ln','ln'], ['pt','pt-AO']];
+const localized = (code, path) => code === 'en' ? path : `/${code}${path}`;
+const alternates = path => [...locales, ['en','x-default']].map(([code, tag]) => `<link rel="alternate" hreflang="${tag}" href="${domain}${localized(code,path)}">`).join('');
 const escape = (value) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 const setContent = (html, selector, value) => html.replace(new RegExp(`(<meta\\s+${selector}\\s+content=")[^"]*(")`), `$1${escape(value)}$2`);
-for (const [path, title, description, hero] of routes) {
-  const dir = path === '/' ? 'dist' : `dist${path}`;
+for (const [path, title, description, hero] of routes) for (const [code, tag] of locales) {
+  const url = localized(code,path);
+  const dir = `dist${url}`;
+  const translatedTitle = code === 'en' ? title : copy[title][code];
+  const translatedDescription = code === 'en' ? description : copy[description][code];
   await mkdir(dir, { recursive: true });
   let html = template
-    .replace(/<title>.*?<\/title>/, `<title>${escape(title)}</title>`)
+    .replace('lang="en-ZA"', `lang="${tag}"`)
+    .replace(/<title>.*?<\/title>/, `<title>${escape(translatedTitle)}</title>`)
     .replaceAll('hero-home-desktop-1440.webp', `hero-${hero}-desktop-1440.webp`)
     .replaceAll('hero-home-mobile-720.webp', `hero-${hero}-mobile-720.webp`)
-    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${domain}${path}$2`)
-    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${domain}${path}$2`);
-  html = setContent(html, 'name="description"', description);
-  html = setContent(html, 'property="og:title"', title);
-  html = setContent(html, 'property="og:description"', description);
+    .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${domain}${url}$2`)
+    .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${domain}${url}$2`);
+  html = setContent(html, 'name="description"', translatedDescription);
+  html = setContent(html, 'property="og:title"', translatedTitle);
+  html = setContent(html, 'property="og:description"', translatedDescription);
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -44,12 +52,12 @@ for (const [path, title, description, hero] of routes) {
     },
     areaServed: 'Johannesburg and surrounding areas',
   };
-  html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema)}</script></head>`);
+  html = html.replace('</head>', `${alternates(path)}<script type="application/ld+json">${JSON.stringify(schema)}</script></head>`);
   await writeFile(`${dir}/index.html`, html);
 }
 await writeFile(
   'dist/sitemap.xml',
-  `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map(([path]) => `<url><loc>${domain}${path}</loc></url>`).join('')}</urlset>`,
+  `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.flatMap(([path]) => locales.map(([code])=>`<url><loc>${domain}${localized(code,path)}</loc></url>`)).join('')}</urlset>`,
 );
 await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${domain}/sitemap.xml\n`);
 await writeFile(

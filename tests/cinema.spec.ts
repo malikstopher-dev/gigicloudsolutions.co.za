@@ -21,9 +21,9 @@ test('Language changes fit short phones through wide desktops and persist after 
     const height=width<768? (width===320?568:800):900;
     await page.setViewportSize({width,height});
     const code=['fr','sw','ln','pt','en'][i%5];
-    if(width<=900) await page.getByRole('button',{name:'Open menu'}).click();
-    await page.getByRole('navigation',{name:width<=900?'Mobile navigation':'Main navigation'}).getByRole('combobox').selectOption(code);
-    if(width<=900) await page.getByRole('button',{name:'Close menu'}).click();
+    if(width<=900) await page.locator('.gc-menu-btn[aria-expanded=false]').click();
+    await page.locator(width<=900?'#mobile-navigation select':'.gc-nav select').selectOption(code);
+    if(width<=900) await page.locator('.gc-menu-btn[aria-expanded=true]').click();
     await expect(page.locator('html')).toHaveAttribute('lang',new RegExp('^'+code));
     const button=await page.locator('.gc-hero__actions a').first().boundingBox();
     expect(button!.y+button!.height).toBeLessThanOrEqual(height);
@@ -31,5 +31,5 @@ test('Language changes fit short phones through wide desktops and persist after 
     if(width===320||width===1440) await page.screenshot({path:test.info().outputPath(`hero-${width}.jpg`),animations:'disabled'});
   }
   await page.goto('/about',{waitUntil:'domcontentloaded'});
-  await expect(page.locator('h1')).toHaveText('Découvrez GIGI Cloud Solutions.');
+  await expect(page.locator('.gc-hero__title-wide')).toHaveText('Découvrez GIGI Cloud Solutions.');
 });

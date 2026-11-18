@@ -150,7 +150,7 @@ export default function HeroMedia({
           onError={() => setFailedSource(videoSource)}
         />
       )}
-    </div>{showVideo && playingSource === videoSource && <button type="button" className="gc-film-control" aria-label={paused ? 'Resume background video' : 'Pause background video'} onClick={() => setPaused(!paused)}>{paused ? '▶' : 'Ⅱ'}</button>}</>
+    </div>{showVideo && playingSource === videoSource && <button type="button" className="gc-film-control" data-icon={paused ? '▶' : 'Ⅱ'} aria-label={paused ? 'Resume background video' : 'Pause background video'} onClick={() => setPaused(!paused)}>{paused ? '▶' : 'Ⅱ'}</button>}</>
   );
 }
 

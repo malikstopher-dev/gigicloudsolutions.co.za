@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 const routes=['/','/about','/services','/services/it-connectivity','/services/security-access','/services/electrical-solar','/services/web-graphic-design','/services/cloud-solutions','/contact'];
 for(const width of [360,390,768,1024,1440]){
  test(`All routes render cleanly at ${width}px`,async({page})=>{
-  await page.setViewportSize({width,height:900});
+   await page.setViewportSize({width,height:900});
+   await page.emulateMedia({reducedMotion:'reduce'});
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
   for(const route of routes){
    await page.goto(route,{waitUntil:'domcontentloaded'});await expect(page.locator('h1')).toBeVisible();await expect(page).toHaveTitle(/GIGI/);

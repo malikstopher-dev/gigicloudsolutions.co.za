@@ -9,8 +9,10 @@ import {
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
-  Link,
-  NavLink,
+  Link as RouterLink,
+  NavLink as RouterNavLink,
+  type LinkProps,
+  type NavLinkProps,
   Route,
   Routes,
   useLocation,
@@ -77,7 +79,16 @@ import {
 import HeroMedia, { heroDescriptions } from "./HeroMedia";
 import "./enterprise.css";
 import './cinema.css';
-import { LanguageProvider, LanguageSelect, useLanguage } from './language';
+import { codes, localeTag, localPath, stripLocale, LanguageProvider, LanguageSelect, useLanguage } from './language';
+
+function Link({to,...props}:LinkProps) {
+  const {code}=useLanguage();
+  return <RouterLink {...props} to={typeof to==='string' && to.startsWith('/') ? localPath(code,to) : to}/>;
+}
+function NavLink({to,...props}:NavLinkProps) {
+  const {code}=useLanguage();
+  return <RouterNavLink {...props} to={typeof to==='string' && to.startsWith('/') ? localPath(code,to) : to}/>;
+}
 
 const capabilityIcons: Record<string, LucideIcon> = {
   "access-control": Fingerprint,
@@ -165,7 +176,7 @@ function ServiceImage({
       />
       <img
         src={`/enterprise/services/${capability.image}-desktop.webp`}
-        alt={`${capability.name} environment`}
+        alt={capability.name}
         width={1440}
         height={900}
         loading={eager ? "eager" : "lazy"}
@@ -189,10 +200,10 @@ function Action({
   arrow?: boolean;
   external?: boolean;
 }) {
-  const { t } = useLanguage();
+  const { ui } = useLanguage();
   const content = (
     <>
-      <span>{typeof children === 'string' ? t(children) : children}</span>
+      <span>{ui(children)}</span>
       {arrow && <ArrowUpRight size={17} aria-hidden="true" />}
     </>
   );
@@ -215,6 +226,12 @@ function Action({
     </Link>
   );
 }
+
+const mobileHeadlines: Partial<Record<HeroKey, string>> = {
+  home: 'Secure. Connected.', about: 'Meet GIGI Cloud.', services: 'Explore our services.', contact: 'Let’s talk projects.',
+  'enterprise-security': 'Secure your premises.', 'it-connectivity': 'Connect your workplace.', 'solar-energy': 'Power your business.',
+  'web-graphic-design': 'Design with clarity.', 'data-backup': 'Keep your data close.',
+};
 
 function Hero({
   hero,
@@ -241,7 +258,7 @@ function Hero({
       <div className="gc-container gc-hero__inner">
         <div className="gc-hero__copy">
           <p className="gc-hero__kicker"><Words text={kicker}/></p>
-          <h1><Words text={title}/></h1>
+          <h1><span className="gc-hero__title-wide"><Words text={title}/></span><span className="gc-hero__title-compact"><Words text={mobileHeadlines[hero] || title}/></span></h1>
           <p className="gc-hero__lead"><Words text={lead}/></p>
           <div className="gc-hero__actions">
             <Action to={primary.to}>{primary.label}</Action>
@@ -261,13 +278,17 @@ function Hero({
         </div>
       </div>
       <span className="gc-hero__scroll" aria-hidden="true">
-        GIGI / {hero.replaceAll('-', ' ')}
+        GIGI / <Words text={kicker}/>
       </span>
     </section>
   );
 }
 
 function Words({text}: {text:string}) { return <>{useLanguage().t(text)}</>; }
+function useWhatsApp() {
+  const {t}=useLanguage();
+  return whatsapp(t('Hi GIGI, I would like to discuss a project for my business or home.'));
+}
 
 function SectionHead({
   eyebrow,
@@ -310,7 +331,7 @@ function SiteHeader() {
   useEffect(() => {
     setOpen(false);
     setServicesOpen(false);
-  }, [location.pathname]);
+  }, [stripLocale(location.pathname)]);
 
   useEffect(() => {
     document.body.classList.toggle("gc-menu-open", open);
@@ -420,6 +441,7 @@ function SiteHeader() {
         id="mobile-navigation"
         className={`gc-mobile${open ? " is-open" : ""}`}
         aria-hidden={!open}
+        inert={!open}
       >
         <nav className="gc-mobile__nav" aria-label="Mobile navigation">
           <NavLink to="/" end>
@@ -462,6 +484,7 @@ function SiteHeader() {
 }
 
 function SiteFooter() {
+  const chat = useWhatsApp();
   return (
     <footer className="gc-footer">
       <div className="gc-container gc-footer__top">
@@ -483,7 +506,7 @@ function SiteFooter() {
           </span>
           <a
             className="gc-footer__whatsapp"
-            href={whatsapp()}
+            href={chat}
             target="_blank"
             rel="noreferrer"
           >
@@ -547,6 +570,7 @@ function CapabilityCard({
   capability: Capability;
   eager?: boolean;
 }) {
+  const {t}=useLanguage();
   const group = groupForCapability(capability.id);
   const Icon = capabilityIcons[capability.id] || Layers;
   if (!group) return null;
@@ -555,7 +579,7 @@ function CapabilityCard({
       <Link
         className="gc-cap-card__media"
         to={`/services/${group.slug}`}
-        aria-label={`View ${group.name}`}
+        aria-label={`${t('View')}: ${t(group.name)}`}
       >
         <ServiceImage capability={capability} eager={eager} />
         <span className="gc-cap-card__icon">
@@ -581,7 +605,7 @@ function CapabilityCard({
           <Link
             className="gc-cap-card__arrow"
             to={`/services/${group.slug}`}
-            aria-label={`Explore ${group.name}`}
+            aria-label={`${t('Explore')} ${t(group.name)}`}
           >
             <ArrowUpRight size={18} />
           </Link>
@@ -821,7 +845,7 @@ function HomePage() {
             return (
               <div key={label as string} className="gc-strip__item">
                 <IconComponent size={19} />
-                <span>{label as string}</span>
+                <span><Words text={label as string}/></span>
               </div>
             );
           })}
@@ -1274,6 +1298,7 @@ const filmCopy: Record<string,[string,string]> = {
   'cloud-solutions':['Keep your data within reach.','Shared files, backups and recovery for your team.'],
 };
 function ServicePage({ index }: { index: number }) {
+  const {t}=useLanguage();
   const group = services[index];
   const groupCapabilities = capabilitiesByGroup(group);
   const Icon = groupIcons[group.slug] || Layers;
@@ -1302,7 +1327,7 @@ function ServicePage({ index }: { index: number }) {
                 </li>
               ))}
             </ul>
-            <Action to={quoteLink(group.name)}>Request a {group.short.toLowerCase()} quotation</Action>
+             <Action to={quoteLink(group.name)}>Request a quote</Action>
           </div>
           <div className="gc-overview__panel gc-reveal">
             <div className="gc-overview__icon">
@@ -1360,7 +1385,7 @@ function ServicePage({ index }: { index: number }) {
                 </div>
                 <Link
                   to={quoteLink(item)}
-                  aria-label={`Enquire about ${item}`}
+                   aria-label={`${t('Enquire about')}: ${t(item)}`}
                   className="gc-request__link"
                 >
                   <ArrowUpRight size={19} />
@@ -1498,6 +1523,7 @@ function FaqSection({ entries }: { entries: [string, string][] }) {
 
 function ContactPage() {
   const { t } = useLanguage();
+  const chat = useWhatsApp();
   const [params] = useSearchParams();
   const preset = params.get("service") || "";
   const [feedback, setFeedback] = useState("");
@@ -1511,7 +1537,10 @@ function ContactPage() {
       setFeedback("Please complete all fields with your project details.");
       return;
     }
-    const text = `Hi GIGI, I would like to request a quotation.\n\nName: ${data.get("name")}\nEmail: ${data.get("email")}\nPhone: ${data.get("phone")}\nService: ${data.get("service")}\nProject location: ${data.get("location")}\n\nProject details:\n${data.get("message")}`;
+    const text = [t('Hi GIGI, I would like to request a quotation.'), '',
+      `${t('Name')}: ${data.get('name')}`, `${t('Email')}: ${data.get('email')}`,
+      `${t('Phone')}: ${data.get('phone')}`, `${t('Service')}: ${t(String(data.get('service')))}`,
+      `${t('Project location')}: ${data.get('location')}`, '', `${t('Project details')}:`, data.get('message')].join('\n');
     window.open(whatsapp(text), "_blank", "noopener,noreferrer");
     setFeedback(
       "Your enquiry is ready to send in WhatsApp. Please review it and press Send there. If WhatsApp did not open, use the link below.",
@@ -1564,7 +1593,7 @@ function ContactPage() {
                 <ArrowUpRight size={16} />
               </a>
               <a
-                href={whatsapp()}
+                 href={chat}
                 target="_blank"
                 rel="noreferrer"
                 className="gc-contact__method"
@@ -1610,7 +1639,7 @@ function ContactPage() {
             </p>
           </aside>
 
-          <form id="enquiry" className="gc-form gc-reveal" onSubmit={submit}>
+          <form id="enquiry" className="gc-form gc-reveal" onInvalid={() => setFeedback('Please check the highlighted fields before continuing.')} onSubmit={submit}>
             <div className="gc-form__head">
               <p className="gc-eyebrow">Project enquiry</p>
               <h2>Your project details.</h2>
@@ -1658,6 +1687,7 @@ function ContactPage() {
                 <select
                   name="service"
                   defaultValue={
+                    preset === 'Multiple services / Not sure yet' ||
                     services.some((group) => group.name === preset) ||
                     capabilities.some((capability) => capability.name === preset)
                       ? preset
@@ -1674,7 +1704,7 @@ function ContactPage() {
                   {capabilities.map((capability) => (
                     <option key={capability.id} value={capability.name}>{t(capability.name)}</option>
                   ))}
-                  <option>Multiple services / Not sure yet</option>
+                  <option value="Multiple services / Not sure yet">Multiple services / Not sure yet</option>
                 </select>
               </label>
               <label className="gc-form__full">
@@ -1810,11 +1840,13 @@ function ScrollReveal() {
 
 function RouteEffects() {
   const location = useLocation();
-  const previous = useRef(location.pathname);
+  const {code,t}=useLanguage();
+  const path = stripLocale(location.pathname).replace(/\/$/, '') || '/';
+  const previous = useRef(path);
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (previous.current !== path) window.scrollTo({top:0, behavior:'instant'});
     const group = services.find(
-      (item) => location.pathname === `/services/${item.slug}`,
+      (item) => path === `/services/${item.slug}`,
     );
     const titles: Record<string, string> = {
       "/": "GIGI Cloud Solutions | Enterprise Security, IT and Energy",
@@ -1832,37 +1864,43 @@ function RouteEffects() {
         "Send your project requirements and location to GIGI Cloud Solutions by WhatsApp, phone or email.",
     };
     const title = group
-      ? `${group.name} | GIGI Cloud Solutions`
-      : titles[location.pathname] || "Page Not Found | GIGI Cloud Solutions";
+      ? `${t(group.name)} | GIGI Cloud Solutions`
+      : t(titles[path] || "Page Not Found | GIGI Cloud Solutions");
     const description =
       group?.description ||
-      descriptions[location.pathname] ||
+      descriptions[path] ||
       "GIGI Cloud Solutions provides integrated security, IT and energy solutions in Johannesburg.";
     document.title = title;
     for (const [selector, value] of [
-      ['meta[name="description"]', description],
+      ['meta[name="description"]', t(description)],
       ['meta[property="og:title"]', title],
-      ['meta[property="og:description"]', description],
-      ['meta[property="og:url"]', company.url + location.pathname],
+      ['meta[property="og:description"]', t(description)],
+      ['meta[property="og:url"]', company.url + localPath(code,path)],
     ]) {
       document.querySelector(selector)?.setAttribute("content", value);
     }
     document
       .querySelector('link[rel="canonical"]')
-      ?.setAttribute("href", company.url + location.pathname);
-    if (previous.current !== location.pathname) {
+      ?.setAttribute("href", company.url + localPath(code,path));
+    for (const [tag, href] of [...codes.map(c=>[localeTag(c),localPath(c,path)]),['x-default', path]]) {
+      let link=document.querySelector<HTMLLinkElement>(`link[hreflang="${tag}"]`);
+      if(!link){link=document.createElement('link');link.rel='alternate';link.hreflang=tag;document.head.append(link);}
+      link.href=company.url+href;
+    }
+    if (previous.current !== path) {
       document.getElementById("main")?.focus({ preventScroll: true });
     }
-    previous.current = location.pathname;
-  }, [location.pathname]);
+    previous.current = path;
+  }, [path,code,t]);
   return null;
 }
 
 function AppRoutes() {
   const location = useLocation();
+  const pathname = stripLocale(location.pathname);
   return (
-    <div className="gc-page" key={location.pathname}>
-      <Routes>
+    <div className="gc-page" key={pathname}>
+      <Routes location={{...location, pathname}}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
@@ -1881,6 +1919,7 @@ function AppRoutes() {
 }
 
 function App() {
+  const chat = useWhatsApp();
   return (
     <BrowserRouter>
       <a className="gc-skip" href="#main">
@@ -1893,7 +1932,7 @@ function App() {
       <SiteFooter />
       <a
         className="gc-chat"
-        href={whatsapp()}
+        href={chat}
         target="_blank"
         rel="noreferrer"
         aria-label="Chat with GIGI on WhatsApp"

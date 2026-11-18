@@ -1,10 +1,19 @@
+/// <reference types="vite/client" />
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import drafts from './locale-copy.json';
 
 const languages = { en: 'English', fr: 'Français', sw: 'Kiswahili', ln: 'Lingála', pt: 'Português (Angola)' };
-type Code = keyof typeof languages;
-const codes = Object.keys(languages) as Code[];
-// English originals are the fallback for editorial material awaiting translation.
+export type Code = keyof typeof languages;
+export const codes = Object.keys(languages) as Code[];
+export const localeTag = (code: Code) => ({en:'en-ZA',pt:'pt-AO',fr:'fr',ln:'ln',sw:'sw'})[code];
+export function localeFromPath(path: string) { const code=path.split('/')[1] as Code; return codes.includes(code) ? code : undefined; }
+export function stripLocale(path: string) { return localeFromPath(path) ? path.replace(/^\/[a-z]{2}(?=\/|$)/,'') || '/' : path; }
+export function localPath(code: Code, path: string) { return code === 'en' ? stripLocale(path) : `/${code}${stripLocale(path)}`; }
+const catalog: Record<string, Partial<Record<Code,string>>> = drafts;
+// Reviewed navigation and hero text takes precedence over machine drafts.
 const messages: Record<string, [string, string, string, string]> = {
+  'Meet GIGI Cloud.':['Découvrez GIGI Cloud.','Ifahamu GIGI Cloud.','Yebá GIGI Cloud.','Conheça a GIGI Cloud.'],
+  'Secure. Connected.':['En sécurité. Connectés.','Salama. Tumeunganishwa.','Libateli. Réseau ya makasi.','Segurança. Ligação.'],
   'Full name':['Nom complet','Jina kamili','Nkombo mobimba','Nome completo'], 'Email address':['Adresse e-mail','Barua pepe','Adresi ya e-mail','Endereço de correio electrónico'], 'Phone number':['Téléphone','Nambari ya simu','Nimero ya telefone','Número de telefone'], 'Service of interest':['Service souhaité','Huduma unayotaka','Mosala oyo olingi','Serviço pretendido'], 'Project location':['Lieu du projet','Eneo la mradi','Esika ya mosala','Local do projecto'], 'What do you have in mind?':['Décrivez votre projet','Eleza mradi wako','Lobelá mosala na yo','Descreva o seu projecto'], 'Send enquiry via WhatsApp':['Préparer la demande sur WhatsApp','Andaa ombi kupitia WhatsApp','Bongisá motuna na WhatsApp','Preparar pedido no WhatsApp'], 'Select a service':['Choisir un service','Chagua huduma','Poná mosala','Escolha um serviço'],
   'Access Control':['Contrôle des accès','Udhibiti wa kuingia','Bokɛngɛli ya bokɔti','Controlo de acessos'], 'CCTV and Surveillance':['Vidéosurveillance','Ufuatiliaji kwa kamera','Bokɛngɛli na bakamera','Videovigilância'], 'Fibre Solutions':['Fibre optique','Mitandao ya nyuzi macho','Réseau ya fibre','Fibra óptica'], 'IT Networking and Connectivity':['Réseaux et connectivité','Mitandao na mawasiliano','Réseau mpe boyokani','Redes e conectividade'], 'Alarm Systems':['Systèmes d’alarme','Mifumo ya tahadhari','Baalarme','Sistemas de alarme'], 'Electric Fencing':['Clôtures électriques','Uzio wa umeme','Lopango ya courant','Vedações eléctricas'], 'Electrical Installations':['Installations électriques','Ufungaji wa umeme','Ba installations ya courant','Instalações eléctricas'], 'Solar Energy Systems':['Systèmes solaires','Mifumo ya nishati ya jua','Ba système ya nguya ya moi','Sistemas de energia solar'], 'Data Backup Solutions':['Sauvegarde des données','Nakala rudufu za data','Bakopi ya ba données','Cópias de segurança'], 'Web Design':['Conception web','Ubunifu wa tovuti','Bokeli ya basite web','Design web'], 'Graphic Design':['Graphisme','Usanifu wa picha','Mayemi','Design gráfico'],
   Home: ['Accueil','Mwanzo','Ebandeli','Início'], About: ['À propos','Kuhusu sisi','Na ntina na biso','Sobre nós'], Services: ['Services','Huduma','Misala','Serviços'], Contact: ['Contact','Mawasiliano','Bokutani','Contacto'],
@@ -20,13 +29,42 @@ const messages: Record<string, [string, string, string, string]> = {
   'Control access. Protect your site.': ['Contrôlez les accès. Protégez vos locaux.','Dhibiti kuingia. Linda eneo lako.','Kambá bokɔti. Batelá esika na yo.','Controle os acessos. Proteja o seu espaço.'], 'Connect every workspace.': ['Reliez vos espaces de travail.','Unganisha kila eneo la kazi.','Kangisá bisika nyonso ya mosala.','Ligue todos os espaços de trabalho.'], 'Power your operations.': ['Alimentez vos installations.','Endesha shughuli zako kwa nishati.','Pesá misala na yo nguya.','Dê energia às suas operações.'], 'Design with clarity.': ['Un design clair.','Ubunifu unaoeleweka.','Mayemi ya polele.','Design com clareza.'], 'Keep your data within reach.': ['Gardez vos données accessibles.','Fikia data zako kwa urahisi.','Zwá ba données na yo na pɛtɛɛ.','Mantenha os dados acessíveis.'],
   'Access control, cameras, alarms and perimeter protection.': ['Accès, caméras, alarmes et protection périmétrique.','Udhibiti wa kuingia, kamera, kengele na ulinzi wa mipaka.','Bokɔti, bakamera, baalarme mpe bobateli ya lopango.','Acessos, câmaras, alarmes e protecção perimetral.'], 'Fibre and Wi-Fi built around your premises.': ['Fibre et Wi-Fi adaptés à vos locaux.','Fibre na Wi-Fi kwa mahitaji ya eneo lako.','Fibre mpe Wi-Fi mpo na esika na yo.','Fibra e Wi-Fi adaptados às suas instalações.'], 'Electrical installations, solar power and battery storage.': ['Installations électriques, solaire et batteries.','Mifumo ya umeme, nishati ya jua na betri.','Ba installations ya courant, nguya ya moi mpe mabatiri.','Instalações eléctricas, energia solar e baterias.'], 'Websites and visual identities for your business.': ['Sites web et identités visuelles pour votre entreprise.','Tovuti na utambulisho wa chapa kwa biashara yako.','Basite web mpe bililingi mpo na kompanyi na yo.','Sites e identidades visuais para a sua empresa.'], 'Shared files, backups and recovery for your team.': ['Fichiers partagés, sauvegardes et restauration pour votre équipe.','Faili za pamoja, nakala rudufu na urejeshaji kwa timu yako.','Bafichier ya ekipa, bakopi mpe bozongisi ya ba données.','Ficheiros partilhados, cópias de segurança e recuperação para a sua equipa.'],
 };
-const Context = createContext({ code: 'en' as Code, change: (_: Code) => {}, t: (s: string) => s });
+const Context = createContext({ code: 'en' as Code, change: (_: Code) => {}, t: (s: string) => s, ui: <T,>(s: T): T => s });
 export const useLanguage = () => useContext(Context);
 export function LanguageProvider({children}: {children: ReactNode}) {
-  const [code, change] = useState<Code>(() => { try { const c=localStorage.getItem('gigi-language') as Code; return codes.includes(c) ? c : 'en'; } catch { return 'en'; } });
-  useEffect(() => { document.documentElement.lang = code === 'pt' ? 'pt-AO' : code === 'en' ? 'en-ZA' : code; try { localStorage.setItem('gigi-language', code); } catch { /* storage optional */ } }, [code]);
-  const t = (s: string) => messages[s]?.[codes.indexOf(code)-1] ?? s;
-  return <Context.Provider value={{code, change, t}}>{children}</Context.Provider>;
+  const [code, setCode] = useState<Code>(() => {
+    const explicit = localeFromPath(location.pathname);
+    if (explicit) return explicit;
+    try {
+      const saved = localStorage.getItem('gigi-language') as Code;
+      if (codes.includes(saved) && saved !== 'en') {
+        history.replaceState(history.state, '', localPath(saved,location.pathname)+location.search+location.hash);
+        return saved;
+      }
+    } catch { /* storage optional */ }
+    return 'en';
+  });
+  useEffect(() => {
+    const update = () => setCode(localeFromPath(location.pathname) ?? 'en');
+    window.addEventListener('popstate', update);
+    return () => window.removeEventListener('popstate', update);
+  }, []);
+  useEffect(() => { document.documentElement.lang = localeTag(code); try { localStorage.setItem('gigi-language', code); } catch { /* storage optional */ } }, [code]);
+  function change(next: Code) {
+    if (next === code) return;
+    history.replaceState(history.state, '', localPath(next,location.pathname)+location.search+location.hash);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    setCode(next);
+  }
+  function t(s: string) {
+    if (code === 'en') return s;
+    const translation = messages[s]?.[codes.indexOf(code)-1] ?? catalog[s]?.[code];
+    if (translation) return translation;
+    if (import.meta.env.DEV) throw new Error(`Missing ${code} copy: ${s}`);
+    return s;
+  }
+  function ui<T>(value:T):T { return (typeof value === 'string' && (Object.hasOwn(catalog,value) || Object.hasOwn(messages,value)) ? t(value) : value) as T; }
+  return <Context.Provider value={{code, change, t, ui}}>{children}</Context.Provider>;
 }
 export function LanguageSelect() {
   const {code,change} = useLanguage();
