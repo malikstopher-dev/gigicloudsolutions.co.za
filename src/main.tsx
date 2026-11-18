@@ -1,4 +1,11 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
@@ -22,13 +29,18 @@ import {
   MessageCircle,
   Plus,
   Minus,
+  Cloud,
 } from "lucide-react";
-import { company, services, quoteLink, whatsapp } from "./data";
-import VisualBoard, { BoardThumbnail } from "./VisualBoard";
-import HeroEnvironment from "./HeroEnvironment";
+import {
+  company,
+  services,
+  quoteLink,
+  whatsapp,
+  type ServicePhoto,
+} from "./data";
 import "./styles.css";
 import "./redesign.css";
-import "./background.css";
+import "./photo.css";
 
 const AboutScene = lazy(() => import("./scene"));
 
@@ -74,24 +86,278 @@ function AboutVisual() {
   );
 }
 const logo = "/visuals/gigi-wordmark.webp";
-function PageBackground() {
-  useEffect(() => {
-    const update = () =>
-      document.documentElement.classList.toggle("bg-paused", document.hidden);
-    update();
-    document.addEventListener("visibilitychange", update);
-    return () => document.removeEventListener("visibilitychange", update);
-  }, []);
+const photoFiles: Record<
+  ServicePhoto,
+  { widths: number[]; width: number; height: number; alt: string }
+> = {
+  "access-control": {
+    widths: [640, 960, 1536],
+    width: 1536,
+    height: 1024,
+    alt: "Illustrative hand using an access card reader at an office entrance",
+  },
+  "cctv-security": {
+    widths: [640, 960, 1536],
+    width: 1536,
+    height: 1024,
+    alt: "Illustrative CCTV camera installed on a modern property",
+  },
+  "it-networking": {
+    widths: [640, 960, 1536],
+    width: 1536,
+    height: 1024,
+    alt: "Illustrative network switches and structured cabling",
+  },
+  "solar-energy": {
+    widths: [640, 960, 1536],
+    width: 1536,
+    height: 1024,
+    alt: "Illustrative home with rooftop solar panels",
+  },
+  "web-design": {
+    widths: [640, 960, 1536],
+    width: 1536,
+    height: 1024,
+    alt: "Illustrative website layouts on desktop and mobile",
+  },
+};
+function ServicePhoto({
+  id,
+  sizes = "100vw",
+  eager = false,
+}: {
+  id: ServicePhoto;
+  sizes?: string;
+  eager?: boolean;
+}) {
+  const photo = photoFiles[id];
   return (
-    <div className="page-bg" aria-hidden="true">
-      <span className="bg-blob blob-teal" />
-      <span className="bg-blob blob-mint" />
-      <span className="bg-blob blob-blue" />
-      <div className="tile-floor">
-        <div className="tile-plane" />
-      </div>
-    </div>
+    <picture>
+      <source
+        type="image/webp"
+        srcSet={photo.widths
+          .map((w) => `/images/gigi/${id}-${w}.webp ${w}w`)
+          .join(", ")}
+        sizes={sizes}
+      />
+      <img
+        src={`/images/gigi/${id}.jpg`}
+        alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={eager ? "high" : "auto"}
+      />
+    </picture>
   );
+}
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false);
+  useEffect(() => {
+    const mq = matchMedia(query);
+    const update = () => setMatches(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [query]);
+  return matches;
+}
+function HeroMedia() {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [allowVideo, setAllowVideo] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const mq = matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = "connection" in navigator
+      ? (navigator.connection as { saveData?: boolean })
+      : undefined;
+    const update = () => setAllowVideo(!mq.matches && !connection?.saveData);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    const el = video.current;
+    if (!el) return;
+    el.muted = true;
+    el.defaultMuted = true;
+    let visible = false;
+    const update = () => {
+      if (visible && !document.hidden) el.play().catch(() => {});
+      else el.pause();
+    };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        update();
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    document.addEventListener("visibilitychange", update);
+    update();
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, [isDesktop, allowVideo, failed]);
+  const poster = isDesktop
+    ? "/images/gigi/hero-desktop-960.webp"
+    : "/images/gigi/hero-mobile-960.webp";
+  const source = isDesktop
+    ? "/videos/HERO%20DESKTOP.mp4"
+    : "/videos/hero%20mobile.mp4";
+  if (allowVideo && !failed) {
+    return (
+      <div className="photo-hero-media">
+        <video
+          key={source}
+          ref={video}
+          src={source}
+          poster={poster}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          onError={() => setFailed(true)}
+        />
+      </div>
+    );
+  }
+  return (
+    <picture className="photo-hero-media">
+      <source
+        media="(min-width: 768px)"
+        type="image/webp"
+        srcSet="/images/gigi/hero-desktop-960.webp 960w, /images/gigi/hero-desktop-1600.webp 1600w"
+        sizes="100vw"
+      />
+      <source
+        type="image/webp"
+        srcSet="/images/gigi/hero-mobile-640.webp 640w, /images/gigi/hero-mobile-960.webp 960w, /images/gigi/hero-mobile-1024.webp 1024w"
+        sizes="100vw"
+      />
+      <img
+        src="/images/gigi/hero-desktop.jpg"
+        alt="Illustrative evening view of a Johannesburg home with solar panels, CCTV and access control"
+        width="1672"
+        height="941"
+        fetchPriority="high"
+        decoding="async"
+      />
+    </picture>
+  );
+}
+function Hero() {
+  return (
+    <section className="photo-hero">
+      <HeroMedia />
+      <div className="container photo-hero-inner">
+        <p className="hero-kicker">GIGI Cloud Solutions · Johannesburg</p>
+        <h1>Technology for your home and business.</h1>
+        <p className="hero-lead">
+          IT and cloud solutions, security, electrical work, solar systems and
+          design. Tell us what you need to connect, protect or improve.
+        </p>
+        <div className="button-row">
+          <Button to="/contact">Request a Quote</Button>
+          <Link className="button button-ghost" to="/services">
+            View our services
+            <ArrowRight size={18} />
+          </Link>
+        </div>
+        <ul className="hero-tags" aria-label="Main service areas">
+          <li>Access control</li>
+          <li>Solar</li>
+          <li>IT services</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+function FeatureBand({
+  tone,
+  label,
+  title,
+  copy,
+  photo,
+  inset,
+  items,
+  to,
+  linkLabel,
+  reverse = false,
+}: {
+  tone: "navy" | "surface";
+  label: string;
+  title: string;
+  copy: string;
+  photo: ServicePhoto;
+  inset?: ServicePhoto;
+  items: string[];
+  to: string;
+  linkLabel: string;
+  reverse?: boolean;
+}) {
+  return (
+    <section className={`photo-band band-${tone}`}>
+      <div
+        className={`container photo-band-inner${reverse ? " is-reverse" : ""}`}
+      >
+        <div className="photo-band-media">
+          <ServicePhoto id={photo} sizes="(min-width: 800px) 46vw, 92vw" />
+          {inset && (
+            <div className="photo-band-inset">
+              <ServicePhoto id={inset} sizes="(min-width: 800px) 18vw, 40vw" />
+            </div>
+          )}
+        </div>
+        <div className="photo-band-copy reveal">
+          <p className="band-label">{label}</p>
+          <h2>{title}</h2>
+          <p className="band-lead">{copy}</p>
+          <ul className="band-list">
+            {items.map((item) => (
+              <li key={item}>
+                <Check size={16} />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <Link className="band-link" to={to}>
+            {linkLabel}
+            <ArrowUpRight size={18} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+function RevealOnRoute() {
+  const { pathname } = useLocation();
+  useLayoutEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const elements = [...document.querySelectorAll<HTMLElement>(".reveal")];
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }),
+      { threshold: 0.12, rootMargin: "0px 0px -40px" },
+    );
+    elements.forEach((el) => {
+      el.classList.add("reveal-init");
+      io.observe(el);
+    });
+    return () => io.disconnect();
+  }, [pathname]);
+  return null;
 }
 function Button({
   to,
@@ -268,7 +534,7 @@ function Footer() {
 }
 function Closing() {
   return (
-    <section className="closing container">
+    <section className="closing container reveal">
       <div>
         <h2>Tell us what you need.</h2>
         <p>
@@ -289,7 +555,7 @@ function Closing() {
 function Process() {
   return (
     <section className="process section container">
-      <div className="section-heading">
+      <div className="section-heading reveal">
         <h2>How to request a quote</h2>
         <p>
           Start with the details you have. We will discuss anything else needed
@@ -311,7 +577,7 @@ function Process() {
             "Check the proposed scope and quotation before deciding to proceed.",
           ],
         ].map(([title, copy], i) => (
-          <article key={title}>
+          <article className="reveal" key={title}>
             <span className="step-number">0{i + 1}</span>
             <h3>{title}</h3>
             <p>{copy}</p>
@@ -323,19 +589,44 @@ function Process() {
 }
 function ServiceCards() {
   return (
-    <div className="service-cards">
+    <div className="photo-service-grid">
       {services.map((s, i) => (
         <article
-          className={`service-card card-${i}`}
+          className={`photo-service-card ${i < 3 ? "is-primary" : "is-wide"} reveal`}
           key={s.slug}
         >
-          <BoardThumbnail index={i} />
-          <Link className="service-card-copy" to={`/services/${s.slug}`}>
-            <h3>{s.name}</h3>
-            <p>{s.short}</p>
-            <span className="card-bottom">
-              View services <ArrowUpRight size={19} />
-            </span>
+          <Link to={`/services/${s.slug}`}>
+            <div className="photo-card-media">
+              {s.photo ? (
+                <ServicePhoto
+                  id={s.photo}
+                  sizes={
+                    i < 3
+                      ? "(min-width: 1100px) 30vw, (min-width: 641px) 45vw, 92vw"
+                      : "(min-width: 1100px) 46vw, 92vw"
+                  }
+                />
+              ) : (
+                <div className="cloud-media" aria-hidden="true">
+                  <Cloud size={64} strokeWidth={1.4} />
+                </div>
+              )}
+            </div>
+            <div className="photo-card-body">
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <ul>
+                {s.items.slice(0, 4).map((item) => (
+                  <li key={item}>
+                    <Check size={15} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <span className="card-cta">
+                Explore {s.name} <ArrowUpRight size={18} />
+              </span>
+            </div>
           </Link>
         </article>
       ))}
@@ -345,25 +636,9 @@ function ServiceCards() {
 function Home() {
   return (
     <>
-      <section className="hero container">
-        <div className="hero-copy">
-          <p className="location-line">GIGI Cloud Solutions · Johannesburg</p>
-          <h1>Technology for your home and business.</h1>
-          <p>
-            IT and cloud solutions, security, electrical work, solar systems and
-            design. Tell us what you need to connect, protect or improve.
-          </p>
-          <div className="button-row">
-            <Button to="/contact">Request a Quote</Button>
-            <Link className="text-link" to="/services">
-              View our services <ArrowRight size={18} />
-            </Link>
-          </div>
-        </div>
-        <HeroEnvironment />
-      </section>
+      <Hero />
       <section className="container section home-services">
-        <div className="section-heading">
+        <div className="section-heading reveal">
           <h2>What can we help you with?</h2>
           <p>
             Choose a service to see what you can request and which details will
@@ -372,39 +647,57 @@ function Home() {
         </div>
         <ServiceCards />
       </section>
-      <section className="feature-dark">
-        <div className="container feature-layout">
-          <div className="feature-copy">
-            <p className="section-label">Security & Access</p>
-            <h2>Start with the areas you want to protect.</h2>
-            <p>
-              See how a camera’s viewing area relates to an entrance. Talk to us
-              about CCTV, alarms, electric fencing and access control for your
-              property.
-            </p>
-            <Link className="text-link" to="/services/security-access">
-              View security services <ArrowUpRight size={18} />
-            </Link>
-          </div>
-          <VisualBoard index={1} />
-        </div>
-      </section>
-      <section className="container section feature-layout energy-feature">
-        <VisualBoard index={2} />
-        <div className="feature-copy">
-          <p className="section-label">Electrical & Solar</p>
-          <h2>Plan around what you need to power.</h2>
-          <p>
-            Switch the illustration between day and night to see the role of
-            panels and battery storage. Then tell us about your electricity use
-            and existing equipment.
-          </p>
-          <Link className="text-link" to="/services/electrical-solar">
-            View electrical and solar services <ArrowUpRight size={18} />
-          </Link>
-        </div>
-      </section>
-      <section className="container about-preview">
+      <FeatureBand
+        tone="navy"
+        label="Security & Access"
+        title="Start with the areas you want to protect."
+        copy="See how a camera’s viewing area relates to an entrance. Talk to us about CCTV, alarms, electric fencing and access control for your property."
+        photo="access-control"
+        inset="cctv-security"
+        items={[
+          "CCTV and surveillance",
+          "Alarm systems",
+          "Access control and RFID",
+          "Turnstiles and boom gates",
+          "Electric fencing and gates",
+        ]}
+        to="/services/security-access"
+        linkLabel="View security services"
+      />
+      <FeatureBand
+        tone="surface"
+        reverse
+        label="Electrical & Solar"
+        title="Plan around what you need to power."
+        copy="Start with your electricity use and the appliances you want to keep running, then discuss panels, an inverter and battery storage for your property."
+        photo="solar-energy"
+        items={[
+          "Solar panels and mounting",
+          "Inverters and lithium batteries",
+          "Hybrid and off-grid systems",
+          "Electrical services",
+          "Maintenance and support",
+        ]}
+        to="/services/electrical-solar"
+        linkLabel="View electrical and solar services"
+      />
+      <FeatureBand
+        tone="navy"
+        label="IT & Connectivity"
+        title="Keep your devices, files and team connected."
+        copy="From fibre and Wi-Fi to servers, printers and backups, tell us how your home or office works and what needs to change."
+        photo="it-networking"
+        items={[
+          "IT support",
+          "Fibre solutions",
+          "Networks and Wi-Fi",
+          "Servers and storage",
+          "Data backup and cloud files",
+        ]}
+        to="/services/it-connectivity"
+        linkLabel="View IT and connectivity services"
+      />
+      <section className="container about-preview reveal">
         <div>
           <p className="section-label">About GIGI</p>
           <h2>
@@ -445,7 +738,7 @@ function About() {
         </div>
         <AboutVisual />
       </section>
-      <section className="container section about-facts">
+      <section className="container section about-facts reveal">
         <div>
           <h2>What we do</h2>
           <p>
@@ -463,7 +756,7 @@ function About() {
           ))}
         </div>
       </section>
-      <section className="company-band">
+      <section className="company-band reveal">
         <div className="container">
           <div>
             <h2>Company details</h2>
@@ -495,13 +788,15 @@ function About() {
 function Services() {
   return (
     <>
-      <section className="page-hero container">
-        <p className="section-label">Services</p>
-        <h1>Services for your home and business.</h1>
-        <p>
-          Explore IT, cloud solutions, security, electrical, solar and design.
-          Each page explains what you can request and how to start an enquiry.
-        </p>
+      <section className="page-hero page-hero-navy">
+        <div className="container">
+          <p className="section-label">Services</p>
+          <h1>Services for your home and business.</h1>
+          <p>
+            Explore IT, cloud solutions, security, electrical, solar and design.
+            Each page explains what you can request and how to start an enquiry.
+          </p>
+        </div>
       </section>
       <section className="container services-overview">
         <ServiceCards />
@@ -515,9 +810,7 @@ function ServicePage({ index }: { index: number }) {
   const s = services[index];
   return (
     <>
-      <section
-        className={`container service-page-hero service-layout-${index}`}
-      >
+      <section className="container service-page-photo">
         <div className="service-intro">
           <Link className="breadcrumb" to="/services">
             Services <ArrowRight size={14} /> {s.name}
@@ -526,7 +819,21 @@ function ServicePage({ index }: { index: number }) {
           <p>{s.description}</p>
           <Button to={quoteLink(s.name)}>Discuss your project</Button>
         </div>
-        <VisualBoard key={index} index={index} />
+        <figure className="service-visual">
+          {s.photo ? (
+            <ServicePhoto
+              id={s.photo}
+              sizes="(min-width: 900px) 46vw, 92vw"
+              eager
+            />
+          ) : (
+            <div className="service-visual-fallback">
+              <Cloud size={80} strokeWidth={1.2} aria-hidden="true" />
+              <span>Cloud access for your files, tools and team</span>
+            </div>
+          )}
+          <figcaption>Illustrative service concept</figcaption>
+        </figure>
       </section>
       <section className="container section request-section">
         <div>
@@ -855,7 +1162,6 @@ function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <PageBackground />
       <Header />
       <main id="main" tabIndex={-1}>
         <Routes>
@@ -884,6 +1190,7 @@ function App() {
         <MessageCircle size={24} />
       </a>
       <RouteEffects />
+      <RevealOnRoute />
     </BrowserRouter>
   );
 }

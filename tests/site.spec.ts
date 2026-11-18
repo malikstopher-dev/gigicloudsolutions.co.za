@@ -8,7 +8,7 @@ for(const width of [360,390,768,1024,1440]){
    await page.goto(route,{waitUntil:'domcontentloaded'});await expect(page.locator('h1')).toBeVisible();await expect(page).toHaveTitle(/GIGI/);
    await expect(page.locator('header img')).toBeVisible();
    expect(await page.locator('body').innerText()).not.toMatch(/[\u2013\u2014]|---/);
-   const headingColours=await page.locator('h1,h2,h3').evaluateAll(els=>els.map(el=>getComputedStyle(el).color));expect(headingColours.every(c=>c==='rgb(11, 31, 68)')).toBe(true);
+    const solidHeadings=await page.locator('h1,h2,h3').evaluateAll(els=>els.every(el=>[...el.querySelectorAll('*')].every(child=>getComputedStyle(child).color===getComputedStyle(el).color)));expect(solidHeadings).toBe(true);
    const overflow=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).map(e=>({tag:e.tagName,cls:e.className,right:e.getBoundingClientRect().right})));expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow at ${route}: ${JSON.stringify(overflow)}`).toBe(true);
    expect(await page.locator('h1').evaluate(el=>el.getBoundingClientRect().right<=innerWidth)).toBe(true);
    await page.locator('footer').scrollIntoViewIfNeeded();
@@ -36,14 +36,11 @@ test('Form validates and transfers the complete enquiry to WhatsApp',async({page
  await expect(page.getByRole('status')).toContainText('press Send');await expect(page.getByRole('status')).not.toContainText('successfully sent');await popup.close();
 });
 test('Reduced motion keeps static visual and links accessible',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('.static-sculpture')).toBeVisible();await expect(page.locator('canvas')).toHaveCount(0);
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('.photo-hero picture')).toBeVisible();await expect(page.locator('canvas')).toHaveCount(0);
  await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
  const links=await page.locator('a[href^="tel:"]').evaluateAll(els=>els.map(e=>e.getAttribute('href')));expect(links.every(x=>x==='tel:+27731680832')).toBe(true);
 });
-test('WebGL hero loads when supported and metadata is route-specific',async({browser})=>{
- const b=await browser.browserType().launch();const page=await (await b.newContext({viewport:{width:1280,height:720}})).newPage();
-  await page.goto('/',{waitUntil:'domcontentloaded'});await page.waitForTimeout(1800);const supported=await page.evaluate(()=>{try{return !!document.createElement('canvas').getContext('webgl2');}catch{return false;}});if(supported)await expect(page.locator('.hero-visual .scene-ready canvas')).toBeVisible({timeout:120000});else await expect(page.locator('.static-sculpture')).toBeVisible();
- await page.screenshot({path:'test-results/hero-webgl.png'});
+test('About retains its static fallback and metadata is route-specific',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/about');await expect(page.locator('.about-stage .static-sculpture')).toBeVisible();
  expect(await page.evaluate(async()=>(await fetch('/services/security-access/')).text())).toContain('<title>Security &amp; Access | GIGI Cloud Solutions</title>'); expect(await page.evaluate(async()=>(await fetch('/sitemap.xml')).ok)).toBe(true);expect(await page.evaluate(async()=>(await fetch('/favicon.png')).ok)).toBe(true);
- await b.close();
 });
