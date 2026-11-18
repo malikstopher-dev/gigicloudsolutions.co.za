@@ -21,30 +21,8 @@ const heroDescriptions: Record<HeroKey, string> = {
   "enterprise-security": "Integrated security control room with surveillance monitors",
 };
 
-const checks = new Map<string, Promise<boolean>>();
-
-function checkVideo(url: string) {
-  const cached = checks.get(url);
-  if (cached) return cached;
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 2200);
-  const promise = fetch(url, {
-    method: "HEAD",
-    signal: controller.signal,
-    cache: "no-store",
-  })
-    .then((response) => {
-      const type = response.headers.get("content-type") || "";
-      return response.ok && type.startsWith("video/");
-    })
-    .catch(() => false)
-    .finally(() => window.clearTimeout(timeout));
-  checks.set(url, promise);
-  return promise;
-}
-
 export function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(() => matchMedia(query).matches);
   useEffect(() => {
     const media = matchMedia(query);
     const update = () => setMatches(media.matches);
@@ -66,9 +44,9 @@ export default function HeroMedia({
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [motionAllowed, setMotionAllowed] = useState(false);
-  const [videoAvailable, setVideoAvailable] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [playingSource, setPlayingSource] = useState('');
+  const [failedSource, setFailedSource] = useState('');
+  const [paused, setPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const device = isDesktop ? "desktop" : "mobile";
@@ -92,19 +70,7 @@ export default function HeroMedia({
     return () => media.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    setVideoAvailable(false);
-    setVideoReady(false);
-    setVideoFailed(false);
-    if (!motionAllowed) return;
-    let active = true;
-    checkVideo(videoSource).then((available) => {
-      if (active) setVideoAvailable(available);
-    });
-    return () => {
-      active = false;
-    };
-  }, [videoSource, motionAllowed]);
+  const showVideo = motionAllowed && failedSource !== videoSource;
 
   useEffect(() => {
     const element = videoRef.current;
@@ -113,7 +79,7 @@ export default function HeroMedia({
     element.defaultMuted = true;
     let visible = false;
     const sync = () => {
-      if (visible && !document.hidden) element.play().catch(() => {});
+      if (visible && !document.hidden && !paused) element.play().catch(() => {});
       else element.pause();
     };
     const observer = new IntersectionObserver(
@@ -130,12 +96,10 @@ export default function HeroMedia({
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [videoAvailable, videoSource]);
-
-  const showVideo = videoAvailable && !videoFailed && motionAllowed;
+  }, [showVideo, videoSource, paused]);
 
   return (
-    <div className={`gc-hero-media ${className}`.trim()}>
+    <><div className={`gc-hero-media ${className}`.trim()}>
       <picture>
         <source
           media="(max-width: 767px)"
@@ -173,21 +137,20 @@ export default function HeroMedia({
         <video
           ref={videoRef}
           key={videoSource}
-          className={videoReady ? "is-ready" : ""}
+          className={playingSource === videoSource ? "is-ready" : ""}
           src={videoSource}
           poster={poster}
-          autoPlay
           loop
           muted
           playsInline
           preload="metadata"
           aria-hidden="true"
           tabIndex={-1}
-          onCanPlay={() => setVideoReady(true)}
-          onError={() => setVideoFailed(true)}
+          onPlaying={() => setPlayingSource(videoSource)}
+          onError={() => setFailedSource(videoSource)}
         />
       )}
-    </div>
+    </div>{showVideo && playingSource === videoSource && <button type="button" className="gc-film-control" aria-label={paused ? 'Resume background video' : 'Pause background video'} onClick={() => setPaused(!paused)}>{paused ? '▶' : 'Ⅱ'}</button>}</>
   );
 }
 

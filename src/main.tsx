@@ -76,6 +76,8 @@ import {
 } from "./data";
 import HeroMedia, { heroDescriptions } from "./HeroMedia";
 import "./enterprise.css";
+import './cinema.css';
+import { LanguageProvider, LanguageSelect, useLanguage } from './language';
 
 const capabilityIcons: Record<string, LucideIcon> = {
   "access-control": Fingerprint,
@@ -187,12 +189,14 @@ function Action({
   arrow?: boolean;
   external?: boolean;
 }) {
+  const { t } = useLanguage();
   const content = (
     <>
-      <span>{children}</span>
+      <span>{typeof children === 'string' ? t(children) : children}</span>
       {arrow && <ArrowUpRight size={17} aria-hidden="true" />}
     </>
   );
+  if (to.startsWith('#') || to.startsWith('tel:')) return <a className={`gc-btn gc-btn--${variant}`} href={to}>{content}</a>;
   if (external) {
     return (
       <a
@@ -223,22 +227,22 @@ function Hero({
 }: {
   hero: HeroKey;
   kicker: string;
-  title: ReactNode;
+  title: string;
   lead: string;
   primary: { to: string; label: string };
   secondary?: { to: string; label: string };
   chips?: string[];
 }) {
   return (
-    <section className="gc-hero">
+    <section className={`gc-hero gc-film-${hero}`}>
       <HeroMedia hero={hero} />
       <div className="gc-hero__shade" aria-hidden="true" />
       <div className="gc-hero__grid" aria-hidden="true" />
       <div className="gc-container gc-hero__inner">
         <div className="gc-hero__copy">
-          <p className="gc-hero__kicker">{kicker}</p>
-          <h1>{title}</h1>
-          <p className="gc-hero__lead">{lead}</p>
+          <p className="gc-hero__kicker"><Words text={kicker}/></p>
+          <h1><Words text={title}/></h1>
+          <p className="gc-hero__lead"><Words text={lead}/></p>
           <div className="gc-hero__actions">
             <Action to={primary.to}>{primary.label}</Action>
             {secondary && (
@@ -257,12 +261,13 @@ function Hero({
         </div>
       </div>
       <span className="gc-hero__scroll" aria-hidden="true">
-        Scroll
-        <ChevronDown size={15} />
+        GIGI / {hero.replaceAll('-', ' ')}
       </span>
     </section>
   );
 }
+
+function Words({text}: {text:string}) { return <>{useLanguage().t(text)}</>; }
 
 function SectionHead({
   eyebrow,
@@ -327,6 +332,11 @@ function SiteHeader() {
       ref={header}
       className={`gc-header${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}
       onKeyDown={(event) => {
+        if (open && event.key === 'Tab') {
+          const items = [...event.currentTarget.querySelectorAll<HTMLElement>('a[href],button,select')].filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
+          const edge = event.shiftKey ? items[0] : items.at(-1);
+          if (document.activeElement === edge) { event.preventDefault(); (event.shiftKey ? items.at(-1) : items[0])?.focus(); }
+        }
         if (event.key === "Escape") {
           setServicesOpen(false);
           setOpen(false);
@@ -347,11 +357,11 @@ function SiteHeader() {
         </Link>
         <nav className="gc-nav" aria-label="Main navigation">
           <NavLink to="/" end>
-            Home
+            <Words text="Home"/>
           </NavLink>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/about"><Words text="About"/></NavLink>
           <div className="gc-nav__group">
-            <NavLink to="/services">Services</NavLink>
+            <NavLink to="/services"><Words text="Services"/></NavLink>
             <button
               type="button"
               className="gc-nav__toggle"
@@ -366,7 +376,7 @@ function SiteHeader() {
               id="service-menu"
               className={`gc-dropdown${servicesOpen ? " is-open" : ""}`}
             >
-              <p>Service groups</p>
+              <p><Words text="Service groups"/></p>
               {services.map((group) => {
                 const Icon = groupIcons[group.slug] || Layers;
                 return (
@@ -379,7 +389,7 @@ function SiteHeader() {
                       <Icon size={17} />
                     </span>
                     <span>
-                      <strong>{group.name}</strong>
+                      <strong><Words text={group.name}/></strong>
                       <small>{group.short}</small>
                     </span>
                     <ArrowUpRight size={15} />
@@ -388,10 +398,11 @@ function SiteHeader() {
               })}
             </div>
           </div>
-          <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/contact"><Words text="Contact"/></NavLink>
+          <LanguageSelect />
         </nav>
         <Link className="gc-header__cta" to="/contact">
-          Request a quote
+          <Words text="Request a quote"/>
           <ArrowUpRight size={16} />
         </Link>
         <button
@@ -412,25 +423,26 @@ function SiteHeader() {
       >
         <nav className="gc-mobile__nav" aria-label="Mobile navigation">
           <NavLink to="/" end>
-            Home <ArrowUpRight size={18} />
+            <Words text="Home"/> <ArrowUpRight size={18} />
           </NavLink>
           <NavLink to="/about">
-            About <ArrowUpRight size={18} />
+            <Words text="About"/> <ArrowUpRight size={18} />
           </NavLink>
           <NavLink to="/services">
-            All services <ArrowUpRight size={18} />
+            <Words text="All services"/> <ArrowUpRight size={18} />
           </NavLink>
+          <LanguageSelect />
           <div className="gc-mobile__group">
-            <p>Service groups</p>
+            <p><Words text="Service groups"/></p>
             {services.map((group) => (
               <NavLink key={group.slug} to={`/services/${group.slug}`}>
-                {group.name}
+                <Words text={group.name}/>
                 <ArrowUpRight size={17} />
               </NavLink>
             ))}
           </div>
           <NavLink to="/contact">
-            Contact <ArrowUpRight size={18} />
+            <Words text="Contact"/> <ArrowUpRight size={18} />
           </NavLink>
         </nav>
         <div className="gc-mobile__footer">
@@ -552,7 +564,7 @@ function CapabilityCard({
         <span className="gc-cap-card__group">{group.name}</span>
       </Link>
       <div className="gc-cap-card__body">
-        <h3>{capability.name}</h3>
+          <h3><Words text={capability.name}/></h3>
         <p>{capability.summary}</p>
         <ul className="gc-cap-card__points">
           {capability.benefits.slice(0, 2).map((benefit) => (
@@ -594,7 +606,7 @@ function GroupCard({ group }: { group: ServiceGroup }) {
         </div>
         <div className="gc-group-card__body">
           <p className="gc-eyebrow">{group.label}</p>
-          <h3>{group.name}</h3>
+          <h3><Words text={group.name}/></h3>
           <p>{group.description}</p>
           <ul>
             {groupCaps.slice(0, 4).map((capability) => (
@@ -790,20 +802,11 @@ function HomePage() {
     <>
       <Hero
         hero="home"
-        kicker="Integrated security, IT and energy infrastructure"
-        title={
-          <>
-            Smart Security.
-            <br />
-            Seamless Connectivity.
-            <br />
-            Built for Business.
-          </>
-        }
-        lead="Integrated access control, advanced security, networking, IT infrastructure and energy solutions for modern businesses and commercial environments."
+        kicker="GIGI / Johannesburg"
+        title="Smart security. Seamless connectivity."
+        lead="Security, networks and energy for the places you work."
         primary={{ to: "/services", label: "Explore our solutions" }}
         secondary={{ to: "/contact", label: "Discuss your project" }}
-        chips={["Commercial", "Industrial", "Institutional", "Residential estates"]}
       />
 
       <section className="gc-strip" aria-label="Company focus areas">
@@ -969,9 +972,9 @@ function AboutPage() {
     <>
       <Hero
         hero="about"
-        kicker="About GIGI Cloud Solutions"
-        title="Integrated technology for safer, smarter premises."
-        lead="GIGI Cloud Solutions is a Johannesburg based provider of security, access control, IT connectivity, electrical, solar and design solutions for businesses and residential customers."
+        kicker="About"
+        title="Meet GIGI Cloud Solutions."
+        lead="A Johannesburg team connecting technology to the needs of your premises."
         primary={{ to: "/contact", label: "Discuss your requirements" }}
         secondary={{ to: "/services", label: "Explore our capabilities" }}
       />
@@ -1168,9 +1171,9 @@ function ServicesPage() {
     <>
       <Hero
         hero="services"
-        kicker="Security, connectivity, energy and design"
-        title="Enterprise solutions, planned around your premises."
-        lead="Explore all 11 GIGI Cloud Solutions offerings. Each service can be requested on its own, or planned with the others as one coordinated environment."
+        kicker="Services"
+        title="Eleven services. One team."
+        lead="Find the right combination for your site."
         primary={{ to: "#capabilities", label: "Browse capabilities" }}
         secondary={{ to: "/contact", label: "Discuss your project" }}
       />
@@ -1263,6 +1266,13 @@ function ServicesPage() {
   );
 }
 
+const filmCopy: Record<string,[string,string]> = {
+  'security-access':['Control access. Protect your site.','Access control, cameras, alarms and perimeter protection.'],
+  'it-connectivity':['Connect every workspace.','Fibre and Wi-Fi built around your premises.'],
+  'electrical-solar':['Power your operations.','Electrical installations, solar power and battery storage.'],
+  'web-graphic-design':['Design with clarity.','Websites and visual identities for your business.'],
+  'cloud-solutions':['Keep your data within reach.','Shared files, backups and recovery for your team.'],
+};
 function ServicePage({ index }: { index: number }) {
   const group = services[index];
   const groupCapabilities = capabilitiesByGroup(group);
@@ -1271,9 +1281,9 @@ function ServicePage({ index }: { index: number }) {
     <>
       <Hero
         hero={group.hero}
-        kicker={`${group.name} • ${group.label}`}
-        title={group.intro}
-        lead={group.description}
+        kicker={group.name}
+        title={filmCopy[group.slug][0]}
+        lead={filmCopy[group.slug][1]}
         primary={{ to: quoteLink(group.name), label: "Discuss your project" }}
         secondary={{ to: "#capabilities", label: "View capabilities" }}
       />
@@ -1487,6 +1497,7 @@ function FaqSection({ entries }: { entries: [string, string][] }) {
 }
 
 function ContactPage() {
+  const { t } = useLanguage();
   const [params] = useSearchParams();
   const preset = params.get("service") || "";
   const [feedback, setFeedback] = useState("");
@@ -1512,9 +1523,9 @@ function ContactPage() {
     <>
       <Hero
         hero="contact"
-        kicker="Contact GIGI Cloud Solutions"
-        title="Let us scope your next security, connectivity or energy project."
-        lead="Tell us where the work is needed, the type of premises and what you want to change. We will discuss the requirements before preparing a quotation."
+        kicker="Contact"
+        title="Plan your next project."
+        lead="Tell us what your premises need and where the work will take place."
         primary={{ to: "#enquiry", label: "Start your enquiry" }}
         secondary={{ to: `tel:${company.tel}`, label: company.phone }}
       />
@@ -1610,7 +1621,7 @@ function ContactPage() {
             </div>
             <div className="gc-form__grid">
               <label>
-                Full name
+                {t('Full name')}
                 <input
                   name="name"
                   autoComplete="name"
@@ -1620,7 +1631,7 @@ function ContactPage() {
                 />
               </label>
               <label>
-                Email address
+                {t('Email address')}
                 <input
                   name="email"
                   type="email"
@@ -1631,19 +1642,19 @@ function ContactPage() {
                 />
               </label>
               <label>
-                Phone number
+                {t('Phone number')}
                 <input
                   name="phone"
                   type="tel"
                   autoComplete="tel"
                   placeholder="e.g. 073 168 0832"
-                  pattern="[+0-9 ()\-]{7,25}"
+                  pattern={String.raw`[+0-9 \(\)\-]{7,25}`}
                   title="Enter a phone number with 7 to 25 digits, spaces, brackets or a plus sign."
                   required
                 />
               </label>
               <label>
-                Service of interest
+                {t('Service of interest')}
                 <select
                   name="service"
                   defaultValue={
@@ -1655,19 +1666,19 @@ function ContactPage() {
                   required
                 >
                   <option value="" disabled>
-                    Select a service
+                    {t('Select a service')}
                   </option>
                   {services.map((group) => (
-                    <option key={group.slug}>{group.name}</option>
+                    <option key={group.slug} value={group.name}>{t(group.name)}</option>
                   ))}
                   {capabilities.map((capability) => (
-                    <option key={capability.id}>{capability.name}</option>
+                    <option key={capability.id} value={capability.name}>{t(capability.name)}</option>
                   ))}
                   <option>Multiple services / Not sure yet</option>
                 </select>
               </label>
               <label className="gc-form__full">
-                Project location
+                {t('Project location')}
                 <input
                   name="location"
                   autoComplete="address-level2"
@@ -1677,7 +1688,7 @@ function ContactPage() {
                 />
               </label>
               <label className="gc-form__full">
-                What do you have in mind?
+                {t('What do you have in mind?')}
                 <textarea
                   name="message"
                   placeholder="Describe the work, your current setup and any timing requirements."
@@ -1689,7 +1700,7 @@ function ContactPage() {
             </div>
             <button type="submit" className="gc-btn gc-btn--primary gc-form__submit">
               <MessageCircle size={18} />
-              Send enquiry via WhatsApp
+              {t('Send enquiry via WhatsApp')}
               <ArrowUpRight size={17} />
             </button>
             <p className="gc-form__note">
@@ -1895,4 +1906,4 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(<LanguageProvider><App /></LanguageProvider>);
