@@ -7,13 +7,17 @@
     <link
       rel="preload"
       as="image"
-      href="/enterprise/heroes/hero-home-desktop-1440.webp"
+      type="image/webp"
+      imagesrcset="/enterprise/heroes/hero-home-desktop-960.webp 960w, /enterprise/heroes/hero-home-desktop-1440.webp 1440w, /enterprise/heroes/hero-home-desktop-1920.webp 1920w"
+      imagesizes="100vw"
       media="(min-width: 768px)"
     />
     <link
       rel="preload"
       as="image"
-      href="/enterprise/heroes/hero-home-mobile-720.webp"
+      type="image/webp"
+      imagesrcset="/enterprise/heroes/hero-home-mobile-540.webp 540w, /enterprise/heroes/hero-home-mobile-720.webp 720w, /enterprise/heroes/hero-home-mobile-1080.webp 1080w"
+      imagesizes="100vw"
       media="(max-width: 767px)"
     />
     <title>GIGI Cloud Solutions | Enterprise Security, IT and Energy</title>
@@ -41,12 +45,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400..700&family=Manrope:wght@400..800&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/client.tsx"></script>
   </body>
 </html>

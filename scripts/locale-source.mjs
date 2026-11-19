@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { readFileSync } from 'node:fs';
 
-export const localeSources = ['src/main.tsx', 'src/HeroMedia.tsx', 'src/data.ts', 'scripts/pages.mjs'];
+export const localeSources = ['src/main.tsx', 'src/HeroMedia.tsx', 'src/data.ts', 'src/seo.ts'];
 const visualAttributes = new Set(['alt', 'title', 'placeholder', 'aria-label']);
 const invariants = /^(?:GIGI Cloud Solutions|WhatsApp|DM Sans|Wi-Fi|CCTV|[\d\s]+)$/;
 const excluded = /^(?:IntersectionObserver|URLSearchParams|Enter|Tab|Escape|HEAD|GET|POST|GIGI|EN|FR|SW|LN|PT|ArrowUpRight|React|Manrope|Organization|PostalAddress|ZA|English|Roboto|[A-Z][A-Za-z]*[A-Z][A-Za-z]*)$/;

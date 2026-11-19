@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import drafts from './locale-copy.json';
 import locales from './locales.json';
+import { publicPath } from './seo';
 
 export type Code = keyof typeof locales;
 export const codes = Object.keys(locales) as Code[];
@@ -9,7 +10,7 @@ export const localeTag = (code: Code) => locales[code].tag;
 const reviewedLocales: readonly Code[] = ['fr', 'sw', 'ln', 'pt'];
 export function localeFromPath(path: string) { const code=path.split('/')[1] as Code; return codes.includes(code) ? code : undefined; }
 export function stripLocale(path: string) { return localeFromPath(path) ? path.replace(/^\/[a-z]{2}(?=\/|$)/,'') || '/' : path; }
-export function localPath(code: Code, path: string) { return code === 'en' ? stripLocale(path) : `/${code}${stripLocale(path)}`; }
+export function localPath(code: Code, path: string) { return publicPath(code, stripLocale(path)); }
 const catalog: Record<string, Partial<Record<Code,string>>> = drafts;
 // Reviewed navigation and hero text takes precedence over machine drafts.
 const messages: Record<string, [string, string, string, string]> = {
@@ -30,43 +31,46 @@ const messages: Record<string, [string, string, string, string]> = {
   'Access control, cameras, alarms and perimeter protection.': ['Accès, caméras, alarmes et protection périmétrique.','Udhibiti wa kuingia, kamera, kengele na ulinzi wa mipaka.','Bokɔti, bakamera, baalarme mpe bobateli ya lopango.','Acessos, câmaras, alarmes e protecção perimetral.'], 'Fibre and Wi-Fi built around your premises.': ['Fibre et Wi-Fi adaptés à vos locaux.','Fibre na Wi-Fi kwa mahitaji ya eneo lako.','Fibre mpe Wi-Fi mpo na esika na yo.','Fibra e Wi-Fi adaptados às suas instalações.'], 'Electrical installations, solar power and battery storage.': ['Installations électriques, solaire et batteries.','Mifumo ya umeme, nishati ya jua na betri.','Ba installations ya courant, nguya ya moi mpe mabatiri.','Instalações eléctricas, energia solar e baterias.'], 'Websites and visual identities for your business.': ['Sites web et identités visuelles pour votre entreprise.','Tovuti na utambulisho wa chapa kwa biashara yako.','Basite web mpe bililingi mpo na kompanyi na yo.','Sites e identidades visuais para a sua empresa.'], 'Shared files, backups and recovery for your team.': ['Fichiers partagés, sauvegardes et restauration pour votre équipe.','Faili za pamoja, nakala rudufu na urejeshaji kwa timu yako.','Bafichier ya ekipa, bakopi mpe bozongisi ya ba données.','Ficheiros partilhados, cópias de segurança e recuperação para a sua equipa.'],
 };
 const Context = createContext({ code: 'en' as Code, change: (_: Code) => {}, t: (s: string) => s, ui: <T,>(s: T): T => s });
+export function translateText(code: Code, text: string) {
+  if (code === 'en') return text;
+  const translation = messages[text]?.[reviewedLocales.indexOf(code)] ?? catalog[text]?.[code];
+  if (translation) return translation;
+  if (import.meta.env.DEV) throw new Error(`Missing ${code} copy: ${text}`);
+  return text;
+}
 export const useLanguage = () => useContext(Context);
-export function LanguageProvider({children}: {children: ReactNode}) {
-  const [code, setCode] = useState<Code>(() => {
-    const explicit = localeFromPath(location.pathname);
-    if (explicit) return explicit;
+export function LanguageProvider({children, pathname}: {children: ReactNode; pathname: string}) {
+  const [code, setCode] = useState<Code>(() => localeFromPath(pathname) ?? 'en');
+  useEffect(() => {
+    if (localeFromPath(pathname)) return;
     try {
       const saved = localStorage.getItem('gigi-language') as Code;
       if (codes.includes(saved) && saved !== 'en') {
         history.replaceState(history.state, '', localPath(saved,location.pathname)+location.search+location.hash);
-        return saved;
+        window.dispatchEvent(new PopStateEvent('popstate'));
+        setCode(saved);
       }
     } catch { /* storage optional */ }
-    return 'en';
-  });
+  }, [pathname]);
   useEffect(() => {
     const update = () => setCode(localeFromPath(location.pathname) ?? 'en');
     window.addEventListener('popstate', update);
     return () => window.removeEventListener('popstate', update);
   }, []);
-  useEffect(() => { document.documentElement.lang = localeTag(code); try { localStorage.setItem('gigi-language', code); } catch { /* storage optional */ } }, [code]);
+  useEffect(() => { if ((localeFromPath(location.pathname) ?? 'en') !== code) return; try { localStorage.setItem('gigi-language', code); } catch { /* storage optional */ } }, [code]);
   function change(next: Code) {
     if (next === code) return;
     history.replaceState(history.state, '', localPath(next,location.pathname)+location.search+location.hash);
     window.dispatchEvent(new PopStateEvent('popstate'));
     setCode(next);
   }
-  function t(s: string) {
-    if (code === 'en') return s;
-    const translation = messages[s]?.[reviewedLocales.indexOf(code)] ?? catalog[s]?.[code];
-    if (translation) return translation;
-    if (import.meta.env.DEV) throw new Error(`Missing ${code} copy: ${s}`);
-    return s;
-  }
+  const t = (text: string) => translateText(code, text);
   function ui<T>(value:T):T { return (typeof value === 'string' && (Object.hasOwn(catalog,value) || Object.hasOwn(messages,value)) ? t(value) : value) as T; }
   return <Context.Provider value={{code, change, t, ui}}>{children}</Context.Provider>;
 }
 export function LanguageSelect() {
   const {code,change} = useLanguage();
-  return <label className="gc-language"><span aria-hidden="true">{code.toUpperCase()}</span><select aria-label={code === 'zu' ? 'Ulimi' : code === 'af' ? 'Taal' : 'Language / Langue / Língua'} value={code} onChange={e=>change(e.target.value as Code)}>{codes.map(c=><option lang={localeTag(c)} key={c} value={c}>{locales[c].label}</option>)}</select></label>;
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  return <label className="gc-language"><span aria-hidden="true">{code.toUpperCase()}</span><select disabled={!ready} aria-label={code === 'zu' ? 'Ulimi' : code === 'af' ? 'Taal' : 'Language / Langue / Língua'} value={code} onChange={e=>change(e.target.value as Code)}>{codes.map(c=><option lang={localeTag(c)} key={c} value={c}>{locales[c].label}</option>)}</select></label>;
 }

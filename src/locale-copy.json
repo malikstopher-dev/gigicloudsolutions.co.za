@@ -1,4 +1,12 @@
 {
+  ". Tell us who needs access, which languages your site needs, and whether any work must happen in person.": {
+    "fr": ". Précisez qui doit avoir accès aux outils, les langues souhaitées pour votre site et les tâches qui exigent une présence sur place.",
+    "sw": ". Tuambie ni nani anayehitaji ufikiaji, lugha ambazo tovuti yako inahitaji, na ikiwa kazi yoyote lazima ifanyike kibinafsi.",
+    "ln": ". Yebisa biso nani azali na mposa ya accès, minoko nini site na yo esengeli, mpe soki mosala moko esengeli kosalema na miso.",
+    "pt": ". Diga-nos quem precisa de acesso, quais idiomas seu site necessita e se algum trabalho deve ser presencial.",
+    "zu": ". Sitshele ukuthi ubani odinga ukufinyelela, yiziphi izilimi ezidingwa isayithi lakho, nokuthi noma yimuphi umsebenzi kufanele wenziwe mathupha.",
+    "af": ". Vertel ons wie toegang benodig, watter tale jou werf nodig het en of enige werk persoonlik moet gebeur."
+  },
   "A Johannesburg team connecting technology to the needs of your premises.": {
     "fr": "Une équipe de Johannesburg connectant la technologie aux besoins de vos locaux.",
     "sw": "Timu ya Johannesburg inayounganisha teknolojia na mahitaji ya eneo lako.",
@@ -495,6 +503,14 @@
     "zu": "Izimpahla zomkhiqizo ezisebenziseka kalula",
     "af": "Handelsmerkbates wat prakties is om te gebruik"
   },
+  "Breadcrumb": {
+    "fr": "Fil d'Ariane",
+    "sw": "Breadcrumb",
+    "pt": "Pão ralado",
+    "ln": "Limpa ya kopɔla",
+    "af": "Broodkrummel",
+    "zu": "Imvuthuluka yesinkwa"
+  },
   "Bring the layers together so access, surveillance, alarms and perimeter protection support one another.": {
     "fr": "Rassemblez les couches pour que l'accès, la surveillance, les alarmes et la protection périmétrique se soutiennent mutuellement.",
     "sw": "Leta safu pamoja ili ufikiaji, ufuatiliaji, kengele na ulinzi wa mzunguko zisaidiane.",
@@ -543,6 +559,14 @@
     "zu": "Yakhelwe eduze nokusebenza kwakho",
     "af": "Gebou rondom jou operasie"
   },
+  "Business Fibre and Networking Johannesburg | GIGI Cloud Solutions": {
+    "fr": "Fibre et réseaux d’entreprise à Johannesburg | GIGI Cloud Solutions",
+    "sw": "Business Fiber na Networking Johannesburg | GIGI Cloud Solutions",
+    "ln": "Fibre ya mombongo mpe réseaux Johannesburg | GIGI Cloud Solutions",
+    "pt": "Redes e Fibra Empresarial Joanesburgo | GIGI Cloud Solutions",
+    "zu": "Business Fiber and Networking Johannesburg | I-GIGI Cloud Solutions",
+    "af": "Business Fiber and Networking Johannesburg | GIGI Cloud Solutions"
+  },
   "Business and commercial": {
     "fr": "Affaires et commerciales",
     "sw": "Biashara na biashara",
@@ -550,6 +574,14 @@
     "pt": "Empresarial e comercial",
     "zu": "Ibhizinisi nezohwebo",
     "af": "Besigheid en kommersieel"
+  },
+  "Business fibre and networking": {
+    "fr": "Fibre et réseaux professionnels",
+    "sw": "Fiber za biashara na mitandao",
+    "ln": "Fibre ya mombongo mpe réseautage",
+    "pt": "Fibra empresarial e redes",
+    "zu": "I-fiber yebhizinisi kanye nokuxhumana",
+    "af": "Besigheidsvesel en netwerke"
   },
   "Businesses sharing files with clients or partners": {
     "fr": "Entreprises partageant des fichiers avec des clients ou des partenaires",
@@ -559,6 +591,14 @@
     "zu": "Amabhizinisi abelana ngamafayela namakhasimende noma ozakwethu",
     "af": "Besighede wat lêers met kliënte of vennote deel"
   },
+  "CCTV and Access Control Johannesburg | GIGI Cloud Solutions": {
+    "fr": "Vidéosurveillance et contrôle d’accès à Johannesburg | GIGI Cloud Solutions",
+    "sw": "CCTV na Udhibiti wa Ufikiaji Johannesburg | GIGI Cloud Solutions",
+    "ln": "CCTV mpe Bopesi nzela ya bokɔti Johannesburg | GIGI Cloud Solutions",
+    "pt": "CCTV e Controlo de Acesso Joanesburgo | GIGI Cloud Solutions",
+    "zu": "CCTV and Access Control Johannesburg | I-GIGI Cloud Solutions",
+    "af": "CCTV en toegangsbeheer Johannesburg | GIGI Cloud Solutions"
+  },
   "CCTV and Surveillance": {
     "fr": "Vidéosurveillance et Surveillance",
     "sw": "CCTV na Ufuatiliaji",
@@ -567,6 +607,14 @@
     "zu": "I-CCTV kanye nokubhekwa",
     "af": "CCTV en toesig"
   },
+  "CCTV and access control": {
+    "fr": "CCTV et contrôle d'accès",
+    "sw": "CCTV na udhibiti wa ufikiaji",
+    "ln": "CCTV mpe contrôle ya accès",
+    "pt": "CCTV e controlo de acesso",
+    "zu": "I-CCTV nokulawula ukufinyelela",
+    "af": "CCTV en toegangsbeheer"
+  },
   "CCTV and surveillance": {
     "fr": "Vidéosurveillance et surveillance",
     "sw": "CCTV na ufuatiliaji",
@@ -574,6 +622,22 @@
     "pt": "CCTV e vigilância",
     "zu": "I-CCTV nokugadwa",
     "af": "CCTV en toesig"
+  },
+  "CCTV, access control, alarms, electric fencing, fibre cabling, electrical work and solar installations depend on the site. On-site delivery in the DRC is subject to confirmation. Please wait for a written scope and quote before ordering equipment.": {
+    "fr": "La vidéosurveillance, le contrôle d’accès, les alarmes, les clôtures électriques, le câblage fibre, les travaux électriques et les installations solaires dépendent des conditions du site. Toute intervention sur place en RDC doit être confirmée. Attendez le descriptif écrit des travaux et le devis avant de commander du matériel.",
+    "sw": "CCTV, udhibiti wa ufikiaji, kengele, uzio wa umeme, kebo ya nyuzi, kazi ya umeme na usakinishaji wa jua hutegemea tovuti. Uwasilishaji kwenye tovuti nchini DRC unaweza kuthibitishwa. Tafadhali subiri upeo ulioandikwa na unukuu kabla ya kuagiza vifaa.",
+    "ln": "CCTV, contrôle d’accès, ba alarmes, clôture électrique, câblage en fibre, mosala ya électrique mpe ba installations solaires etali esika. Bopesi na esika ya mosala na RDC ezali na bondimi. Svp bozela portée ekomami pe devis avant ya ko commander ba équipements.",
+    "pt": "CCTV, controlo de acesso, alarmes, cerca eléctrica, cabeamento de fibra, obras eléctricas e instalações solares dependem do local. A entrega no local na RDC está sujeita a confirmação. Aguarde um escopo por escrito e uma cotação antes de solicitar o equipamento.",
+    "zu": "I-CCTV, isilawuli sokungena, ama-alamu, ucingo lukagesi, i-fiber cabling, umsebenzi kagesi nokufakwa kwelanga kuncike endaweni. Ukulethwa kusayithi e-DRC kungaphansi kokuqinisekiswa. Sicela ulinde isikophu esibhaliwe kanye nekhwothi ngaphambi koku-oda okokusebenza.",
+    "af": "CCTV, toegangsbeheer, alarms, elektriese heinings, veselkabels, elektriese werk en sonkraginstallasies hang van die terrein af. Aflewering ter plaatse in die DRK is onderhewig aan bevestiging. Wag asseblief vir 'n geskrewe omvang en kwotasie voordat u toerusting bestel."
+  },
+  "CCTV, access control, business networking, data backup, electrical, solar and design services. Based in Johannesburg, South Africa.": {
+    "fr": "Vidéosurveillance, contrôle d’accès, réseaux d’entreprise, sauvegarde, électricité, solaire et design. Nous sommes basés à Johannesburg, en Afrique du Sud.",
+    "sw": "CCTV, udhibiti wa ufikiaji, mitandao ya biashara, kuhifadhi data, huduma za umeme, jua na muundo. Inapatikana Johannesburg, Afrika Kusini.",
+    "ln": "CCTV, contrôle d’accès, réseautage d’affaires, sauvegarde ya ba données, services électriques, solaires na conception. Bazali na esika na yango na Johannesburg, na Afrika ya Sudi.",
+    "pt": "CCTV, controlo de acesso, redes empresariais, backup de dados, serviços eléctricos, solares e de design. Baseado em Joanesburgo, África do Sul.",
+    "zu": "I-CCTV, isilawuli sokufinyelela, inethiwekhi yebhizinisi, ikhophi yasenqolobaneni yedatha, izinsizakalo zikagesi, ilanga nemiklamo. Isekelwe eGoli, eNingizimu Afrika.",
+    "af": "CCTV, toegangsbeheer, besigheidsnetwerke, data-rugsteun, elektriese, sonkrag en ontwerpdienste. Gebaseer in Johannesburg, Suid-Afrika."
   },
   "CCTV, alarms and electric fencing": {
     "fr": "CCTV, alarmes et clôture électrique",
@@ -663,6 +727,14 @@
     "zu": "Xoxa ne-GIGI ku-WhatsApp",
     "af": "Gesels met GIGI op WhatsApp"
   },
+  "Check on-site coverage in Johannesburg and learn how to enquire about remote services or site-dependent projects in the Democratic Republic of the Congo.": {
+    "fr": "Vérifiez notre zone d’intervention à Johannesburg et découvrez comment nous solliciter pour un projet à distance ou une intervention à confirmer en RDC.",
+    "sw": "Angalia matangazo ya tovuti huko Johannesburg na ujifunze jinsi ya kuuliza kuhusu huduma za mbali au miradi inayotegemea tovuti katika Jamhuri ya Kidemokrasia ya Kongo.",
+    "ln": "Tala couverture sur place na Johannesburg pe yekola ndenge nini kotuna na ntina ya ba services à distance to ba projets dépendants ya site na République démocratique du Congo.",
+    "pt": "Verifique a cobertura local em Joanesburgo e saiba como consultar serviços remotos ou projectos dependentes do local na República Democrática do Congo.",
+    "zu": "Hlola ukutholakala kwesayithi eGoli futhi ufunde ukuthi ungabuza kanjani ngamasevisi akude noma amaphrojekthi ancike kusayithi eDemocratic Republic of the Congo.",
+    "af": "Gaan ter plaatse dekking in Johannesburg na en leer hoe om navraag te doen oor afgeleë dienste of terreinafhanklike projekte in die Demokratiese Republiek van die Kongo."
+  },
   "Clarify the message": {
     "fr": "Clarifier le message",
     "sw": "Fafanua ujumbe",
@@ -735,13 +807,13 @@
     "zu": "Izixazululo zefu",
     "af": "Wolkoplossings"
   },
-  "Cloud Solutions | GIGI Cloud Solutions": {
-    "fr": "Solutions cloud | GIGI Cloud Solutions",
-    "sw": "Cloud Solutions | GIGI Cloud Solutions",
-    "ln": "Ba Solutions ya Lipata | GIGI Cloud Solutions",
-    "pt": "Soluções em nuvem | GIGI Cloud Solutions",
-    "zu": "Izixazululo zefu | GIGI Cloud Solutions",
-    "af": "Wolkoplossings | GIGI Cloud Solutions"
+  "Cloud Solutions and Data Backup | GIGI Cloud Solutions": {
+    "fr": "Solutions cloud et sauvegarde de données | GIGI Cloud Solutions",
+    "sw": "Suluhu za Wingu na Hifadhi Nakala ya Data | GIGI Cloud Solutions",
+    "ln": "Solutions ya cloud na sauvegarde ya ba données | GIGI Cloud Solutions",
+    "pt": "Soluções em nuvem e backup de dados | GIGI Cloud Solutions",
+    "zu": "Izixazululo Zefu kanye Nesipele Sedatha | I-GIGI Cloud Solutions",
+    "af": "Wolkoplossings en datarugsteun | GIGI Cloud Solutions"
   },
   "Cloud requirements": {
     "fr": "Exigences relatives au cloud",
@@ -1119,6 +1191,14 @@
     "zu": "Ukuxhumana okuqondile",
     "af": "Direkte kontak"
   },
+  "Discuss CCTV installation, access control, alarm systems and electric fencing for your Johannesburg business or residential property.": {
+    "fr": "Parlons de vos besoins en vidéosurveillance, contrôle d’accès, alarmes et clôtures électriques pour votre entreprise ou votre résidence à Johannesburg.",
+    "sw": "Jadili usakinishaji wa CCTV, udhibiti wa ufikiaji, mifumo ya kengele na uzio wa umeme kwa biashara yako ya Johannesburg au mali ya makazi.",
+    "ln": "Lobela installation ya CCTV, contrôle d’accès, systèmes d’alarme mpe clôture électrique mpo na entreprise na yo ya Johannesburg to ndako ya kofanda.",
+    "pt": "Discuta a instalação de CCTV, controlo de acesso, sistemas de alarme e cercas eléctricas para sua empresa ou propriedade residencial em Joanesburgo.",
+    "zu": "Xoxa ngokufakwa kwe-CCTV, ukulawula ukungena, amasistimu ama-alamu kanye nokubiya ngogesi kwebhizinisi lakho laseGoli noma indawo yokuhlala.",
+    "af": "Bespreek kringtelevisie-installasie, toegangsbeheer, alarmstelsels en elektriese heinings vir jou Johannesburgse besigheid of residensiële eiendom."
+  },
   "Discuss a commercial project": {
     "fr": "Discuter d'un projet commercial",
     "sw": "Jadili mradi wa kibiashara",
@@ -1151,14 +1231,6 @@
     "zu": "Xoxa ngemfuneko efanayo",
     "af": "Bespreek 'n soortgelyke vereiste"
   },
-  "Discuss access control, CCTV, alarms and electric fencing for commercial or residential premises.": {
-    "fr": "Discutez du contrôle d'accès, de la vidéosurveillance, des alarmes et des clôtures électriques pour les locaux commerciaux ou résidentiels.",
-    "sw": "Jadili udhibiti wa ufikiaji, CCTV, kengele na uzio wa umeme kwa majengo ya biashara au makazi.",
-    "ln": "Kolobela contrôle ya accès, CCTV, ba alarmes na clôture électrique pona ba locaux commerciales to ya kofanda.",
-    "pt": "Discutir controlo de acesso, CCTV, alarmes e cercas eléctricas para instalações comerciais ou residenciais.",
-    "zu": "Xoxa ngokulawula ukungena, i-CCTV, ama-alamu nothango lukagesi lwezakhiwo zentengiso noma zokuhlala.",
-    "af": "Bespreek toegangsbeheer, kringtelevisie, alarms en elektriese heinings vir kommersiële of residensiële persele."
-  },
   "Discuss camera coverage for entrances, walkways, parking and high-value areas.": {
     "fr": "Discutez de la couverture par caméra des entrées, des allées, des parkings et des zones de grande valeur.",
     "sw": "Jadili ufunikaji wa kamera kwa viingilio, njia za kutembea, maegesho na maeneo yenye thamani ya juu.",
@@ -1167,13 +1239,13 @@
     "zu": "Xoxa ngekhamera yokungena, izindlela zokuhamba, ukupaka nezindawo ezinenani eliphezulu.",
     "af": "Bespreek kameradekking vir ingange, wandelpaaie, parkering en hoëwaarde-areas."
   },
-  "Discuss cloud access, shared files and data recovery requirements for your team.": {
-    "fr": "Discutez des exigences en matière d'accès au cloud, de fichiers partagés et de récupération de données pour votre équipe.",
-    "sw": "Jadili ufikiaji wa wingu, faili zilizoshirikiwa na mahitaji ya kurejesha data kwa timu yako.",
-    "ln": "Lobela accès na cloud, ba fichiers partagés na ba exigences ya récupération ya ba données pona équipe na yo.",
-    "pt": "Discuta o acesso à nuvem, arquivos compartilhados e requisitos de recuperação de dados para sua equipa.",
-    "zu": "Xoxa ngokufinyelela kwamafu, amafayela abelwe kanye nezimfuneko zokutholwa kwedatha zethimba lakho.",
-    "af": "Bespreek wolktoegang, gedeelde lêers en dataherwinningvereistes vir jou span."
+  "Discuss electrical installations, solar, inverters and battery backup for your Johannesburg site. We assess your equipment, power needs and operating hours.": {
+    "fr": "Électricité, solaire, onduleurs et batteries pour votre site à Johannesburg. Nous examinons vos équipements, vos besoins en énergie et vos horaires d’activité.",
+    "sw": "Jadili usakinishaji wa umeme, sola, vibadilishaji umeme na chelezo ya betri kwa tovuti yako ya Johannesburg. Tunatathmini vifaa vyako, mahitaji ya nguvu na saa za kazi.",
+    "ln": "Lobela ba installations électriques, solaire, inverseurs mpe sauvegarde ya pile mpo na site na yo ya Johannesburg. Totalaka bisaleli na yo, bamposa na yo ya nguya mpe bangonga ya mosala.",
+    "pt": "Discuta instalações eléctricas, energia solar, inversores e bateria reserva para suas instalações em Joanesburgo. Avaliamos seu equipamento, necessidades de energia e horas de operação.",
+    "zu": "Xoxa ngokufakwa kukagesi, i-solar, ama-inverter nokulondoloza ibhethri kusayithi lakho laseGoli. Sihlola amathuluzi akho, izidingo zamandla namahora okusebenza.",
+    "af": "Bespreek elektriese installasies, sonkrag, omsetters en batteryrugsteun vir jou Johannesburgse perseel. Ons assesseer jou toerusting, kragbehoeftes en werksure."
   },
   "Discuss fibre options and what your premises can connect to.": {
     "fr": "Discutez des options de fibre optique et de ce à quoi vos locaux peuvent se connecter.",
@@ -1206,6 +1278,14 @@
     "pt": "Discuta a cerca perimetral, o portão de entrada e como isso deve funcionar com seus outros sistemas de segurança.",
     "zu": "Xoxa ngokubiyela umjikelezo, ukungena kwesango nokuthi kufanele kusebenze kanjani nezinye izinhlelo zakho zokuphepha.",
     "af": "Bespreek omheining, hektoegang en hoe dit met jou ander sekuriteitstelsels moet werk."
+  },
+  "Discuss secure cloud access, shared files, business data backup and recovery planning with GIGI Cloud Solutions in Johannesburg.": {
+    "fr": "Parlons d’accès sécurisé au cloud, de partage de fichiers, de sauvegarde et de reprise d’activité avec GIGI Cloud Solutions à Johannesburg.",
+    "sw": "Jadili ufikiaji salama wa wingu, faili zilizoshirikiwa, nakala rudufu ya data ya biashara na upangaji wa urejeshaji na GIGI Cloud Solutions huko Johannesburg.",
+    "ln": "Lobela accès sécurisé na cloud, ba fichiers partagés, sauvegarde ya ba données d’affaires mpe planification ya récupération na GIGI Cloud Solutions na Johannesburg.",
+    "pt": "Discuta o acesso seguro à nuvem, arquivos compartilhados, backup de dados de negócios e planejamento de recuperação com a GIGI Cloud Solutions em Joanesburgo.",
+    "zu": "Xoxa ngokufinyelela kwamafu okuvikelekile, amafayela abelwe, ukwenza isipele idatha yebhizinisi nokuhlela ukutholwa nge-GIGI Cloud Solutions eGoli.",
+    "af": "Bespreek veilige wolktoegang, gedeelde lêers, besigheidsdatarugsteun en herstelbeplanning met GIGI Cloud Solutions in Johannesburg."
   },
   "Discuss your project": {
     "fr": "Discutez de votre projet",
@@ -1327,14 +1407,6 @@
     "zu": "Ugesi & Nelanga",
     "af": "Elektries & Sonkrag"
   },
-  "Electrical & Solar | GIGI Cloud Solutions": {
-    "fr": "Électrique et solaire | GIGI Cloud Solutions",
-    "sw": "Umeme & Sola | GIGI Cloud Solutions",
-    "ln": "Electrique & Solaire | GIGI Cloud Solutions",
-    "pt": "Eléctrica e Solar | GIGI Cloud Solutions",
-    "zu": "Ugesi namandla elanga | GIGI Cloud Solutions",
-    "af": "Elektriese dienste en sonkrag | GIGI Cloud Solutions"
-  },
   "Electrical Installations": {
     "fr": "Installations électriques",
     "sw": "Ufungaji wa Umeme",
@@ -1343,6 +1415,14 @@
     "zu": "Ukufakwa kukagesi",
     "af": "Elektriese Installasies"
   },
+  "Electrical and Solar Services Johannesburg | GIGI Cloud Solutions": {
+    "fr": "Installations électriques et solaires à Johannesburg | GIGI Cloud Solutions",
+    "sw": "Huduma za Umeme na Jua Johannesburg | GIGI Cloud Solutions",
+    "ln": "Misala ya kura mpe ya moi Johannesburg | GIGI Cloud Solutions",
+    "pt": "Serviços Eléctricos e Solares Joanesburgo | GIGI Cloud Solutions",
+    "zu": "Izinkonzo zikagesi nezelanga eGoli | I-GIGI Cloud Solutions",
+    "af": "Elektriese en Sonkragdienste Johannesburg | GIGI Cloud Solutions"
+  },
   "Electrical and solar": {
     "fr": "Electrique et solaire",
     "sw": "Umeme na jua",
@@ -1350,6 +1430,14 @@
     "pt": "Eléctrica e solar",
     "zu": "Ezogesi nelanga",
     "af": "Elektries en sonkrag"
+  },
+  "Electrical and solar services": {
+    "fr": "Services électriques et solaires",
+    "sw": "Huduma za umeme na jua",
+    "ln": "Misala ya kura mpe ya moi",
+    "pt": "Serviços eléctricos e solares",
+    "zu": "Izinkonzo zikagesi nezelanga",
+    "af": "Elektriese en sonkragdienste"
   },
   "Electrical distribution, solar generation and storage are considered as one energy plan.": {
     "fr": "La distribution électrique, la production solaire et le stockage sont considérés comme un seul plan énergétique.",
@@ -1695,6 +1783,14 @@
     "zu": "Izinketho eziguquguqukayo zezindawo zasendlini nezangaphandle",
     "af": "Buigsame opsies vir binne- en buite-areas"
   },
+  "For projects in Kinshasa, Lubumbashi or elsewhere in the DRC, include your city and the work you need. Our office is in Johannesburg. We confirm delivery arrangements before quoting for work in the DRC.": {
+    "fr": "Pour un projet à Kinshasa, à Lubumbashi ou ailleurs en RDC, indiquez la ville et les prestations recherchées. Notre bureau se trouve à Johannesburg. Pour tout projet en RDC, nous confirmons les modalités de réalisation avant d’établir un devis.",
+    "sw": "Kwa miradi ya Kinshasa, Lubumbashi au kwingineko nchini DRC, jumuisha jiji lako na kazi unayohitaji. Ofisi yetu iko Johannesburg. Tunathibitisha mipangilio ya uwasilishaji kabla ya kunukuu kazini nchini DRC.",
+    "ln": "Pona ba projets na Kinshasa, Lubumbashi to bisika mosusu na RDC, kotisa ville na bino pe misala oyo esengeli. Biro na biso ezali na Johannesburg. To confirmer ba dispositions ya livraison avant ya ko citer pona musala na RDC.",
+    "pt": "Para projectos em Kinshasa, Lubumbashi ou em qualquer outro lugar na RDC, inclua a sua cidade e o trabalho que necessita. Nosso escritório fica em Joanesburgo. Confirmamos os acordos de entrega antes de fazer uma cotação para trabalho na RDC.",
+    "zu": "Kumaphrojekthi aseKinshasa, eLubumbashi noma kwenye indawo e-DRC, faka idolobha lakho kanye nomsebenzi owudingayo. Ihhovisi lethu liseGoli. Siqinisekisa amalungiselelo okulethwa ngaphambi kokucaphuna umsebenzi e-DRC.",
+    "af": "Vir projekte in Kinshasa, Lubumbashi of elders in die DRK, sluit jou stad en die werk in wat jy nodig het. Ons kantoor is in Johannesburg. Ons bevestig afleweringsreëlings voordat ons kwoteer vir werk in die DRK."
+  },
   "From biometric access control and surveillance to alarms and perimeter protection, we plan security as one connected system rather than isolated devices.": {
     "fr": "Du contrôle d'accès et de la surveillance biométrique aux alarmes et à la protection périmétrique, nous planifions la sécurité comme un système connecté plutôt que comme des dispositifs isolés.",
     "sw": "Kuanzia udhibiti wa ufikiaji wa kibayometriki na ufuatiliaji hadi kengele na ulinzi wa mzunguko, tunapanga usalama kama mfumo mmoja uliounganishwa badala ya vifaa vilivyotengwa.",
@@ -1791,22 +1887,6 @@
     "zu": "I-GIGI Cloud Solutions ihlinzeka ngokuvikeleka okuhlanganisiwe, i-IT kanye nezixazululo zamandla eGoli.",
     "af": "GIGI Cloud Solutions verskaf geïntegreerde sekuriteit-, IT- en energie-oplossings in Johannesburg."
   },
-  "GIGI Cloud Solutions provides security, access control, IT connectivity, electrical, solar and design solutions to businesses and residential customers in Johannesburg.": {
-    "fr": "GIGI Cloud Solutions fournit des solutions de sécurité, de contrôle d'accès, de connectivité informatique, électriques, solaires et de conception aux entreprises et aux clients résidentiels de Johannesburg.",
-    "sw": "GIGI Cloud Solutions hutoa usalama, udhibiti wa ufikiaji, muunganisho wa IT, umeme, jua na suluhisho za muundo kwa biashara na wateja wa makazi huko Johannesburg.",
-    "ln": "GIGI Cloud Solutions epesaka bokengi, contrôle ya accès, connectivité informatique, ba solutions électriques, solaires mpe conception na ba entreprises mpe ba clients ya ba résidentiels na Johannesburg.",
-    "pt": "GIGI Cloud Solutions fornece segurança, controlo de acesso, conectividade de TI, soluções eléctricas, solares e de design para empresas e clientes residenciais em Joanesburgo.",
-    "zu": "I-GIGI Cloud Solutions inikeza ukuvikeleka, ukulawula ukufinyelela, ukuxhumana kwe-IT, ugesi, ilanga nezixazululo zedizayini kumabhizinisi nakumakhasimende ahlala eGoli.",
-    "af": "GIGI Cloud Solutions verskaf sekuriteit, toegangsbeheer, IT-konneksie, elektriese, sonkrag- en ontwerpoplossings aan besighede en residensiële kliënte in Johannesburg."
-  },
-  "GIGI Cloud Solutions provides security, access control, IT connectivity, electrical, solar and design solutions to businesses and residential customers.": {
-    "fr": "GIGI Cloud Solutions fournit des solutions de sécurité, de contrôle d'accès, de connectivité informatique, électriques, solaires et de conception aux entreprises et aux clients résidentiels.",
-    "sw": "GIGI Cloud Solutions hutoa usalama, udhibiti wa ufikiaji, muunganisho wa IT, umeme, jua na suluhisho za muundo kwa biashara na wateja wa makazi.",
-    "ln": "GIGI Cloud Solutions epesaka bokengi, contrôle ya accès, connectivité informatique, ba solutions électriques, solaires mpe conception na ba entreprises mpe ba clients ya ba résidentiels.",
-    "pt": "GIGI Cloud Solutions fornece segurança, controlo de acesso, conectividade de TI, soluções eléctricas, solares e de design para empresas e clientes residenciais.",
-    "af": "GIGI Cloud Solutions verskaf sekuriteit, toegangsbeheer, IT-konneksie, elektriese, sonkrag- en ontwerpoplossings aan besighede en residensiële kliënte.",
-    "zu": "I-GIGI Cloud Solutions ihlinzeka ngokuvikeleka, ukulawula ukufinyelela, ukuxhumana kwe-IT, izixazululo zikagesi, zelanga nezokuklama kumabhizinisi nakumakhasimende okuhlala."
-  },
   "GIGI Cloud Solutions works with commercial, institutional and residential customers who need dependable security, connectivity and energy infrastructure. Our services cover access control, surveillance, alarms, electric fencing, fibre, networking, data backup, electrical installations, solar systems and design.": {
     "fr": "GIGI Cloud Solutions travaille avec des clients commerciaux, institutionnels et résidentiels qui ont besoin d'une sécurité, d'une connectivité et d'une infrastructure énergétique fiables. Nos services couvrent le contrôle d'accès, la surveillance, les alarmes, les clôtures électriques, la fibre, la mise en réseau, la sauvegarde des données, les installations électriques, les systèmes solaires et la conception.",
     "sw": "GIGI Cloud Solutions inafanya kazi na wateja wa kibiashara, wa kitaasisi na wa makazi ambao wanahitaji usalama unaotegemewa, muunganisho na miundombinu ya nishati. Huduma zetu zinajumuisha udhibiti wa ufikiaji, ufuatiliaji, kengele, uzio wa umeme, nyuzinyuzi, mtandao, kuhifadhi nakala za data, usakinishaji wa umeme, mifumo ya jua na muundo.",
@@ -1815,13 +1895,13 @@
     "af": "GIGI Cloud Solutions werk met kommersiële, institusionele en residensiële kliënte wat betroubare sekuriteit, konnektiwiteit en energie-infrastruktuur benodig. Ons dienste dek toegangsbeheer, toesig, alarms, elektriese heinings, vesel, netwerke, data-rugsteun, elektriese installasies, sonkragstelsels en ontwerp.",
     "zu": "I-GIGI Cloud Solutions isebenza namakhasimende ezentengiselwano, izikhungo kanye nezindawo zokuhlala ezidinga ukuphepha okuthembekile, ukuxhumana nengqalasizinda yamandla. Amasevisi ethu ahlanganisa ukulawula ukufinyelela, ukugadwa, ama-alamu, ukubiya ngogesi, ifayibha, inethiwekhi, ikhophi yasenqolobaneni yedatha, ukufakwa kukagesi, amasistimu elanga nokuklama."
   },
-  "GIGI Cloud Solutions | Enterprise Security, IT and Energy": {
-    "fr": "GIGI Cloud Solutions | Sécurité d'entreprise, informatique et énergie",
-    "sw": "GIGI Cloud Solutions | Usalama wa Biashara, IT na Nishati",
-    "ln": "GIGI Cloud Solutions | Sécurité ya entreprise, IT na Énergie",
-    "pt": "GIGI Cloud Solutions | Segurança Empresarial, TI e Energia",
-    "zu": "GIGI Cloud Solutions | Ezokuphepha Kwebhizinisi, IT kanye Nezamandla",
-    "af": "GIGI Cloud Solutions | Sekuriteit, IT en energie vir ondernemings"
+  "GIGI Cloud Solutions | Security, IT and Energy in Johannesburg": {
+    "fr": "GIGI Cloud Solutions | Sécurité, informatique et énergie à Johannesburg",
+    "sw": "GIGI Cloud Solutions | Usalama, IT na Nishati huko Johannesburg",
+    "ln": "GIGI Cloud Solutions | Bobateli, IT mpe Énergie na Johannesburg",
+    "pt": "GIGI Cloud Solutions | Segurança, TI e Energia em Joanesburgo",
+    "zu": "I-GIGI Cloud Solutions | Ezokuphepha, IT kanye Nezamandla eGoli",
+    "af": "GIGI Cloud Solutions | Sekuriteit, IT en Energie in Johannesburg"
   },
   "Give your team secure access to the files and tools they need.": {
     "fr": "Donnez à votre équipe un accès sécurisé aux fichiers et aux outils dont elle a besoin.",
@@ -1918,14 +1998,6 @@
     "pt": "TI e conectividade",
     "zu": "IT & Ukuxhumana",
     "af": "IT en konnektiwiteit"
-  },
-  "IT & Connectivity | GIGI Cloud Solutions": {
-    "fr": "Informatique et connectivité | GIGI Cloud Solutions",
-    "sw": "IT na Muunganisho | GIGI Cloud Solutions",
-    "ln": "IT & Bokangami | GIGI Cloud Solutions",
-    "pt": "TI e conectividade | GIGI Cloud Solutions",
-    "zu": "IT & Ukuxhumana | I-GIGI Cloud Solutions",
-    "af": "IT en konnektiwiteit | GIGI Cloud Solutions"
   },
   "IT Networking and Connectivity": {
     "fr": "Réseaux informatiques et connectivité",
@@ -2063,14 +2135,6 @@
     "zu": "Ukufakwa nokunikezela kuhlanganiswa nethimba lakho nabahlinzeki besevisi abakhona.",
     "af": "Installasie en oorhandiging word gekoördineer met jou span en bestaande diensverskaffers."
   },
-  "Integrated access control, CCTV, networking, data backup, electrical and solar solutions for businesses and residential estates in Johannesburg.": {
-    "fr": "Contrôle d'accès intégré, vidéosurveillance, mise en réseau, sauvegarde de données, solutions électriques et solaires pour les entreprises et les complexes résidentiels à Johannesburg.",
-    "sw": "Udhibiti wa ufikivu uliojumuishwa, CCTV, mitandao, hifadhi rudufu ya data, suluhu za umeme na jua kwa biashara na maeneo ya makazi mjini Johannesburg.",
-    "ln": "Contrôle intégré d’accès, CCTV, réseautage, sauvegarde ya ba données, solutions électriques mpe solaires mpo na ba entreprises mpe ba domaines résidentiels na Johannesburg.",
-    "pt": "Controlo de acesso integrado, CCTV, rede, backup de dados, soluções eléctricas e solares para empresas e conjuntos residenciais em Joanesburgo.",
-    "zu": "Ukulawulwa kokufinyelela okudidiyelwe, i-CCTV, inethiwekhi, ikhophi yasenqolobaneni yokwaziswa, izixazululo zikagesi nezelanga zamabhizinisi nezindawo zokuhlala eGoli.",
-    "af": "Geïntegreerde toegangsbeheer, CCTV, netwerk, data rugsteun, elektriese en sonkrag oplossings vir besighede en residensiële landgoedere in Johannesburg."
-  },
   "Integrated by design": {
     "fr": "Intégré dès la conception",
     "sw": "Imeunganishwa na muundo",
@@ -2175,13 +2239,13 @@
     "zu": "Kuyasiza ngokusetshenziswa, kodwa izilinganiso zamandla namahora into ngayinye kumele isebenze futhi.",
     "af": "Dit help met verbruik, maar kraggraderings en die ure wat elke item moet loop maak ook saak."
   },
-  "Johannesburg": {
-    "fr": "Johannesbourg",
-    "sw": "Johannesburg",
-    "ln": "Johannesburg",
-    "pt": "Joanesburgo",
-    "zu": "eGoli",
-    "af": "Johannesburg"
+  "Johannesburg Service Area and DRC Enquiries | GIGI Cloud Solutions": {
+    "fr": "Projets en RDC et zone d’intervention à Johannesburg | GIGI Cloud Solutions",
+    "sw": "Eneo la Huduma la Johannesburg na Maswali ya DRC | GIGI Cloud Solutions",
+    "ln": "Esika ya mosala ya Johannesburg mpe mituna ya RDC | GIGI Cloud Solutions",
+    "pt": "Área de serviço de Joanesburgo e consultas na RDC | GIGI Cloud Solutions",
+    "zu": "Indawo Yesevisi YaseGoli kanye Nemibuzo Yase-DRC | I-GIGI Cloud Solutions",
+    "af": "Johannesburg Diensgebied en NGK Navrae | GIGI Cloud Solutions"
   },
   "Johannesburg and surrounding areas": {
     "fr": "Johannesbourg et ses environs",
@@ -2191,6 +2255,14 @@
     "zu": "IGoli nezindawo ezizungezile",
     "af": "Johannesburg en omliggende gebiede"
   },
+  "Johannesburg and the DRC.": {
+    "fr": "Johannesburg et la RDC.",
+    "sw": "Johannesburg na DRC.",
+    "pt": "Joanesburgo e a RDC.",
+    "ln": "Johannesburg na RDC.",
+    "af": "Johannesburg en die DRK.",
+    "zu": "Johannesburg kanye ne-DRC."
+  },
   "Johannesburg based": {
     "fr": "basé à Johannesbourg",
     "sw": "mjini Johannesburg",
@@ -2198,6 +2270,14 @@
     "pt": "Baseado em Joanesburgo",
     "zu": "Uzinze eGoli",
     "af": "Johannesburg gebaseer"
+  },
+  "Johannesburg services and DRC enquiries.": {
+    "fr": "Services à Johannesburg et demandes de projet en RDC.",
+    "sw": "Huduma za Johannesburg na maswali ya DRC.",
+    "ln": "Misala ya Johannesburg mpe mituna ya RDC.",
+    "pt": "Serviços de Joanesburgo e inquéritos na RDC.",
+    "zu": "Izinsizakalo zaseGoli kanye nemibuzo yase-DRC.",
+    "af": "Johannesburg-dienste en NGK-navrae."
   },
   "Keep your business connected, protected and ready to grow.": {
     "fr": "Gardez votre entreprise connectée, protégée et prête à se développer.",
@@ -2334,6 +2414,14 @@
     "pt": "Conheça a nuvem GIGI.",
     "zu": "Hlangana ne-GIGI Cloud.",
     "af": "Ontmoet GIGI Cloud."
+  },
+  "Meet the Johannesburg team behind GIGI Cloud Solutions and learn how we assess, install and support security, IT and energy systems.": {
+    "fr": "Découvrez l’équipe de GIGI Cloud Solutions à Johannesburg et notre méthode pour évaluer, installer et entretenir vos systèmes de sécurité, d’informatique et d’énergie.",
+    "sw": "Kutana na timu ya Johannesburg nyuma ya GIGI Cloud Solutions na ujifunze jinsi tunavyotathmini, kusakinisha na kusaidia mifumo ya usalama, IT na nishati.",
+    "ln": "Kutana na équipe ya Johannesburg oyo ezali sima ya GIGI Cloud Solutions pe yekola ndenge nini to évaluer, to installer pe to soutenir ba systèmes ya sécurité, IT pe énergie.",
+    "pt": "Conheça a equipa de Joanesburgo por trás do GIGI Cloud Solutions e saiba como avaliamos, instalamos e oferecemos suporte a sistemas de segurança, TI e energia.",
+    "zu": "Hlangana nethimba laseGoli elilandela i-GIGI Cloud Solutions futhi ufunde ukuthi sihlola, sifake futhi sisekele kanjani ezokuphepha, i-IT kanye nezinhlelo zamandla.",
+    "af": "Ontmoet die Johannesburg-span agter GIGI Cloud Solutions en leer hoe ons sekuriteit-, IT- en energiestelsels assesseer, installeer en ondersteun."
   },
   "Message GIGI": {
     "fr": "Message GIGI",
@@ -2527,13 +2615,13 @@
     "zu": "Izinhlangano ezibuyekeza isipele nokuthola kabusha",
     "af": "Organisasies hersien rugsteun en herstel"
   },
-  "Our Services | GIGI Cloud Solutions": {
-    "fr": "Nos services | GIGI Cloud Solutions",
-    "sw": "Huduma Zetu | GIGI Cloud Solutions",
-    "ln": "Misala na biso | GIGI Cloud Solutions",
-    "pt": "Nossos serviços | GIGI Cloud Solutions",
-    "zu": "Izinkonzo Zethu | I-GIGI Cloud Solutions",
-    "af": "Ons dienste | GIGI Cloud Solutions"
+  "Our South African base is in Kensington, Johannesburg. Ask us to confirm coverage for your suburb before arranging a site visit. We review access, cabling, equipment and power requirements before quoting.": {
+    "fr": "Notre bureau sud-africain se trouve à Kensington, à Johannesburg. Contactez-nous pour confirmer que nous couvrons votre quartier avant de convenir d’une visite. Nous examinons l’accès au site, le câblage, les équipements et l’alimentation électrique avant d’établir un devis.",
+    "sw": "Kambi yetu ya Afrika Kusini iko Kensington, Johannesburg. Utuombe tuthibitishe huduma ya kitongoji chako kabla ya kupanga kutembelea tovuti. Tunakagua mahitaji ya ufikiaji, kebo, vifaa na nguvu kabla ya kunukuu.",
+    "ln": "Base na biso ya Afrique du Sud ezali na Kensington, Johannesburg. Senga biso to confirmer couverture ya banlieue na yo avant ya kobongisa visite ya site. Totalaka lisusu accès, câblage, équipement mpe ba exigences ya puissance avant ya ko citer.",
+    "pt": "Nossa base sul-africana fica em Kensington, Joanesburgo. Peça-nos para confirmar a cobertura do seu subúrbio antes de marcar uma visita ao local. Revisamos os requisitos de acesso, cabeamento, equipamento e energia antes de fazer uma cotação.",
+    "zu": "Isizinda sethu saseNingizimu Afrika siseKensington, eGoli. Sicele ukuthi siqinisekise ukuhlinzekwa kwendawo engaphansi kwedolobha lakho ngaphambi kokuhlela ukuvakasha kwesayithi. Sibuyekeza ukufinyelela, ikhebula, okokusebenza namandla ngaphambi kokucaphuna.",
+    "af": "Ons Suid-Afrikaanse basis is in Kensington, Johannesburg. Vra ons om dekking vir jou woonbuurt te bevestig voordat ons 'n werfbesoek reël. Ons hersien toegang, bekabeling, toerusting en kragvereistes voordat ons kwoteer."
   },
   "Our approach": {
     "fr": "Notre approche",
@@ -2646,6 +2734,14 @@
     "pt": "Número de telefone",
     "zu": "Inombolo yocingo",
     "af": "Telefoonnommer"
+  },
+  "Plan business fibre, structured cabling, Wi-Fi and IT support for your Johannesburg premises. Tell us about your site and network requirements.": {
+    "fr": "Préparez votre projet de fibre, de câblage structuré, de Wi-Fi ou d’assistance informatique à Johannesburg. Décrivez votre site et vos besoins réseau.",
+    "sw": "Panga nyuzi za biashara, kabati iliyopangwa, Wi-Fi na usaidizi wa IT kwa majengo yako ya Johannesburg. Tuambie kuhusu tovuti yako na mahitaji ya mtandao.",
+    "ln": "Planifier fibre d'affaires, câblage structuré, Wi-Fi na soutien informatique pona ba locaux na bino ya Johannesburg. Yebisa biso na ntina ya site na yo mpe masengi ya réseau.",
+    "pt": "Planeje fibra empresarial, cabeamento estruturado, Wi-Fi e suporte de TI para suas instalações em Joanesburgo. Conte-nos sobre seus requisitos de site e rede.",
+    "zu": "Hlela ifayibha yebhizinisi, ikhebula ehlelekile, i-Wi-Fi ne-IT yokusekelwa kwezakhiwo zakho zaseGoli. Sitshele mayelana nesayithi lakho nezidingo zenethiwekhi.",
+    "af": "Beplan besigheidsvesel, gestruktureerde bekabeling, Wi-Fi en IT-ondersteuning vir jou Johannesburgse perseel. Vertel ons van jou webwerf en netwerkvereistes."
   },
   "Plan camera coverage around entrances, walkways, parking and high-value areas.": {
     "fr": "Planifiez la couverture des caméras autour des entrées, des allées, des parkings et des zones de grande valeur.",
@@ -2871,6 +2967,14 @@
     "zu": "Imibuzo yephrojekthi isingathwa ngokuqondile. Faka indawo, uhlobo lwezakhiwo kanye nencazelo emfushane yomsebenzi owudingayo.",
     "af": "Projeknavrae word direk hanteer. Sluit die ligging, die tipe perseel en 'n kort beskrywing van die werk wat jy benodig in."
   },
+  "Project enquiries from the Democratic Republic of the Congo": {
+    "fr": "Projets en République démocratique du Congo (RDC)",
+    "sw": "Maswali ya mradi kutoka Jamhuri ya Kidemokrasia ya Kongo",
+    "ln": "Mituna ya projet ewutaki na République démocratique du Congo",
+    "pt": "Consultas de projectos da República Democrática do Congo",
+    "zu": "Imibuzo yephrojekthi evela eDemocratic Republic of the Congo",
+    "af": "Projeknavrae van die Demokratiese Republiek van die Kongo"
+  },
   "Project enquiries in Johannesburg and surrounding areas.": {
     "fr": "Enquêtes de projets à Johannesburg et dans les environs.",
     "sw": "Maswali ya mradi huko Johannesburg na maeneo ya karibu.",
@@ -3007,6 +3111,14 @@
     "zu": "Izinhlelo ezinokwethenjelwa",
     "af": "Betroubare stelsels"
   },
+  "Request a business website, visual identity or graphic design. Tell us about your audience, content, language requirements and launch plans.": {
+    "fr": "Demander un site internet d'entreprise, une identité visuelle ou une conception graphique. Parlez-nous de votre public, de votre contenu, de vos exigences linguistiques et de vos projets de lancement.",
+    "sw": "Omba tovuti ya biashara, utambulisho unaoonekana au muundo wa picha. Tuambie kuhusu hadhira yako, maudhui, mahitaji ya lugha na mipango ya uzinduzi.",
+    "ln": "Senga site internet ya mombongo, identité visuelle to design graphique. Yebisa biso na ntina ya audience na yo, contenus, masengi ya monoko mpe ba plans ya lancement.",
+    "pt": "Solicite site comercial, identidade visual ou design gráfico. Conte-nos sobre seu público, conteúdo, requisitos de idioma e planos de lançamento.",
+    "zu": "Cela iwebhusayithi yebhizinisi, ubunikazi obubonakalayo noma idizayini eyingcaca. Sitshele mayelana nezethameli zakho, okuqukethwe, izidingo zolimi kanye nezinhlelo zokuqalisa.",
+    "af": "Versoek 'n besigheidswebwerf, visuele identiteit of grafiese ontwerp. Vertel ons van jou gehoor, inhoud, taalvereistes en bekendstellingsplanne."
+  },
   "Request a quote": {
     "fr": "Demander un devis",
     "sw": "Omba nukuu",
@@ -3014,14 +3126,6 @@
     "pt": "Solicite um orçamento",
     "zu": "Cela ikhotheshini",
     "af": "Versoek 'n kwotasie"
-  },
-  "Request a website, brand system or graphic design that explains your business clearly.": {
-    "fr": "Demandez un site Web, un système de marque ou une conception graphique qui explique clairement votre entreprise.",
-    "sw": "Omba tovuti, mfumo wa chapa au muundo wa picha unaofafanua biashara yako kwa uwazi.",
-    "ln": "Senga site internet, système ya marque to design graphique oyo elimbolaka mombongo na yo polele.",
-    "pt": "Solicite um site, sistema de marca ou design gráfico que explique claramente o seu negócio.",
-    "zu": "Cela iwebhusayithi, isistimu yomkhiqizo noma idizayini eyingcaca echaza ibhizinisi lakho ngokucacile.",
-    "af": "Versoek 'n webwerf, handelsmerkstelsel of grafiese ontwerp wat jou besigheid duidelik verduidelik."
   },
   "Request brand layouts, logo support and visual systems for your business.": {
     "fr": "Demandez des mises en page de marque, une prise en charge du logo et des systèmes visuels pour votre entreprise.",
@@ -3031,14 +3135,6 @@
     "zu": "Cela izakhiwo zomkhiqizo, usekelo lwelogo nezinhlelo ezibukwayo zebhizinisi lakho.",
     "af": "Versoek handelsmerkuitlegte, logo-ondersteuning en visuele stelsels vir jou besigheid."
   },
-  "Request commercial electrical work or discuss solar, inverter and battery systems for your premises.": {
-    "fr": "Demandez des travaux électriques commerciaux ou discutez des systèmes solaires, d'onduleurs et de batteries pour vos locaux.",
-    "sw": "Omba kazi ya kibiashara ya umeme au jadili mifumo ya jua, inverter na betri ya majengo yako.",
-    "ln": "Senga mosala ya courant ya mombongo to lobela ba systèmes solaire, inverseur mpe piles mpo na bisika na yo.",
-    "pt": "Solicite trabalhos eléctricos comerciais ou discuta sistemas solares, inversores e baterias para suas instalações.",
-    "zu": "Cela umsebenzi kagesi wentengiso noma xoxa ngelanga, inverter nezinhlelo zebhethri zezakhiwo zakho.",
-    "af": "Versoek kommersiële elektriese werk of bespreek sonkrag-, omskakelaar- en batterystelsels vir jou perseel."
-  },
   "Request electrical installation, maintenance or upgrade work for your premises.": {
     "fr": "Demandez des travaux d'installation électrique, de maintenance ou de mise à niveau de vos locaux.",
     "sw": "Omba usakinishaji wa umeme, matengenezo au uboreshaji wa kazi kwa eneo lako.",
@@ -3046,14 +3142,6 @@
     "pt": "Solicite trabalhos de instalação eléctrica, manutenção ou modernização de suas instalações.",
     "zu": "Cela ukufakwa kukagesi, ukunakekelwa noma uthuthukise umsebenzi wezakhiwo zakho.",
     "af": "Versoek elektriese installasie, instandhouding of opgraderingswerk vir jou perseel."
-  },
-  "Request fibre, structured networking, Wi-Fi and data backup for your business or residential property.": {
-    "fr": "Demandez la fibre optique, les réseaux structurés, le Wi-Fi et la sauvegarde des données pour votre entreprise ou votre propriété résidentielle.",
-    "sw": "Omba nyuzi, mtandao uliopangwa, Wi-Fi na chelezo ya data ya biashara yako au mali ya makazi.",
-    "ln": "Senga fibre, réseau structuré, Wi-Fi mpe sauvegarde ya ba données mpo na entreprise to ndako na yo ya kofanda.",
-    "pt": "Solicite fibra, rede estruturada, Wi-Fi e backup de dados para sua empresa ou imóvel residencial.",
-    "zu": "Cela i-fiber, inethiwekhi ehlelekile, i-Wi-Fi nesipele sedatha yebhizinisi lakho noma indawo yokuhlala.",
-    "af": "Versoek vesel, gestruktureerde netwerke, Wi-Fi en data-rugsteun vir jou besigheid of residensiële eiendom."
   },
   "Request structured cabling and Wi-Fi coverage for offices, meeting rooms and shared areas.": {
     "fr": "demandez un câblage structuré et une couverture Wi-Fi pour les bureaux, les salles de réunion et les espaces partagés.",
@@ -3271,14 +3359,6 @@
     "zu": "Ukuphepha Nokufinyelela",
     "af": "Sekuriteit en toegang"
   },
-  "Security & Access | GIGI Cloud Solutions": {
-    "fr": "Sécurité et accès | GIGI Cloud Solutions",
-    "sw": "Usalama na Ufikiaji | GIGI Cloud Solutions",
-    "ln": "Bobateli & Bokɔti | GIGI Cloud Solutions",
-    "pt": "Segurança e Acesso | GIGI Cloud Solutions",
-    "zu": "Ukuphepha Nokufinyelela | I-GIGI Cloud Solutions",
-    "af": "Sekuriteit en toegangsbeheer | GIGI Cloud Solutions"
-  },
   "Security and access": {
     "fr": "Sécurité et accès",
     "sw": "Usalama na ufikiaji",
@@ -3318,6 +3398,14 @@
     "pt": "Empresas de segurança, TI e infraestrutura",
     "zu": "Izinkampani zokuphepha, i-IT kanye nengqalasizinda",
     "af": "Sekuriteit-, IT- en infrastruktuurmaatskappye"
+  },
+  "Security, IT, Solar and Design Services | GIGI Cloud Solutions": {
+    "fr": "Services de sécurité, informatiques, solaires et de conception | GIGI Cloud Solutions",
+    "sw": "Usalama, IT, Jua na Huduma za Usanifu | GIGI Cloud Solutions",
+    "ln": "Misala ya bokengi, ya IT, ya moi mpe ya bokeli | GIGI Cloud Solutions",
+    "pt": "Serviços de segurança, TI, energia solar e design | GIGI Cloud Solutions",
+    "zu": "Ezokuphepha, IT, Solar kanye Nomklamo Amasevisi | I-GIGI Cloud Solutions",
+    "af": "Sekuriteit, IT, sonkrag en ontwerpdienste | GIGI Cloud Solutions"
   },
   "Security, connectivity and energy": {
     "fr": "Sécurité, connectivité et énergie",
@@ -3407,6 +3495,14 @@
     "zu": "Indawo yesevisi",
     "af": "Diensarea"
   },
+  "Service areas": {
+    "fr": "Zones d’intervention",
+    "sw": "Maeneo ya huduma",
+    "ln": "Bisika ya mosala",
+    "pt": "Áreas de serviço",
+    "zu": "Izindawo zesevisi",
+    "af": "Diensareas"
+  },
   "Service focus areas": {
     "fr": "Domaines d'intervention du service",
     "sw": "Maeneo ya kuzingatia huduma",
@@ -3439,6 +3535,14 @@
     "zu": "Amasevisi",
     "af": "Dienste"
   },
+  "Services you can discuss remotely": {
+    "fr": "Services dont vous pouvez discuter à distance",
+    "sw": "Huduma unazoweza kujadili kwa mbali",
+    "ln": "Misala oyo okoki kolobela na mosika",
+    "pt": "Serviços que você pode discutir remotamente",
+    "zu": "Amasevisi ongaxoxa ngawo ukude",
+    "af": "Dienste wat jy op afstand kan bespreek"
+  },
   "Several services can share one brief.": {
     "fr": "Plusieurs services peuvent partager un même brief.",
     "sw": "Huduma kadhaa zinaweza kushiriki muhtasari mmoja.",
@@ -3462,6 +3566,14 @@
     "pt": "Compartilhe as plataformas que você já utiliza e pergunte sobre alternativas antes de mudar qualquer coisa.",
     "zu": "Yabelana ngezinkundla osuvele uzisebenzisa futhi ubuze ngezinye izindlela ngaphambi kokushintsha noma yini.",
     "af": "Deel die platforms wat jy reeds gebruik en vra oor alternatiewe voordat jy iets verander."
+  },
+  "Share your brief for": {
+    "fr": "Partagez votre brief pour",
+    "sw": "Shiriki muhtasari wako kwa",
+    "ln": "Kabola mokuse na yo mpo na",
+    "pt": "Compartilhe seu briefing para",
+    "zu": "Yabelana ngemininingwane yakho",
+    "af": "Deel jou opdrag vir"
   },
   "Share your current URL and identify the pages, content and brand elements you want to keep.": {
     "fr": "Partagez votre URL actuelle et identifiez les pages, le contenu et les éléments de marque que vous souhaitez conserver.",
@@ -3655,13 +3767,13 @@
     "zu": "Yakha isipiliyoni",
     "af": "Struktureer die ervaring"
   },
-  "Suburb or city": {
-    "fr": "Banlieue ou ville",
-    "sw": "Kitongoji au jiji",
-    "ln": "Suburb to engumba",
-    "pt": "Subúrbio ou cidade",
-    "zu": "Indawo engaphansi noma idolobha",
-    "af": "Voorstad of stad"
+  "Suburb or city and country": {
+    "fr": "Quartier ou ville, et pays",
+    "sw": "Kitongoji au jiji na nchi",
+    "ln": "Suburbe to engumba mpe mboka",
+    "pt": "Subúrbio ou cidade e país",
+    "zu": "Indawo engaphansi noma idolobha nezwe",
+    "af": "Voorstad of stad en land"
   },
   "Support for current and future network demand": {
     "fr": "Prise en charge de la demande réseau actuelle et future",
@@ -3798,6 +3910,14 @@
     "pt": "Diga-nos o que necessita o seu local e onde será realizada a obra.",
     "zu": "Sitshele ukuthi indawo yakho idingani nokuthi umsebenzi uzokwenziwa kuphi.",
     "af": "Vertel ons wat u perseel benodig en waar die werk sal plaasvind."
+  },
+  "Tell us your city and what you need before committing to equipment or installation.": {
+    "fr": "Dites-nous votre ville et ce dont vous avez besoin avant de vous engager dans un équipement ou une installation.",
+    "sw": "Tuambie jiji lako na unachohitaji kabla ya kujitolea kwa vifaa au usakinishaji.",
+    "ln": "Yebisa biso engumba na yo mpe nini osengeli na yango liboso ya komipesa na bisaleli to na installation.",
+    "pt": "Conte-nos sua cidade e o que você precisa antes de se comprometer com o equipamento ou instalação.",
+    "zu": "Sitshele idolobha lakho nokuthi yini oyidingayo ngaphambi kokuzibophezela kumishini noma ukufaka.",
+    "af": "Vertel ons jou stad en wat jy nodig het voordat jy jou tot toerusting of installasie verbind."
   },
   "That depends on the current installation and equipment. Share the details and we can discuss the options before any work is proposed.": {
     "fr": "Cela dépend de l'installation et de l'équipement actuels. Partagez les détails et nous pourrons discuter des options avant que des travaux ne soient proposés.",
@@ -4223,14 +4343,6 @@
     "zu": "I-Web & Graphic Design",
     "af": "Web- en grafiese ontwerp"
   },
-  "Web & Graphic Design | GIGI Cloud Solutions": {
-    "fr": "Conception Web et graphique | GIGI Cloud Solutions",
-    "sw": "Usanifu wa Wavuti na Picha | GIGI Cloud Solutions",
-    "ln": "Web & Design ya graphique | GIGI Cloud Solutions",
-    "pt": "Web e Design Gráfico | GIGI Cloud Solutions",
-    "zu": "Iwebhu Nedizayini Yezithombe | I-GIGI Cloud Solutions",
-    "af": "Web- en grafiese ontwerp | GIGI Cloud Solutions"
-  },
   "Web Design": {
     "fr": "Conception de sites Web",
     "sw": "Muundo wa Wavuti",
@@ -4246,6 +4358,14 @@
     "pt": "Web e design gráfico",
     "zu": "Iwebhu kanye nomklamo wezithombe",
     "af": "Web- en grafiese ontwerp"
+  },
+  "Website and Graphic Design Johannesburg | GIGI Cloud Solutions": {
+    "fr": "Création de sites web et graphisme à Johannesburg | GIGI Cloud Solutions",
+    "sw": "Tovuti na Ubunifu wa Picha Johannesburg | GIGI Cloud Solutions",
+    "ln": "Site internet mpe graphique Johannesburg | GIGI Cloud Solutions",
+    "pt": "Site e Design Gráfico Joanesburgo | GIGI Cloud Solutions",
+    "zu": "Iwebhusayithi kanye Nomklamo Wezithombe Johannesburg | I-GIGI Cloud Solutions",
+    "af": "Webwerf en Grafiese Ontwerp Johannesburg | GIGI Cloud Solutions"
   },
   "Website and brand material should explain the services and make the enquiry path obvious.": {
     "fr": "Le site Web et le matériel de marque doivent expliquer les services et rendre évident le cheminement de la demande.",
@@ -4423,6 +4543,14 @@
     "zu": "Sebenza noma yikuphi",
     "af": "Werk vanaf enige plek"
   },
+  "Work that needs a site assessment": {
+    "fr": "Travaux nécessitant une évaluation du site",
+    "sw": "Kazi inayohitaji tathmini ya tovuti",
+    "ln": "Mosala oyo esengeli kotala esika",
+    "pt": "Trabalho que precisa de avaliação do local",
+    "zu": "Umsebenzi odinga ukuhlolwa kwesayithi",
+    "af": "Werk wat 'n terreinbeoordeling benodig"
+  },
   "Yes. Include inverter and battery model numbers and describe the behaviour you want to change.": {
     "fr": "Oui. Incluez les numéros de modèle de l’onduleur et de la batterie et décrivez le comportement que vous souhaitez modifier.",
     "sw": "Ndiyo. Jumuisha kigeuzi na nambari za muundo wa betri na ueleze tabia unayotaka kubadilisha.",
@@ -4591,6 +4719,14 @@
     "zu": "Iwebhusayithi yakho nezinto zomkhiqizo kufanele zenze kube lula kumakhasimende ukuthi aqonde okwenzayo futhi athathe isinyathelo esilandelayo.",
     "af": "Jou webwerf en handelsmerkmateriaal behoort dit vir kliënte maklik te maak om te verstaan wat jy doen en die volgende stap te neem."
   },
+  "cloud access and data backup": {
+    "fr": "accès au cloud et sauvegarde des données",
+    "sw": "ufikiaji wa wingu na nakala rudufu ya data",
+    "ln": "accès na cloud na sauvegarde ya ba données",
+    "pt": "acesso à nuvem e backup de dados",
+    "zu": "ukufinyelela kwamafu nokwenza isipele idatha",
+    "af": "wolktoegang en datarugsteun"
+  },
   "e.g. 073 168 0832": {
     "fr": "par ex. 073 168 0832",
     "sw": "k.m. 073 168 0832",
@@ -4599,6 +4735,14 @@
     "zu": "isb. 073 168 0832",
     "af": "bv. 073 168 0832"
   },
+  "or": {
+    "fr": "ou",
+    "sw": "au",
+    "ln": "to",
+    "pt": "ou",
+    "zu": "noma",
+    "af": "of"
+  },
   "related capabilities": {
     "fr": "capacités associées",
     "sw": "uwezo unaohusiana",
@@ -4606,6 +4750,14 @@
     "pt": "recursos relacionados",
     "zu": "amakhono ahlobene",
     "af": "verwante vermoëns"
+  },
+  "website and graphic design": {
+    "fr": "site web et conception graphique",
+    "sw": "tovuti na muundo wa picha",
+    "ln": "site internet mpe design graphique",
+    "pt": "site e design gráfico",
+    "zu": "iwebhusayithi kanye nomklamo wezithombe",
+    "af": "webwerf en grafiese ontwerp"
   },
   "www.gigicloudsolutions.co.za": {
     "fr": "www.gigicloudsolutions.co.za",

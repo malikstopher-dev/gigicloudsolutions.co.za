@@ -6,9 +6,9 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { createRoot } from "react-dom/client";
 import {
   BrowserRouter,
+  StaticRouter,
   Link as RouterLink,
   NavLink as RouterNavLink,
   type LinkProps,
@@ -81,6 +81,7 @@ import "./enterprise.css";
 import './cinema.css';
 import { useHeroTypewriter } from './useHeroTypewriter';
 import { codes, localeTag, localPath, stripLocale, LanguageProvider, LanguageSelect, useLanguage } from './language';
+import { notFound, pageLanguage, publicPages } from './seo';
 
 function Link({to,...props}:LinkProps) {
   const {code}=useLanguage();
@@ -238,6 +239,7 @@ function Hero({
   hero,
   kicker,
   title,
+  compactTitle,
   lead,
   primary,
   secondary,
@@ -246,6 +248,7 @@ function Hero({
   hero: HeroKey;
   kicker: string;
   title: string;
+  compactTitle?: string;
   lead: string;
   primary: { to: string; label: string };
   secondary?: { to: string; label: string };
@@ -261,7 +264,7 @@ function Hero({
       <div className="gc-container gc-hero__inner">
         <div className="gc-hero__copy" ref={copyRef}>
           <p className="gc-hero__kicker"><Words text={kicker}/></p>
-          <h1><span className="gc-hero__title-wide" ref={wideRef}><Words text={title}/></span><span className="gc-hero__title-compact" ref={compactRef}><Words text={mobileHeadlines[hero] || title}/></span></h1>
+          <h1><span className="gc-hero__title-wide" ref={wideRef}><Words text={title}/></span><span className="gc-hero__title-compact" ref={compactRef}><Words text={compactTitle || mobileHeadlines[hero] || title}/></span></h1>
           <p className="gc-hero__lead" ref={leadRef}><Words text={lead}/></p>
           <span className="gc-typing-cursor" ref={cursorRef} aria-hidden="true" />
           <div className="gc-hero__actions">
@@ -289,6 +292,12 @@ function Hero({
 }
 
 function Words({text}: {text:string}) { return <>{useLanguage().t(text)}</>; }
+
+function ServiceBreadcrumb({ group }: { group: ServiceGroup }) {
+  return <nav className="gc-container gc-breadcrumb" aria-label="Breadcrumb">
+    <ol><li><Link to="/">Home</Link></li><li><Link to="/services">Services</Link></li><li aria-current="page">{group.name}</li></ol>
+  </nav>;
+}
 function useWhatsApp() {
   const {t}=useLanguage();
   return whatsapp(t('Hi GIGI, I would like to discuss a project for my business or home.'));
@@ -524,6 +533,7 @@ function SiteFooter() {
           <Link to="/">Home</Link>
           <Link to="/about">About us</Link>
           <Link to="/services">All services</Link>
+          <Link to="/service-areas">Service areas</Link>
           <Link to="/contact">Request a quote</Link>
         </div>
         <div className="gc-footer__col">
@@ -1316,6 +1326,7 @@ function ServicePage({ index }: { index: number }) {
         primary={{ to: quoteLink(group.name), label: "Discuss your project" }}
         secondary={{ to: "#capabilities", label: "View capabilities" }}
       />
+      <ServiceBreadcrumb group={group} />
 
       <section className="gc-section">
         <div className="gc-container gc-overview">
@@ -1532,6 +1543,8 @@ function ContactPage() {
   const preset = params.get("service") || "";
   const [feedback, setFeedback] = useState("");
   const [enquiry, setEnquiry] = useState("");
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -1634,6 +1647,7 @@ function ContactPage() {
                 <span>
                   <small>Service area</small>
                   Johannesburg and surrounding areas
+                  <Link className="gc-coverage-link" to="/service-areas">Service areas</Link>
                 </span>
               </div>
             </div>
@@ -1643,7 +1657,7 @@ function ContactPage() {
             </p>
           </aside>
 
-          <form id="enquiry" className="gc-form gc-reveal" onInvalid={() => setFeedback('Please check the highlighted fields before continuing.')} onSubmit={submit}>
+          <form id="enquiry" method="post" className="gc-form gc-reveal" onInvalid={() => setFeedback('Please check the highlighted fields before continuing.')} onSubmit={submit}>
             <div className="gc-form__head">
               <p className="gc-eyebrow">Project enquiry</p>
               <h2>Your project details.</h2>
@@ -1716,7 +1730,7 @@ function ContactPage() {
                 <input
                   name="location"
                   autoComplete="address-level2"
-                  placeholder="Suburb or city"
+                  placeholder="Suburb or city and country"
                   required
                   maxLength={200}
                 />
@@ -1732,7 +1746,7 @@ function ContactPage() {
                 />
               </label>
             </div>
-            <button type="submit" className="gc-btn gc-btn--primary gc-form__submit">
+            <button type="submit" disabled={!ready} className="gc-btn gc-btn--primary gc-form__submit">
               <MessageCircle size={18} />
               {t('Send enquiry via WhatsApp')}
               <ArrowUpRight size={17} />
@@ -1847,49 +1861,38 @@ function RouteEffects() {
   const {code,t}=useLanguage();
   const path = stripLocale(location.pathname).replace(/\/$/, '') || '/';
   const previous = useRef(path);
+  const initialLocale = useRef(code);
   useEffect(() => {
     if (previous.current !== path) window.scrollTo({top:0, behavior:'instant'});
-    const group = services.find(
-      (item) => path === `/services/${item.slug}`,
-    );
-    const titles: Record<string, string> = {
-      "/": "GIGI Cloud Solutions | Enterprise Security, IT and Energy",
-      "/about": "About Us | GIGI Cloud Solutions",
-      "/services": "Our Services | GIGI Cloud Solutions",
-      "/contact": "Contact and Request a Quote | GIGI Cloud Solutions",
-    };
-    const descriptions: Record<string, string> = {
-      "/": "Integrated access control, CCTV, networking, data backup, electrical and solar solutions for businesses and residential estates in Johannesburg.",
-      "/about":
-        "GIGI Cloud Solutions provides security, access control, IT connectivity, electrical, solar and design solutions to businesses and residential customers in Johannesburg.",
-      "/services":
-        "Explore all 11 GIGI Cloud Solutions offerings, from access control and CCTV to fibre, networking, solar, electrical and design services.",
-      "/contact":
-        "Send your project requirements and location to GIGI Cloud Solutions by WhatsApp, phone or email.",
-    };
-    const title = group
-      ? `${t(group.name)} | GIGI Cloud Solutions`
-      : t(titles[path] || "Page Not Found | GIGI Cloud Solutions");
-    const description =
-      group?.description ||
-      descriptions[path] ||
-      "GIGI Cloud Solutions provides integrated security, IT and energy solutions in Johannesburg.";
+    const metadata = publicPages.find(([route]) => route === path);
+    const title = t(metadata?.[1] ?? notFound[0]);
+    const description = t(metadata?.[2] ?? notFound[1]);
+    document.documentElement.lang = pageLanguage(code, localeTag(code), path);
     document.title = title;
     for (const [selector, value] of [
-      ['meta[name="description"]', t(description)],
+      ['meta[name="description"]', description],
       ['meta[property="og:title"]', title],
-      ['meta[property="og:description"]', t(description)],
+      ['meta[property="og:description"]', description],
       ['meta[property="og:url"]', company.url + localPath(code,path)],
     ]) {
       document.querySelector(selector)?.setAttribute("content", value);
     }
-    document
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute("href", company.url + localPath(code,path));
-    for (const [tag, href] of [...codes.map(c=>[localeTag(c),localPath(c,path)]),['x-default', path]]) {
-      let link=document.querySelector<HTMLLinkElement>(`link[hreflang="${tag}"]`);
-      if(!link){link=document.createElement('link');link.rel='alternate';link.hreflang=tag;document.head.append(link);}
-      link.href=company.url+href;
+    document.querySelectorAll('link[rel="canonical"],link[hreflang],meta[name="robots"]').forEach(node => node.remove());
+    if (previous.current !== path || initialLocale.current !== code) document.querySelector('script[data-gigi-schema]')?.remove();
+    if (metadata) {
+      const canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      canonical.href = company.url + localPath(code,path);
+      document.head.append(canonical);
+      for (const [tag, href] of [...codes.map(c=>[pageLanguage(c, localeTag(c), path),localPath(c,path)]),['x-default', localPath('en',path)]]) {
+        const link=document.createElement('link');
+        link.rel='alternate';link.hreflang=tag;link.href=company.url+href;
+        document.head.append(link);
+      }
+    } else {
+      const robots = document.createElement('meta');
+      robots.name = 'robots'; robots.content = 'noindex';
+      document.head.append(robots);
     }
     if (previous.current !== path) {
       document.getElementById("main")?.focus({ preventScroll: true });
@@ -1897,6 +1900,28 @@ function RouteEffects() {
     previous.current = path;
   }, [path,code,t]);
   return null;
+}
+
+function ServiceAreasPage() {
+  return <>
+    <Hero hero="contact" kicker="Service areas" title="Johannesburg services and DRC enquiries." compactTitle="Johannesburg and the DRC." lead="Tell us your city and what you need before committing to equipment or installation." primary={{to:'/contact',label:'Request a quote'}} />
+    <section className="gc-section"><div className="gc-container gc-contact">
+      <div className="gc-contact__aside">
+        <h2>Johannesburg and surrounding areas</h2>
+        <p>Our South African base is in Kensington, Johannesburg. Ask us to confirm coverage for your suburb before arranging a site visit. We review access, cabling, equipment and power requirements before quoting.</p>
+        <p><Link to="/services/security-access">CCTV and access control</Link> · <Link to="/services/it-connectivity">Business fibre and networking</Link> · <Link to="/services/electrical-solar">Electrical and solar services</Link></p>
+      </div>
+      <div className="gc-contact__aside">
+        <h2>Project enquiries from the Democratic Republic of the Congo</h2>
+        <p>For projects in Kinshasa, Lubumbashi or elsewhere in the DRC, include your city and the work you need. Our office is in Johannesburg. We confirm delivery arrangements before quoting for work in the DRC.</p>
+        <h3>Services you can discuss remotely</h3>
+        <p>Share your brief for <Link to="/services/web-graphic-design">website and graphic design</Link> or <Link to="/services/cloud-solutions">cloud access and data backup</Link>. Tell us who needs access, which languages your site needs, and whether any work must happen in person.</p>
+        <h3>Work that needs a site assessment</h3>
+        <p>CCTV, access control, alarms, electric fencing, fibre cabling, electrical work and solar installations depend on the site. On-site delivery in the DRC is subject to confirmation. Please wait for a written scope and quote before ordering equipment.</p>
+        <Action to="/contact">Request a quote</Action>
+      </div>
+    </div></section>
+  </>;
 }
 
 function AppRoutes() {
@@ -1916,6 +1941,7 @@ function AppRoutes() {
           />
         ))}
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/service-areas" element={<ServiceAreasPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
@@ -1925,7 +1951,7 @@ function AppRoutes() {
 function App() {
   const chat = useWhatsApp();
   return (
-    <BrowserRouter>
+    <>
       <a className="gc-skip" href="#main">
         Skip to content
       </a>
@@ -1945,8 +1971,11 @@ function App() {
       </a>
       <RouteEffects />
       <ScrollReveal />
-    </BrowserRouter>
+    </>
   );
 }
 
-createRoot(document.getElementById("root")!).render(<LanguageProvider><App /></LanguageProvider>);
+export function Site({ pathname, staticLocation }: { pathname: string; staticLocation?: string }) {
+  const page = <LanguageProvider pathname={pathname}><App /></LanguageProvider>;
+  return staticLocation ? <StaticRouter location={staticLocation}>{page}</StaticRouter> : <BrowserRouter>{page}</BrowserRouter>;
+}

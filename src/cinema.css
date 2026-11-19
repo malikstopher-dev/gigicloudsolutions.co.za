@@ -123,3 +123,8 @@ body{background:#06132e}
 @keyframes gcActionsIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 @keyframes gcCursorBlink{0%,100%{opacity:1}50%{opacity:.08}}
 @keyframes gcCursorOut{0%{opacity:1}42%{opacity:.12}58%{opacity:.7}100%{opacity:0}}
+.gc-breadcrumb{padding-block:16px;color:var(--muted);font-size:.82rem}
+.gc-breadcrumb ol{display:flex;flex-wrap:wrap;gap:6px 10px}
+.gc-breadcrumb li+li::before{content:'/';margin-inline-end:10px;color:var(--cyan)}
+.gc-breadcrumb a{text-decoration:underline;text-underline-offset:.2em}
+.gc-coverage-link{display:block;color:#6cd8ff;text-decoration:underline;text-underline-offset:.2em}

@@ -41,5 +41,5 @@ test('Reduced motion keeps static visual and links accessible',async({page})=>{
 });
 test('About presents Mission and Vision and metadata is route-specific',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/about');await expect(page.locator('.gc-mv__panel--mission')).toBeVisible();await expect(page.locator('.gc-mv__panel--vision')).toBeVisible();
- expect(await page.evaluate(async()=>(await fetch('/services/security-access/')).text())).toContain('<title>Security &amp; Access | GIGI Cloud Solutions</title>'); expect(await page.evaluate(async()=>(await fetch('/sitemap.xml')).ok)).toBe(true);expect(await page.evaluate(async()=>(await fetch('/favicon.png')).ok)).toBe(true);
+  expect(await page.evaluate(async()=>(await fetch('/services/security-access/')).text())).toContain('<title>CCTV and Access Control Johannesburg | GIGI Cloud Solutions</title>'); expect(await page.evaluate(async()=>(await fetch('/sitemap.xml')).ok)).toBe(true);expect(await page.evaluate(async()=>(await fetch('/favicon.png')).ok)).toBe(true);
 });

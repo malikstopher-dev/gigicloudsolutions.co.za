@@ -22,7 +22,7 @@ const heroDescriptions: Record<HeroKey, string> = {
 };
 
 export function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() => matchMedia(query).matches);
+  const [matches, setMatches] = useState(() => typeof matchMedia !== 'undefined' && matchMedia(query).matches);
   useEffect(() => {
     const media = matchMedia(query);
     const update = () => setMatches(media.matches);

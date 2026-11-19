@@ -20,8 +20,8 @@ test('The new locale URLs are discoverable in the sitemap and carry metadata bef
   const locations = await sitemap.text();
   for (const [code, tag] of [['zu', 'zu-ZA'], ['af', 'af-ZA']]) {
     for (const path of routes) {
-      const url = `/${code}${path}`;
-      const response = await request.get(url.endsWith('/') ? url : `${url}/`);
+      const url = `/${code}${path.replace(/\/$/, '')}/`;
+      const response = await request.get(url, { maxRedirects: 0 });
       expect(response.ok(), url).toBeTruthy();
       const html = await response.text();
       expect(html).toContain(`<html lang="${tag}">`);
@@ -61,15 +61,17 @@ for (const [code, tag, homeCopy, aboutCopy, contactCopy] of cases) {
         if (path === '/') expect(body.replaceAll("'",'’').toLowerCase()).toContain(homeCopy.toLowerCase());
         if (path === '/about') expect(body).toContain(aboutCopy);
         if (path === '/contact') expect(body).toContain(contactCopy);
-        await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za${prefix}${path}`);
-        await expect(page.locator('link[hreflang="pt-AO"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/pt${path}`);
-        await expect(page.locator('link[hreflang="zu-ZA"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/zu${path}`);
-        await expect(page.locator('link[hreflang="af-ZA"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/af${path}`);
+        const slug = path.replace(/\/$/, '');
+        await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za${prefix}${slug}/`);
+        await expect(page.locator('link[hreflang="pt-AO"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/pt${slug}/`);
+        await expect(page.locator('link[hreflang="zu-ZA"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/zu${slug}/`);
+        await expect(page.locator('link[hreflang="af-ZA"]')).toHaveAttribute('href',`https://www.gigicloudsolutions.co.za/af${slug}/`);
         if (code !== 'en') await expect(page.locator('footer')).not.toContainText('Message us on WhatsApp');
         expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth+1),`${path} at ${width}px`).toBeTruthy();
       }
     }
     const form = page.locator('#enquiry');
+    await expect(form.locator('button[type=submit]')).toBeEnabled();
     await form.evaluate((el: HTMLFormElement) => el.requestSubmit());
     await expect(form.getByRole('status')).not.toBeEmpty();
     if (code !== 'en') await expect(form.getByRole('status')).not.toContainText('Please check the highlighted fields');
