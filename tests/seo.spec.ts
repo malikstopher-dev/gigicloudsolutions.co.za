@@ -45,6 +45,8 @@ test('French Congo guide is readable without JavaScript and links to a real loca
     await page.getByRole('link', {name:'Demander un devis', exact:true}).first().click();
     await expect(page).toHaveURL(/\/fr\/contact\/$/);
     await expect(page.locator('#enquiry')).toBeVisible();
+    await expect(page.locator('#enquiry')).toHaveAttribute('action', 'https://api.web3forms.com/submit');
+    await expect(page.locator('#enquiry button[type=submit]')).toBeEnabled();
   } finally { await context.close(); }
 });
 

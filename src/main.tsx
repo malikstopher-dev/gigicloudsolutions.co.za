@@ -1537,32 +1537,44 @@ function FaqSection({ entries }: { entries: [string, string][] }) {
 }
 
 function ContactPage() {
-  const { t } = useLanguage();
+  const { code, t } = useLanguage();
   const chat = useWhatsApp();
   const [params] = useSearchParams();
   const preset = params.get("service") || "";
   const [feedback, setFeedback] = useState("");
-  const [enquiry, setEnquiry] = useState("");
-  const [ready, setReady] = useState(false);
-  useEffect(() => setReady(true), []);
+  const [sending, setSending] = useState(false);
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    if (sending) return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const fields = ["name", "email", "phone", "service", "location", "message"];
     if (fields.some((field) => !String(data.get(field) || "").trim())) {
-      setFeedback("Please complete all fields with your project details.");
+      setFeedback(t("Please complete all fields with your project details."));
       return;
     }
-    const text = [t('Hi GIGI, I would like to request a quotation.'), '',
-      `${t('Name')}: ${data.get('name')}`, `${t('Email')}: ${data.get('email')}`,
-      `${t('Phone')}: ${data.get('phone')}`, `${t('Service')}: ${t(String(data.get('service')))}`,
-      `${t('Project location')}: ${data.get('location')}`, '', `${t('Project details')}:`, data.get('message')].join('\n');
-    window.open(whatsapp(text), "_blank", "noopener,noreferrer");
-    setFeedback(
-      "Your enquiry is ready to send in WhatsApp. Please review it and press Send there. If WhatsApp did not open, use the link below.",
-    );
-    setEnquiry(whatsapp(text));
+    setSending(true);
+    setFeedback(t("Sending enquiry..."));
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.success !== true) throw new Error("enquiry delivery failed");
+      form.reset();
+      setFeedback(
+        t("Thank you. Your enquiry has been sent. We will review it and respond using the contact details you provided."),
+      );
+    } catch {
+      setFeedback(
+        t("Your enquiry could not be sent right now. Please try again, or contact us by phone, email or WhatsApp."),
+      );
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -1657,13 +1669,25 @@ function ContactPage() {
             </p>
           </aside>
 
-          <form id="enquiry" method="post" className="gc-form gc-reveal" onInvalid={() => setFeedback('Please check the highlighted fields before continuing.')} onSubmit={submit}>
+          <form
+            id="enquiry"
+            action="https://api.web3forms.com/submit"
+            method="post"
+            className="gc-form gc-reveal"
+            onInvalid={() => setFeedback(t('Please check the highlighted fields before continuing.'))}
+            onSubmit={submit}
+          >
+            <input type="hidden" name="access_key" value="a9dc3e72-db1d-4958-a2c0-876e549371d8" />
+            <input type="hidden" name="subject" value="New project enquiry from the GIGI Cloud Solutions website" />
+            <input type="hidden" name="from_name" value="GIGI Cloud Solutions website" />
+            <input type="hidden" name="locale" value={localeTag(code)} />
+            <input type="checkbox" name="botcheck" className="gc-form__trap" tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <div className="gc-form__head">
               <p className="gc-eyebrow">Project enquiry</p>
               <h2>Your project details.</h2>
               <p>
-                All fields are required. You can review the message before
-                sending it in WhatsApp.
+                All fields are required. Your enquiry is sent directly to our
+                team.
               </p>
             </div>
             <div className="gc-form__grid">
@@ -1746,25 +1770,24 @@ function ContactPage() {
                 />
               </label>
             </div>
-            <button type="submit" disabled={!ready} className="gc-btn gc-btn--primary gc-form__submit">
-              <MessageCircle size={18} />
-              {t('Send enquiry via WhatsApp')}
+            <button
+              type="submit"
+              disabled={sending}
+              aria-busy={sending}
+              className="gc-btn gc-btn--primary gc-form__submit"
+            >
+              <Mail size={18} />
+              {t(sending ? 'Sending enquiry...' : 'Send enquiry')}
               <ArrowUpRight size={17} />
             </button>
             <p className="gc-form__note">
-              This opens WhatsApp. Your enquiry is only sent when you press Send
-              in WhatsApp.
+              Your details are sent directly to the GIGI Cloud Solutions team.
             </p>
             <div
               role="status"
               className={`gc-form__feedback${feedback ? " is-visible" : ""}`}
             >
               {feedback}
-              {enquiry && (
-                <a href={enquiry} target="_blank" rel="noreferrer">
-                  Open your enquiry in WhatsApp <ArrowUpRight size={15} />
-                </a>
-              )}
             </div>
           </form>
         </div>

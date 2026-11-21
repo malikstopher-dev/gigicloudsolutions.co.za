@@ -25,6 +25,6 @@ The nine routes in the table and the service-area guide at `/service-areas/` are
 `src/language.tsx` handles route selection and terminology overrides. `src/locale-copy.json` stores translations for the page body, service capabilities, Mission and Vision, metadata, contact flow and footer. `scripts/locale-source.mjs` inventories English copy and connects JSX to the catalog without replacing route IDs or quote values. `npm run check:locales` verifies message parity and runs during the production build. Translation drafts are checked into the repository; builds do not call a translation service. Native editorial review is recommended for the draft translations.
 
 - Before/after hero captures are available locally under `test-results/review-before/` and `test-results/review-after/` for nine viewport sizes, including 400×554 and 428×520.
-- `tests/localization.spec.ts` checks all 63 localized page variants at mobile and desktop sizes, and form validation and WhatsApp handoff in each language.
+- `tests/localization.spec.ts` checks all 63 localized page variants at mobile and desktop sizes, and form validation and Web3Forms delivery in each language.
 - `tests/seo.spec.ts` checks all 70 sitemap URLs, including the new service-area pages, and checks viewport-specific poster requests and the French guide without JavaScript.
 - `tests/mobile-review.spec.ts` checks the compact action and pause control in a short forced-colors viewport. Set `GIGI_VISUAL_REVIEW=after` to include the screenshot run.

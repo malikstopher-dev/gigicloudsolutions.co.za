@@ -343,13 +343,13 @@
     "zu": "Isexwayiso esifanelana nezinhlelo zakho zokuphendula",
     "af": "Waarskuwing wat by jou reaksiereëlings pas"
   },
-  "All fields are required. You can review the message before sending it in WhatsApp.": {
-    "fr": "Tous les champs sont obligatoires. Vous pouvez consulter le message avant de l'envoyer dans WhatsApp.",
-    "sw": "Sehemu zote zinahitajika. Unaweza kukagua ujumbe kabla ya kuutuma kwenye WhatsApp.",
-    "ln": "Ba champs nionso esengeli. Okoki kotala message avant ya kotinda yango na WhatsApp.",
-    "pt": "Todos os campos são obrigatórios. Você pode revisar a mensagem antes de enviá-la no WhatsApp.",
-    "zu": "Zonke izinkambu ziyadingeka. Ungabuyekeza umlayezo ngaphambi kokuwuthumela ku-WhatsApp.",
-    "af": "Alle velde word vereis. Jy kan die boodskap hersien voordat jy dit in WhatsApp stuur."
+  "All fields are required. Your enquiry is sent directly to our team.": {
+    "fr": "Tous les champs sont obligatoires. Votre demande est envoy?e directement ? notre ?quipe.",
+    "sw": "Sehemu zote zinahitajika. Ombi lako linatumwa moja kwa moja kwa timu yetu.",
+    "ln": "Ba champs nionso esengeli. Motuna na yo etindamaka mbala moko epai ya ekipi na biso.",
+    "pt": "Todos os campos s?o obrigat?rios. O seu pedido ? enviado directamente para a nossa equipa.",
+    "zu": "Zonke izinkambu ziyadingeka. Isicelo sakho sithunyelwa ngqo eqenjini lethu.",
+    "af": "Alle velde word vereis. Jou navraag word direk aan ons span gestuur."
   },
   "All service offerings": {
     "fr": "Toutes les offres de services",
@@ -1943,14 +1943,6 @@
     "zu": "Sawubona GIGI, ngingathanda ukuxoxa ngephrojekthi yebhizinisi lami noma ikhaya.",
     "af": "Hallo GIGI, ek wil graag 'n projek vir my besigheid of huis bespreek."
   },
-  "Hi GIGI, I would like to request a quotation.": {
-    "fr": "Bonjour GIGI, je souhaite demander un devis.",
-    "ln": "Salut GIGI, nalingi nasenga devis.",
-    "pt": "Olá GIGI, gostaria de solicitar um orçamento.",
-    "sw": "Hi GIGI, ningependa kuomba nukuu.",
-    "zu": "Sawubona GIGI, ngingathanda ukucela ikhotheshini.",
-    "af": "Hallo GIGI, ek wil graag 'n kwotasie aanvra."
-  },
   "Home": {
     "fr": "Accueil",
     "sw": "Nyumbani",
@@ -2471,14 +2463,6 @@
     "zu": "Izinsizakalo eziningi / Angiqiniseki okwamanje",
     "af": "Veelvuldige dienste / Nog nie seker nie"
   },
-  "Name": {
-    "fr": "Nom",
-    "ln": "Nkombo",
-    "pt": "Nome",
-    "sw": "Jina",
-    "zu": "Igama",
-    "af": "Naam"
-  },
   "Name the formats and finished dimensions, and tell us whether the logo and copy are ready.": {
     "fr": "Nommez les formats et les dimensions finies, et dites-nous si le logo et la copie sont prêts.",
     "sw": "Taja fomati na vipimo vilivyokamilika, na utuambie ikiwa nembo na nakala ziko tayari.",
@@ -2599,14 +2583,6 @@
     "zu": "Vula imenyu",
     "af": "Maak spyskaart oop"
   },
-  "Open your enquiry in WhatsApp": {
-    "fr": "Ouvrez votre demande dans WhatsApp",
-    "sw": "Fungua uchunguzi wako katika WhatsApp",
-    "ln": "Fungola mituna na yo na WhatsApp",
-    "pt": "Abra sua consulta no WhatsApp",
-    "zu": "Vula umbuzo wakho ku-WhatsApp",
-    "af": "Maak jou navraag in WhatsApp oop"
-  },
   "Organisations reviewing backup and recovery": {
     "fr": "Organisations examinant la sauvegarde et la restauration",
     "sw": "Mashirika yanayopitia nakala rudufu na urejeshaji",
@@ -2710,14 +2686,6 @@
     "pt": "Proteção perimetral, vigilância e infraestrutura de rede para locais operacionais.",
     "zu": "Ukuvikelwa kwepherimitha, ukugadwa nengqalasizinda yenethiwekhi yezindawo zokusebenza.",
     "af": "Omtrekbeskerming, toesig en netwerkinfrastruktuur vir operasionele terreine."
-  },
-  "Phone": {
-    "fr": "Téléphone",
-    "ln": "Telephone",
-    "pt": "Telefone",
-    "sw": "Simu",
-    "zu": "Ucingo",
-    "af": "Telefoon"
   },
   "Phone layouts, enquiry links and print formats are checked before the work goes live.": {
     "fr": "Les configurations téléphoniques, les liens de demande de renseignements et les formats d'impression sont vérifiés avant la mise en ligne du travail.",
@@ -2950,14 +2918,6 @@
     "pt": "Empresas de serviços profissionais",
     "zu": "Amabhizinisi enkonzo yobungcweti",
     "af": "Professionele diensondernemings"
-  },
-  "Project details": {
-    "fr": "Détails du projet",
-    "ln": "Makambo ya mikemike ya mosala",
-    "pt": "Detalhes do projecto",
-    "sw": "Maelezo ya mradi",
-    "zu": "Imininingwane yephrojekthi",
-    "af": "Projekbesonderhede"
   },
   "Project enquiries are handled directly. Include the location, the type of premises and a short description of the work you need.": {
     "fr": "Les demandes de projets sont traitées directement. Incluez l'emplacement, le type de local et une brève description des travaux dont vous avez besoin.",
@@ -3447,13 +3407,13 @@
     "zu": "Khetha isevisi",
     "af": "Kies 'n diens"
   },
-  "Send enquiry via WhatsApp": {
-    "fr": "Envoyer une demande via WhatsApp",
-    "sw": "Tuma uchunguzi kupitia WhatsApp",
-    "ln": "Tinda mituna na nzela ya WhatsApp",
-    "pt": "Enviar consulta via WhatsApp",
-    "zu": "Thumela isicelo nge-WhatsApp",
-    "af": "Stuur navraag via WhatsApp"
+  "Send enquiry": {
+    "fr": "Envoyer la demande",
+    "sw": "Tuma ombi",
+    "ln": "Tinda motuna",
+    "pt": "Enviar pedido",
+    "zu": "Thumela isicelo",
+    "af": "Stuur navraag"
   },
   "Send the make and model. We can discuss what the equipment supports before recommending replacements.": {
     "fr": "Envoyez la marque et le modèle. Nous pouvons discuter de ce que l’équipement prend en charge avant de recommander des remplacements.",
@@ -3471,6 +3431,14 @@
     "zu": "Thumela izidingo zakho zephrojekthi nendawo ku-GIGI Cloud Solutions nge-WhatsApp, ifoni noma i-imeyili.",
     "af": "Stuur jou projekvereistes en ligging aan GIGI Cloud Solutions per WhatsApp, telefoon of e-pos."
   },
+  "Sending enquiry...": {
+    "fr": "Envoi de la demande...",
+    "sw": "Inatuma ombi...",
+    "ln": "Ezali kotinda motuna...",
+    "pt": "A enviar o pedido...",
+    "zu": "Ithumela isicelo...",
+    "af": "Stuur tans navraag..."
+  },
   "Server room with a connected laptop and network equipment": {
     "fr": "Salle serveur avec ordinateur portable connecté et équipement réseau",
     "sw": "Chumba cha seva na kompyuta ya mkononi iliyounganishwa na vifaa vya mtandao",
@@ -3478,14 +3446,6 @@
     "pt": "Sala de servidores com laptop conectado e equipamento de rede",
     "zu": "Igumbi leseva elinekhompuyutha ephathekayo exhunyiwe kanye nemishini yenethiwekhi",
     "af": "Bedienerkamer met 'n gekoppelde skootrekenaar en netwerktoerusting"
-  },
-  "Service": {
-    "fr": "Service",
-    "ln": "Mosala ya mosala",
-    "pt": "Serviço",
-    "sw": "Huduma",
-    "zu": "Isevisi",
-    "af": "Diens"
   },
   "Service area": {
     "fr": "Zone de services",
@@ -3919,6 +3879,14 @@
     "zu": "Sitshele idolobha lakho nokuthi yini oyidingayo ngaphambi kokuzibophezela kumishini noma ukufaka.",
     "af": "Vertel ons jou stad en wat jy nodig het voordat jy jou tot toerusting of installasie verbind."
   },
+  "Thank you. Your enquiry has been sent. We will review it and respond using the contact details you provided.": {
+    "fr": "Merci. Votre demande a bien ?t? envoy?e. Nous l?examinerons et vous r?pondrons aux coordonn?es indiqu?es.",
+    "sw": "Asante. Ombi lako limetumwa. Tutalipitia na kukujibu kupitia maelezo ya mawasiliano uliyotoa.",
+    "ln": "Matondi. Motuna na yo etindami. Tokotala yango mpe tokobongisa na nzela ya ba coordonn?es oyo opesi.",
+    "pt": "Obrigado. O seu pedido foi enviado. Vamos analis?-lo e responder atrav?s dos contactos indicados.",
+    "zu": "Siyabonga. Isicelo sakho sithunyelwe. Sizosihlola futhi siphendule ngemininingwane yokuxhumana oyinikezile.",
+    "af": "Dankie. Jou navraag is gestuur. Ons sal dit hersien en antwoord met die kontakbesonderhede wat jy verskaf het."
+  },
   "That depends on the current installation and equipment. Share the details and we can discuss the options before any work is proposed.": {
     "fr": "Cela dépend de l'installation et de l'équipement actuels. Partagez les détails et nous pourrons discuter des options avant que des travaux ne soient proposés.",
     "sw": "Hiyo inategemea usakinishaji wa sasa na vifaa. Shiriki maelezo na tunaweza kujadili chaguo kabla ya kazi yoyote kupendekezwa.",
@@ -4070,14 +4038,6 @@
     "pt": "Estas são as áreas práticas que discutimos. O escopo final depende do local, dos equipamentos existentes e do resultado que você precisa.",
     "zu": "Lezi yizindawo eziwusizo esixoxa ngazo. Ububanzi bokugcina buncike endaweni, imishini ekhona kanye nomphumela oyidingayo.",
     "af": "Dit is die praktiese areas wat ons bespreek. Die finale omvang hang af van die terrein, bestaande toerusting en die uitkoms wat jy benodig."
-  },
-  "This opens WhatsApp. Your enquiry is only sent when you press Send in WhatsApp.": {
-    "fr": "Cela ouvre WhatsApp. Votre demande n'est envoyée que lorsque vous appuyez sur Envoyer dans WhatsApp.",
-    "sw": "Hii inafungua WhatsApp. Ombi lako hutumwa tu unapobonyeza Tuma kwenye WhatsApp.",
-    "ln": "Oyo efungoli WhatsApp. Enquête na yo etindamaka kaka tango o fingi Tinda na WhatsApp.",
-    "pt": "Isso abre o WhatsApp. Sua consulta só é enviada quando você pressiona Enviar no WhatsApp.",
-    "zu": "Lokhu kuvula i-WhatsApp. Umbuzo wakho uthunyelwa kuphela uma ucindezela okuthi Thumela ku-WhatsApp.",
-    "af": "Dit maak WhatsApp oop. Jou navraag word slegs gestuur wanneer jy Stuur in WhatsApp druk."
   },
   "To become a leading and trusted provider of innovative security, access control and IT connectivity solutions, empowering homes and businesses through technology.": {
     "fr": "Devenir un fournisseur leader et fiable de solutions innovantes de sécurité, de contrôle d'accès et de connectivité informatique, permettant aux particuliers et aux entreprises de bénéficier de la technologie.",
@@ -4623,13 +4583,21 @@
     "zu": "Ukuxhumeka kwakho kwe-inthanethi kwamanje kanye nemishini yenethiwekhi",
     "af": "Jou huidige internetverbinding en netwerktoerusting"
   },
-  "Your enquiry is ready to send in WhatsApp. Please review it and press Send there. If WhatsApp did not open, use the link below.": {
-    "fr": "Votre demande est prête à être envoyée dans WhatsApp. Veuillez le consulter et appuyer sur Envoyer ici. Si WhatsApp ne s'est pas ouvert, utilisez le lien ci-dessous.",
-    "sw": "Uchunguzi wako uko tayari kutuma kwa WhatsApp. Tafadhali ikague na ubonyeze Tuma hapo. Ikiwa WhatsApp haikufunguliwa, tumia kiungo kilicho hapa chini.",
-    "ln": "Enquête na yo ezali prêt ya kotinda na WhatsApp. Tosɛngi yo otala yango mpe finá Tinda kuna. Soki WhatsApp efungwamaki te, salela lien oyo ezali awa na se.",
-    "pt": "Sua consulta está pronta para ser enviada no WhatsApp. Revise-o e pressione Enviar para lá. Se o WhatsApp não abriu, use o link abaixo.",
-    "zu": "Umbuzo wakho usulungele ukuthumela ku-WhatsApp. Sicela uyibuyekeze bese ucindezela okuthi Thumela lapho. Uma i-WhatsApp ingavulekanga, sebenzisa isixhumanisi esingezansi.",
-    "af": "Jou navraag is gereed om in WhatsApp te stuur. Hersien dit asseblief en druk Stuur daarheen. As WhatsApp nie oopgemaak het nie, gebruik die skakel hieronder."
+  "Your details are sent directly to the GIGI Cloud Solutions team.": {
+    "fr": "Vos coordonn?es sont envoy?es directement ? l??quipe GIGI Cloud Solutions.",
+    "sw": "Maelezo yako hutumwa moja kwa moja kwa timu ya GIGI Cloud Solutions.",
+    "ln": "Makambo na yo etindamaka mbala moko epai ya ekipi ya GIGI Cloud Solutions.",
+    "pt": "Os seus dados s?o enviados directamente para a equipa da GIGI Cloud Solutions.",
+    "zu": "Imininingwane yakho ithunyelwa ngqo eqenjini le-GIGI Cloud Solutions.",
+    "af": "Jou besonderhede word direk aan die GIGI Cloud Solutions-span gestuur."
+  },
+  "Your enquiry could not be sent right now. Please try again, or contact us by phone, email or WhatsApp.": {
+    "fr": "Votre demande n?a pas pu ?tre envoy?e pour le moment. R?essayez ou contactez-nous par t?l?phone, e-mail ou WhatsApp.",
+    "sw": "Ombi lako halikuweza kutumwa kwa sasa. Tafadhali jaribu tena, au wasiliana nasi kwa simu, barua pepe au WhatsApp.",
+    "ln": "Motuna na yo ekokaki kotindama te na tango oyo. Tos?ngi yo meka lisusu, to benga biso na t?l?phone, email to WhatsApp.",
+    "pt": "N?o foi poss?vel enviar o seu pedido neste momento. Tente novamente ou contacte-nos por telefone, e-mail ou WhatsApp.",
+    "zu": "Isicelo sakho asikwazanga ukuthunyelwa okwamanje. Sicela uzame futhi, noma uxhumane nathi ngocingo, i-imeyili noma i-WhatsApp.",
+    "af": "Jou navraag kon nie tans gestuur word nie. Probeer asseblief weer, of kontak ons per telefoon, e-pos of WhatsApp."
   },
   "Your existing website, logo and brand files, if available": {
     "fr": "Votre site Web existant, votre logo et vos fichiers de marque, si disponibles",

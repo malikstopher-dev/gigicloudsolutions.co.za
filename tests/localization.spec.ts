@@ -77,17 +77,18 @@ for (const [code, tag, homeCopy, aboutCopy, contactCopy] of cases) {
     if (code !== 'en') await expect(form.getByRole('status')).not.toContainText('Please check the highlighted fields');
     for (const [name,value] of [['name','QA Example'],['email','qa@example.com'],['phone','073 168 0832'],['location','Johannesburg'],['message','QA test']]) await form.locator(`[name=${name}]`).fill(value);
     await form.locator('[name=service]').selectOption('Access Control');
-    await context.route('https://wa.me/**', route=>route.fulfill({status:200,body:'Test handoff'}));
-    const popup=page.waitForEvent('popup');
+    let payload='';
+    await context.route('https://api.web3forms.com/submit', async route=>{
+      payload=route.request().postData()||'';
+      await route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({success:true})});
+    });
     await form.locator('button[type=submit]').click();
-    await (await popup).close();
-    const href=await form.getByRole('status').getByRole('link').getAttribute('href');
-    const text=new URL(href!).searchParams.get('text');
-    expect(text).toContain('qa@example.com');
-    expect(text).toContain('QA test');
+    const success=code==='en'?'Thank you. Your enquiry has been sent.':copy['Thank you. Your enquiry has been sent. We will review it and respond using the contact details you provided.'][code];
+    await expect(form.getByRole('status')).toContainText(success);
+    for (const part of ['a9dc3e72-db1d-4958-a2c0-876e549371d8','qa@example.com','QA test','Access Control',tag]) expect(payload).toContain(part);
     if (code !== 'en') {
-      expect(text).not.toContain('I would like to request a quotation');
-      await expect(form.getByRole('status')).not.toContainText('Your enquiry is ready');
+      await expect(form.getByRole('status')).not.toContainText('Thank you');
+      await expect(form.getByRole('status')).not.toContainText('could not be sent');
     }
   });
 }

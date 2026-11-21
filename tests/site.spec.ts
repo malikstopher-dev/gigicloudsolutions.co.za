@@ -26,12 +26,13 @@ test('Mobile menu, dropdown and service quote prefill',async({page})=>{
  await page.locator('.gc-hero').getByRole('link',{name:'Discuss your project',exact:true}).click();await expect(page.getByLabel('Service of interest')).toHaveValue('Security & Access');
  await page.getByRole('button',{name:'Open menu'}).click();await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Open menu'})).toBeFocused();
 });
-test('Form validates and transfers the complete enquiry to WhatsApp',async({page,context})=>{
- await page.goto('/contact?service=IT%20%26%20Connectivity');await page.getByRole('button',{name:'Send enquiry via WhatsApp'}).click();expect(await page.locator('input[name=name]').evaluate((e:HTMLInputElement)=>e.validity.valueMissing)).toBe(true);
+test('Form validates and submits the complete enquiry to Web3Forms',async({page,context})=>{
+ await page.goto('/contact?service=IT%20%26%20Connectivity');await page.getByRole('button',{name:'Send enquiry',exact:true}).click();expect(await page.locator('input[name=name]').evaluate((e:HTMLInputElement)=>e.validity.valueMissing)).toBe(true);
  await page.getByLabel('Full name').fill('Test & Example');await page.getByLabel('Email address').fill('person@example.com');await page.getByLabel('Phone number').fill('+27 73 168 0832');await page.getByLabel('Project location').fill('Kensington');await page.getByLabel('What do you have in mind?').fill('Fibre & backup for our office.');
- await context.route('https://wa.me/**',route=>route.fulfill({status:200,body:'WhatsApp handoff intercepted for test'}));
- const popupPromise=page.waitForEvent('popup');await page.getByRole('button',{name:'Send enquiry via WhatsApp'}).click();const popup=await popupPromise;await popup.waitForLoadState();const url=new URL(popup.url());expect(url.hostname).toBe('wa.me');expect(url.pathname).toBe('/27731680832');const text=url.searchParams.get('text');for(const part of ['Test & Example','person@example.com','+27 73 168 0832','IT & Connectivity','Kensington','Fibre & backup for our office.'])expect(text).toContain(part);
- await expect(page.getByRole('status')).toContainText('press Send');await expect(page.getByRole('status')).not.toContainText('successfully sent');await popup.close();
+ let payload='';await context.route('https://api.web3forms.com/submit',async route=>{payload=route.request().postData()||'';await route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({success:true})});});
+ await page.getByRole('button',{name:'Send enquiry',exact:true}).click();await expect(page.getByRole('status')).toContainText('Thank you. Your enquiry has been sent.');
+ for(const part of ['a9dc3e72-db1d-4958-a2c0-876e549371d8','Test & Example','person@example.com','+27 73 168 0832','IT & Connectivity','Kensington','Fibre & backup for our office.','en-ZA'])expect(payload).toContain(part);
+ await expect(page.getByRole('status')).not.toContainText('could not be sent');
 });
 test('Reduced motion keeps static visual and links accessible',async({page})=>{
  const movies:string[]=[];page.on('request',r=>{if(r.url().includes('/videos/')) movies.push(r.url())});

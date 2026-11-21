@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 export const localeSources = ['src/main.tsx', 'src/HeroMedia.tsx', 'src/data.ts', 'src/seo.ts'];
 const visualAttributes = new Set(['alt', 'title', 'placeholder', 'aria-label']);
 const invariants = /^(?:GIGI Cloud Solutions|WhatsApp|DM Sans|Wi-Fi|CCTV|[\d\s]+)$/;
+const internal = new Set(['GIGI Cloud Solutions website', 'New project enquiry from the GIGI Cloud Solutions website']);
 const excluded = /^(?:IntersectionObserver|URLSearchParams|Enter|Tab|Escape|HEAD|GET|POST|GIGI|EN|FR|SW|LN|PT|ArrowUpRight|React|Manrope|Organization|PostalAddress|ZA|English|Roboto|[A-Z][A-Za-z]*[A-Z][A-Za-z]*)$/;
 const clean = text => text.split(/\r?\n/).map((line, i, lines) => {
   line = line.replace(/\t/g, ' ');
@@ -11,7 +12,7 @@ const clean = text => text.split(/\r?\n/).map((line, i, lines) => {
   if (i < lines.length-1) line = line.trimEnd();
   return line;
 }).filter(line=>line.trim()).join(' ');
-const prose = s => /^[\p{Lu}]/u.test(s) && /[\p{Ll}]/u.test(s) && !s.includes('@') && !/^(?:Error:|Replace |Generated |Unauthorised)/.test(s) && !excluded.test(s) && !invariants.test(s);
+const prose = s => /^[\p{Lu}]/u.test(s) && /[\p{Ll}]/u.test(s) && !s.includes('@') && !internal.has(s) && !/^(?:Error:|Replace |Generated |Unauthorised)/.test(s) && !excluded.test(s) && !invariants.test(s);
 
 function sourceFile(file, text) {
   return ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, file.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
